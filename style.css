@@ -1,0 +1,35 @@
+body {
+    margin: 0;
+
+}
+.emailsubmit{
+    width: 350px;
+    height: 100px;
+    padding: 15px;
+    margin: 20px auto;
+    font: 10pt/10pt sans-serif;
+    background-color: #d3d3d3;
+
+
+}
+.btn{
+    background-color: #002DFF;
+    color: #ffffff;
+    font: 10pt/10pt sans-serif;
+    border:none;
+    margin: 4px 0px;
+    padding: 8px 10px;
+}
+input{
+    border-radius: 4px;
+}
+.emailfield{
+    border: 1px solid black;
+    padding: 8px 10px;
+    margin: 8px 0px 4px;
+    border-color: #808080;
+    font: 10pt/10pt sans-serif;
+    width: 300px;
+}
+
+}
