@@ -1,16 +1,16 @@
 <?php
 
-function renderFruits (){
+function renderData ($our){
     echo '<pre>';
     print_r($our);
-    '</pre>';
+    echo '</pre>';
 }
 
 $fruits=array('apple', 'banana', 'peach', 'pear');
 
 foreach ($fruits as $key=> $value ){
-    if($key==3){
+    if($key==0){
         $our=$value;
-        renderFruits();
+        renderData($our);
     }
 }
