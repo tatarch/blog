@@ -9,7 +9,7 @@ function renderData ($our){
 $fruits=array('apple', 'banana', 'peach', 'pear');
 
 foreach ($fruits as $key=> $value ){
-    if($key==0){
+    if($value=="apple"){
         $our=$value;
         renderData($our);
     }
