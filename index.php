@@ -1,6 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 $fd = fopen('name.txt', 'a');
 if (!empty($_POST['useremail'])) {
@@ -14,6 +12,31 @@ if (!empty($_POST['useremail'])) {
 $lines = file('name.txt');
 
 
+$username = "root";
+$password = "";
+$database = "blog";
+
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+    // set the PDO error mode to exception
+
+
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+
+
+
+    echo 'Record';
+
+} catch (PDOException $error) {
+    echo "Connection failed: ";
+}
+
+echo '<br>';
+
+
+echo '<br>';
 
 ?>
 <!DOCTYPE html>
@@ -27,8 +50,8 @@ $lines = file('name.txt');
 <body>
 
 
-<form method="post" class="emailsubmit"
-<label class="emaillabel">Email address</label><br>
+<form action="index.php" method="post" class="emailsubmit"
+<label class="emaillabel">Title</label><br>
 <input name="useremail" class="emailfield"  placeholder="Enter email" required><br>
 <input class="btn" type="submit" name="submit" value="Submit">
 
@@ -37,6 +60,15 @@ $lines = file('name.txt');
 
 
 <?php
+
+$querry="INSERT INTO articles  VALUES (NULL, title, text)";
+$sql="INSERT INTO articles (id, title, text)  VALUES (NULL, 'Eeemail', text)";
+$conn->exec($sql);
+$email=$conn->prepare($querry);
+$email->execute(['useremail' => $_POST['useremail']]);
+
+
+
 echo "<ul>";
 foreach ($lines as $line) {
     echo "<li>" . $line . "</li>";
