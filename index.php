@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 $username = "root";
 $password = "";
@@ -15,11 +17,14 @@ try {
     echo "Connection failed: ";
 }
 
-if (!empty($_POST['useremail'])) {
+if (!empty($_POST['usertitle'] and $_POST['usertext'] )) {
     $querry = "INSERT INTO articles (title, text)  VALUES (:title, :text )";
     $title = $conn->prepare($querry);
+    $text = $conn->prepare($querry);
+    $title->execute(['title' => $_POST['usertitle'], 'text'=>$_POST['usertext']]);
 
-    $title->execute(['title' => $_POST['useremail'], 'text'=>'Ololo']);
+    unset($_POST['usertitle']);
+    unset($_POST['usertext']);
 
     echo 'Sucsess';
 }
@@ -42,7 +47,8 @@ echo '<br>';
 
 <form action="index.php" method="post" class="emailsubmit"
 <label class="emaillabel">Title</label><br>
-<input name="useremail" class="emailfield"  placeholder="Enter email" required><br>
+<input name="usertitle" class="emailfield"  placeholder="Enter title" required><br>
+<input name="usertext" class="emailfield"  placeholder="Enter text" required><br>
 <input class="btn" type="submit" name="submit" value="Submit">
 
 
