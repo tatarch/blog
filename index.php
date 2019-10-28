@@ -16,9 +16,11 @@ try {
 }
 
 if (!empty($_POST['useremail'])) {
-    $querry = "INSERT INTO articles (title, text)  VALUES ($email, $text)";
-    $email = $conn->prepare($querry);
-    $email->execute(['useremail' => $_POST["useremail"]]);
+    $querry = "INSERT INTO articles (title, text)  VALUES (:title, :text )";
+    $title = $conn->prepare($querry);
+
+    $title->execute(['title' => $_POST['useremail'], 'text'=>'Ololo']);
+
     echo 'Sucsess';
 }
 
