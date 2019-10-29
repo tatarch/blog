@@ -41,14 +41,22 @@ if (!empty($_POST['usertitle']) && !empty($_POST['usertext'])) {
 }
 
 
-function getArticle(PDO $conn, string $tbbll, string $results)
+function getArticle($conn,  $tbbll, $results)
 {
 
     $tbbll = $conn->query('SELECT * FROM articles');
     foreach ($conn->query($tbbll) as $results) {
         $tbbll->execute($results);
     }
-    while ($results = $tbbll->fetch(PDO::FETCH_ASSOC)):;
+    return $results;
+}
+$articles =getArticle($conn, $tbbll,$results);
+
+
+foreach ($results = $tbbll->fetch(PDO::FETCH_ASSOC)){
+    echo $results['id'];
+    echo $results['title'];
+    echo $results['text'];
 }
 
 ?>
@@ -84,16 +92,7 @@ function getArticle(PDO $conn, string $tbbll, string $results)
 
     </tr>
     </thead>
-    <tbody>
-    <?php getArticle( $conn, $tbbll, $results); ?>
-    <tr>
-        <td><?php echo $results['id']; ?></td>
-        <td><?php echo $results['title']; ?></td>
-        <td><?php echo $results['text']; ?></td>
 
-    </tr>
-    </tbody>
-    <?php endwhile; ?>
 
 
 </body>
