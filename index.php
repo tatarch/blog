@@ -4,7 +4,7 @@
 $username = "root";
 $password = "";
 $database = "blog";
-
+$servername="localhost";
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
@@ -16,20 +16,31 @@ try {
 
 }
 
-if (!empty($_POST['usertitle'] and $_POST['usertext'])) {
-    $querry = "INSERT INTO articles (title, text)  VALUES (:title, :text )";
-    $stmt = $conn->prepare($querry);
-    $stmt->execute(['title' => $_POST['usertitle'], 'text' => $_POST['usertext']]);
 
-    unset($_POST['usertitle']);
-    unset($_POST['usertext']);
+$title=$_POST['usertitle'];
+$text=$_POST['usertext'];
+
+    function addArticle($conn,$title,$text)
+    {
+
+            $querry = "INSERT INTO articles (title, text)  VALUES (:title, :text )";
+            $stmt = $conn->prepare($querry);
+            $stmt->execute(['title' => $title, 'text' => $text]);
 
 
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+            unset($_POST['usertitle']);
+            unset($_POST['usertext']);
+
+
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+
+    }
+
+if (!empty($_POST['usertitle']) && !empty($_POST['usertext'])) {
+    addArticle($conn, $title, $text);
 }
 
 
-echo '<br>';
 
 ?>
 <!DOCTYPE html>
@@ -55,6 +66,11 @@ echo '<br>';
 
 <?php
 
+$result = $conn->query('SELECT * FROM articles');
+
+while ($articles = $result->fetch()) {
+    echo $articles['title'] . " " . $articles['text'] . "<br>";
+}
 
 echo "<ul>";
 foreach ($lines as $line) {
