@@ -4,12 +4,11 @@
 $username = "root";
 $password = "";
 $database = "blog";
-$servername="localhost";
+$servername = "localhost";
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
 
 
 } catch (PDOException $error) {
@@ -17,36 +16,46 @@ try {
 }
 
 
-$title=$_POST['usertitle'];
-$text=$_POST['usertext'];
+$title = $_POST['usertitle'];
+$text = $_POST['usertext'];
 
-    function addArticle($conn,$title,$text)
-    {
+function addArticle(PDO $conn, string $title, string $text)
+{
 
-            $querry = "INSERT INTO articles (title, text)  VALUES (:title, :text )";
-            $stmt = $conn->prepare($querry);
-            $stmt->execute(['title' => $title, 'text' => $text]);
-
-
-            unset($_POST['usertitle']);
-            unset($_POST['usertext']);
+    $querry = "INSERT INTO articles (title, text)  VALUES (:title, :text )";
+    $stmt = $conn->prepare($querry);
+    $stmt->execute(['title' => $title, 'text' => $text]);
 
 
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+    unset($_POST['usertitle']);
+    unset($_POST['usertext']);
 
-    }
+
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+
+}
+
 
 if (!empty($_POST['usertitle']) && !empty($_POST['usertext'])) {
     addArticle($conn, $title, $text);
 }
 
 
+function getArticle(PDO $conn, string $tbbll, string $results)
+{
 
-$tbbll = $conn->query('SELECT * FROM articles');
+    $tbbll = $conn->query('SELECT * FROM articles');
+    foreach ($conn->query($tbbll) as $results) {
+        $tbbll->execute($results);
+    }
+    while ($results = $tbbll->fetch(PDO::FETCH_ASSOC)):;
+}
 
 ?>
+
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <title></title>
@@ -56,14 +65,17 @@ $tbbll = $conn->query('SELECT * FROM articles');
 <body>
 
 
-<form action="index.php" method="post" class="emailsubmit"
-<label class="emaillabel">Title</label><br>
-<input name="usertitle" class="emailfield" placeholder="Enter title" required><br>
-<input name="usertext" class="emailfield" placeholder="Enter text" required><br>
-<input class="btn" type="submit" name="submit" value="Submit">
-<br>
+<form action="index.php" method="post" class="emailsubmit">
+    <label for="inputTitle" class="emaillabel">Title</label><br>
+    <input id="inputTitle" name="usertitle" class="emailfield" placeholder="Enter title" required><br>
+    <label for="inputText" class="emaillabel">Text</label><br>
+    <input id="inputText" name="usertext" class="emailfield" placeholder="Enter text" required><br>
+    <input class="btn" type="submit" name="submit" value="Submit">
+    <br>
+</form>
 
-<table >
+
+<table>
     <thead>
     <tr>
         <th>Id</th>
@@ -73,19 +85,16 @@ $tbbll = $conn->query('SELECT * FROM articles');
     </tr>
     </thead>
     <tbody>
-    <?php while($results = $tbbll->fetch(PDO::FETCH_ASSOC)):; ?>
-        <tr>
-            <td><?php echo $results['id'];?></td>
-            <td><?php echo $results['title'];?></td>
-            <td><?php echo $results['text'];?></td>
+    <?php getArticle( $conn, $tbbll, $results); ?>
+    <tr>
+        <td><?php echo $results['id']; ?></td>
+        <td><?php echo $results['title']; ?></td>
+        <td><?php echo $results['text']; ?></td>
 
-        </tr>
+    </tr>
     </tbody>
-    <?php endwhile;?>
-<?php
+    <?php endwhile; ?>
 
-
-?>
 
 </body>
 </html>
