@@ -66,6 +66,7 @@ $tbbll = $conn->query('SELECT * FROM articles');
 <table >
     <thead>
     <tr>
+        <th>Id</th>
         <th>Title</th>
         <th>Text</th>
 
@@ -74,6 +75,7 @@ $tbbll = $conn->query('SELECT * FROM articles');
     <tbody>
     <?php while($results = $tbbll->fetch(PDO::FETCH_ASSOC)):; ?>
         <tr>
+            <td><?php echo $results['id'];?></td>
             <td><?php echo $results['title'];?></td>
             <td><?php echo $results['text'];?></td>
 
