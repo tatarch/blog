@@ -42,6 +42,8 @@ if (!empty($_POST['usertitle']) && !empty($_POST['usertext'])) {
 
 
 
+$tbbll = $conn->query('SELECT * FROM articles');
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -59,24 +61,28 @@ if (!empty($_POST['usertitle']) && !empty($_POST['usertext'])) {
 <input name="usertitle" class="emailfield" placeholder="Enter title" required><br>
 <input name="usertext" class="emailfield" placeholder="Enter text" required><br>
 <input class="btn" type="submit" name="submit" value="Submit">
+<br>
 
+<table >
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Text</th>
 
-</form><br>
+    </tr>
+    </thead>
+    <tbody>
+    <?php while($results = $tbbll->fetch(PDO::FETCH_ASSOC)):; ?>
+        <tr>
+            <td><?php echo $results['title'];?></td>
+            <td><?php echo $results['text'];?></td>
 
-
+        </tr>
+    </tbody>
+    <?php endwhile;?>
 <?php
 
-$result = $conn->query('SELECT * FROM articles');
 
-while ($articles = $result->fetch()) {
-    echo $articles['title'] . " " . $articles['text'] . "<br>";
-}
-
-echo "<ul>";
-foreach ($lines as $line) {
-    echo "<li>" . $line . "</li>";
-}
-echo "</ul>";
 ?>
 
 </body>
