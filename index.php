@@ -9,47 +9,50 @@ $servername = "localhost";
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-
 } catch (PDOException $error) {
-
 }
 
-
-$title = $_POST['usertitle'];
-$text = $_POST['usertext'];
-
-function addArticle(PDO $conn, string $title, string $text)
+class ArticleRepository
 {
+    public $conn;
 
-    $querry = "INSERT INTO articles (title, text)  VALUES (:title, :text )";
-    $stmt = $conn->prepare($querry);
-    $stmt->execute(['title' => $title, 'text' => $text]);
+    function __construct()
+    {
+        $this->conn;
+    }
 
+    function addArticle(PDO $conn, string $title, string $text)
+    {
 
+        $querry = "INSERT INTO articles (title, text)  VALUES (:title, :text )";
+        $stmt = $conn->prepare($querry);
+        $stmt->execute(['title' => $title, 'text' => $text]);
+
+    }
+
+    function getArticle(PDO $conn)
+    {
+
+        $tbbll = $conn->query('SELECT * FROM articles');
+        $results = array();
+        while ($row = $tbbll->fetch(PDO::FETCH_ASSOC)) {
+            $results[] = $row;
+        }
+        return $results;
+    }
+}
+
+if (!empty($_POST['usertitle']) && !empty($_POST['usertext'])) {
+    $title = $_POST['usertitle'];
+    $text = $_POST['usertext'];
+    $submit = new ArticleRepository();
+    $submit->addArticle($conn, $title, $text);
     unset($_POST['usertitle']);
     unset($_POST['usertext']);
 
-
     header('Location: ' . $_SERVER['HTTP_REFERER']);
-
 }
 
-
-if (!empty($_POST['usertitle']) && !empty($_POST['usertext'])) {
-    addArticle($conn, $title, $text);
-}
-
-
-function getArticle(PDO $conn)
-{
-
-    $tbbll = $conn->query('SELECT * FROM articles');
-    while ($row = $tbbll->fetch(PDO::FETCH_ASSOC)) {
-        $results[]=$row;
-    }
-    return $results;
-}
 
 ?>
 
@@ -85,16 +88,19 @@ function getArticle(PDO $conn)
     </tr>
     </thead>
     <tbody>
-    <?php $articles =getArticle($conn);
-    foreach ($articles as $article):; ?>
+    <?php $articles = new ArticleRepository();
+    $articles->getArticle($conn);
+    foreach ($articles
+
+    as $article):; ?>
     <tr>
-        <td><?php echo $article['id'];?></td>
-        <td><?php echo $article['title'];?></td>
-        <td><?php echo $article['text'];?></td>
+        <td><?php echo $article['id']; ?></td>
+        <td><?php echo $article['title']; ?></td>
+        <td><?php echo $article['text']; ?></td>
 
     </tr>
     </tbody>
-    <?php endforeach;?>
+    <?php endforeach; ?>
 
 </body>
 </html>
