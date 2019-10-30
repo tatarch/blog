@@ -50,12 +50,6 @@ function getArticle(PDO $conn)
     }
     return $results;
 }
-$articles =getArticle($conn);
-foreach ($articles as $article){
-    echo $article['id'];
-    echo $article['title'];
-    echo $article['text'];
-}
 
 ?>
 
@@ -90,8 +84,17 @@ foreach ($articles as $article){
 
     </tr>
     </thead>
+    <tbody>
+    <?php $articles =getArticle($conn);
+    foreach ($articles as $article):; ?>
+    <tr>
+        <td><?php echo $article['id'];?></td>
+        <td><?php echo $article['title'];?></td>
+        <td><?php echo $article['text'];?></td>
 
-
+    </tr>
+    </tbody>
+    <?php endforeach;?>
 
 </body>
 </html>
