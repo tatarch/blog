@@ -5,8 +5,18 @@ class ArticleRepository
 {
     public $pdo;
 
-    function __construct($pdo)
+    function __construct()
     {
+        $username = "root";
+        $password = "";
+        $database = "blog";
+        $servername = "localhost";
+
+        try {
+            $pdo = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $error) {
+        }
         $this->pdo = $pdo;
     }
 
@@ -17,9 +27,8 @@ class ArticleRepository
         $stmt->execute(['title' => $title, 'text' => $text]);
     }
 
-    function getArticle()
+    function getArticles()
     {
-
         $pdoStatement = $this->pdo->query('SELECT * FROM articles');
         $results = array();
         while ($row = $pdoStatement->fetch(PDO::FETCH_ASSOC)) {
