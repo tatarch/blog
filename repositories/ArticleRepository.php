@@ -16,6 +16,7 @@ class ArticleRepository
             $pdo = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $error) {
+            die('Cannot connect to DB');
         }
         $this->pdo = $pdo;
     }

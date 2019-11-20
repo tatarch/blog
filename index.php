@@ -8,21 +8,20 @@
 //    header('Location: ' . $_SERVER['HTTP_REFERER']);
 //    die;
 //}
+require 'repositories/ArticleRepository.php';
 
 $url = $_SERVER['REQUEST_URI'];
 $urlParts = explode('/', $url);
 if (file_exists('controllers/' . $urlParts[1] . 'Controller.php')) {
-    $className = $urlParts[1] . 'Controller';
     require 'controllers/' . $urlParts[1] . 'Controller.php';
+    $className = $urlParts[1] . 'Controller';
     $controller = new $className;
 } else {
     echo 'Not Found';
     die();
 }
-if(method_exists($controller, $urlParts[2])){
-    $controller->$urlParts[2]();
-}
-require "controllers/HomeController.php";
 
-$controller = new HomeController();
-$controller->default();
+$method = $urlParts[2];
+if (method_exists($controller, $method)) {
+    $controller->$method();
+}

@@ -3,8 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Home page</title>
-    <link href="style.css" rel="stylesheet">
-
+    <link href="/style.css" rel="stylesheet">
 </head>
 <body>
 
@@ -24,23 +23,17 @@
         <th>Id</th>
         <th>Title</th>
         <th>Text</th>
-
     </tr>
     </thead>
     <tbody>
-
-    <?php
-    foreach ($articles as $article): ?>
-    <tr>
-        <td><?= $article['id']; ?></td>
-        <td><?= $article['title']; ?></td>
-        <td><?= $article['text']; ?></td>
-    </tr>
-    </tbody>
+    <?php foreach ($articles as $article): ?>
+        <tr>
+            <td><?= $article['id']; ?></td>
+            <td><?= $article['title']; ?></td>
+            <td><?= $article['text']; ?></td>
+        </tr>
     <?php endforeach; ?>
+    </tbody>
 
-
-</body>
-</html>
 </body>
 </html>
