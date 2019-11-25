@@ -6,7 +6,7 @@
 //    $articlesRepository->addArticle($title, $text);
 //
 //    header('Location: ' . $_SERVER['HTTP_REFERER']);
-//    die;
+////    die;
 //}
 
 require 'repositories/ArticleRepository.php';

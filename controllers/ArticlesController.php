@@ -13,10 +13,13 @@ class ArticlesController
         if (!empty($_POST['usertitle']) && !empty($_POST['usertext'])) {
             $this->save();
         }
+
     }
     function save(){
         $title = $_POST['usertitle'];
         $text = $_POST['usertext'];
-        $articlesRepository->addArticle($title, $text);
+        $articleRepository = new ArticleRepository();
+        $articleRepository->addArticle($title, $text);
+
     }
 }
