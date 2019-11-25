@@ -6,8 +6,7 @@
     <link href="/style.css" rel="stylesheet">
 </head>
 <body>
-
-
+<a href="/articles/form">Add article</a>
 <table>
     <thead>
     <tr>
