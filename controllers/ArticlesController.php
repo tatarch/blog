@@ -2,24 +2,21 @@
 
 class ArticlesController
 {
-    function default()
-    {
-        echo 'Article contr m default';
-    }
 
     function form()
     {
         include 'pages/form.html';
-        if (!empty($_POST['usertitle']) && !empty($_POST['usertext'])) {
             $this->save();
-        }
 
     }
-    function save(){
+
+    function save()
+    {
         $title = $_POST['usertitle'];
         $text = $_POST['usertext'];
         $articleRepository = new ArticleRepository();
         $articleRepository->addArticle($title, $text);
-
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        die;
     }
 }
