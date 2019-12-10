@@ -6,7 +6,6 @@ class ArticlesController
     function form()
     {
         include 'pages/form.html';
-            $this->save();
 
     }
 
@@ -16,7 +15,7 @@ class ArticlesController
         $text = $_POST['usertext'];
         $articleRepository = new ArticleRepository();
         $articleRepository->addArticle($title, $text);
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        header('Location: http://blog.local/home/default');
         die;
     }
 }

@@ -4,17 +4,27 @@
     <meta charset="UTF-8">
     <title>Form page</title>
     <link href="/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 
-
-<form action="/articles/form" method="post" class="emailsubmit">
-    <label for="inputTitle" class="emaillabel">Title</label><br>
-    <input id="inputTitle" name="usertitle" class="emailfield" placeholder="Enter title" required><br>
-    <label for="inputText" class="emaillabel">Text</label><br>
-    <input id="inputText" name="usertext" class="emailfield" placeholder="Enter text" required><br>
-    <input class="btn" type="submit" name="submit" value="Submit">
-    <br>
-</form>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form action="/articles/save" method="post" class="emailsubmit">
+                <div class="form-group">
+                    <label for="inputTitle" >Title</label>
+                    <input type="text" id="inputTitle" class="form-control form-control-sm" placeholder="Enter title" required>
+                </div>
+                <div class="form-group">
+                    <label for="inputText">Text</label>
+                    <textarea class="form-control form-control-sm" id="inputText" rows="3"  placeholder="Enter text"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>
