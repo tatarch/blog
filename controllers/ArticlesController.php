@@ -2,11 +2,9 @@
 
 class ArticlesController
 {
-
     function form()
     {
         include 'pages/form.php';
-
     }
 
     function save()
@@ -17,5 +15,13 @@ class ArticlesController
         $articleRepository->addArticle($title, $text);
         header('Location: http://blog.local/home/default');
         die;
+    }
+
+    function view()
+    {
+        $id = $_GET['id'];
+        $articleRepository = new ArticleRepository();
+        $article = $articleRepository->getById($id);
+        include 'pages/articlesPage.php';
     }
 }

@@ -37,4 +37,10 @@ class ArticleRepository
         }
         return $results;
     }
+
+    function getById($id)
+    {
+        $pdoStatement = $this->pdo->query('SELECT * FROM articles WHERE id=' . $id);
+        return $pdoStatement->fetch(PDO::FETCH_ASSOC);
+    }
 }
