@@ -13,29 +13,27 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <a href="/articles/form">Add article</a>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Text</th>
-                </tr>
-                </thead>
-                <tbody>
+            <a href="/articles/form" class="btn btn-primary my-3" id="home-btn">Add article</a>
+
                 <?php foreach ($articles as $article): ?>
-                    <tr>
-                        <th scope="row"><?= $article['id']; ?></th>
-                        <td><?= $article['title']; ?></td>
-                        <td><?= $article['text']; ?></td>
-                    </tr>
+
+                    <div class="card my-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= $article['title']; ?></h5>
+                            <small id="emailHelp" class="form-text text-muted"><?= $article['id']; ?></small>
+                            <p class="card-text"><?= $article['text']; ?> </p>
+                            <a href="#" class="btn btn-primary my-3" id="home-btn">See all</a>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Last updated 3 mins ago</small>
+                        </div>
+                    </div>
                 <?php endforeach; ?>
-                </tbody>
-            </table>
+
         </div>
+
     </div>
 </div>
-
 
 </body>
 </html>

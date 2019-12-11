@@ -5,7 +5,7 @@ class ArticlesController
 
     function form()
     {
-        include 'pages/form.html';
+        include 'pages/form.php';
 
     }
 
