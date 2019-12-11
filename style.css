@@ -2,10 +2,23 @@ body {
     margin: 0;
 }
 
-
-input {
-    border-radius: 4px;
+#form-title{
+    margin: 30px 0px 60px;
+}
+#form-title-h1{
+    font-family: Verdana, sans-serif;
 }
 .articles-form{
+    font-family: Verdana, sans-serif;
+    font-size: 16px;
+}
+#inputTitle, #inputText, #form-tags{
+    background-color: #F5F5F5;
+    border: none;
+    border-radius: 5px;
+}
+#form-btn{
+    background-color:#4682B4;
+    border: none;
 
 }
