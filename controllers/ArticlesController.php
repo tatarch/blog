@@ -19,9 +19,12 @@ class ArticlesController
 
     function view()
     {
-        $id = $_GET['id'];
+        $id =(int) $_GET['id'];
+        if (!$id) {
+            throw new Exception();
+        }
         $articleRepository = new ArticleRepository();
         $article = $articleRepository->getById($id);
-        include 'pages/articlesPage.php';
+        include 'pages/article.php';
     }
 }

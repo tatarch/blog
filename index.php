@@ -1,14 +1,5 @@
 <?php
 
-//if (!empty($_POST['usertitle']) && !empty($_POST['usertext'])) {
-//    $title = $_POST['usertitle'];
-//    $text = $_POST['usertext'];
-//    $articlesRepository->addArticle($title, $text);
-//
-//    header('Location: ' . $_SERVER['HTTP_REFERER']);
-////    die;
-//}
-
 require 'repositories/ArticleRepository.php';
 
 $url = $_SERVER['REQUEST_URI'];
@@ -32,7 +23,13 @@ if (!empty($urlParts[1])) {
 if (isset($urlParts[2])) {
     $method = $urlParts[2];
     if (method_exists($controller, $method)) {
-        $controller->$method();
+        try {
+            $controller->$method();
+        } catch (Exception $e) {
+            throw $e;
+            die('NOT FOUND');
+        }
+
     } else {
         die('Method not exists: ' . $method);
     }

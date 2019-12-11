@@ -38,7 +38,7 @@ class ArticleRepository
         return $results;
     }
 
-    function getById($id)
+    function getById(object $id)
     {
         $pdoStatement = $this->pdo->query('SELECT * FROM articles WHERE id=' . $id);
         return $pdoStatement->fetch(PDO::FETCH_ASSOC);
