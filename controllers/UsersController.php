@@ -2,11 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Repositories\UserRepository;
+use App\Views\View;
+
 class UsersController
 {
     function form()
     {
-        include 'pages/registration.php';
+        View::render('registration', []);
     }
 
     function save()

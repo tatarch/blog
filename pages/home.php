@@ -1,3 +1,6 @@
+<?php
+/** @var array $data */
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,8 +19,7 @@
             <a href="/users/form" class="btn btn-primary my-3" id="home-btn-registration">Registration</a>
             <a href="/articles/form" class="btn btn-primary my-3" id="home-btn">Add article</a>
 
-                <?php foreach ($articles as $article): ?>
-
+                <?php foreach ($data as $article): ?>
                     <div class="card my-3">
                         <div class="card-body">
                             <h5 class="card-title"><?= $article['title']; ?></h5>

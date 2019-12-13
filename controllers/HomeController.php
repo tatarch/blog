@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Repositories\ArticleRepository;
+use App\Views\View;
 
 class HomeController
 {
@@ -11,6 +12,6 @@ class HomeController
         $articleRepository = new ArticleRepository();
         $articles = $articleRepository->getArticles();
 
-        include 'pages/home.php';
+        View::render('home', $articles);
     }
 }

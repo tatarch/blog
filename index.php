@@ -7,7 +7,7 @@ $urlParts = explode('/', $url);
 
 if (!empty($urlParts[1])) {
     if (file_exists('controllers/' . $urlParts[1] . 'Controller.php')) {
-        $className = "App\Controllers\/" . $urlParts[1] . 'Controller';
+        $className = 'App\Controllers\\' . $urlParts[1] . 'Controller';
         $controller = new $className;
     } else {
         echo 'Not Found';
@@ -21,13 +21,7 @@ if (!empty($urlParts[1])) {
 if (isset($urlParts[2])) {
     $method = $urlParts[2];
     if (method_exists($controller, $method)) {
-        try {
-            $controller->$method();
-        } catch (Exception $e) {
-            throw $e;
-            die('NOT FOUND');
-        }
-
+        $controller->$method();
     } else {
         die('Method not exists: ' . $method);
     }

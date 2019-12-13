@@ -3,12 +3,13 @@
 namespace App\Controllers;
 
 use App\Repositories\ArticleRepository;
+use App\Views\View;
 
 class ArticlesController
 {
     function form()
     {
-        include 'pages/form.php';
+        View::render('form', []);
     }
 
     function save()
@@ -23,8 +24,8 @@ class ArticlesController
 
     function view()
     {
-        $id =(int) $_GET['id'];
-        if ($id<0) {
+        $id = (int)$_GET['id'];
+        if ($id < 0) {
             throw new \Exception();
         }
         $articleRepository = new ArticleRepository();
