@@ -13,6 +13,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
+            <a href="/users/form" class="btn btn-primary my-3" id="home-btn-registration">Registration</a>
             <a href="/articles/form" class="btn btn-primary my-3" id="home-btn">Add article</a>
 
                 <?php foreach ($articles as $article): ?>

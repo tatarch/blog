@@ -12,6 +12,7 @@
     <div class="row">
         <div class="col">
             <h1><?= $article['title']; ?></h1>
+            <p><?= $article['text']; ?></p>
 
         </div>
     </div>

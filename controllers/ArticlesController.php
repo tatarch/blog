@@ -20,7 +20,7 @@ class ArticlesController
     function view()
     {
         $id =(int) $_GET['id'];
-        if (!$id) {
+        if ($id<0) {
             throw new Exception();
         }
         $articleRepository = new ArticleRepository();

@@ -1,6 +1,7 @@
 <?php
 
 require 'repositories/ArticleRepository.php';
+require 'repositories/UserRepository.php';
 
 $url = $_SERVER['REQUEST_URI'];
 $urlParts = explode('/', $url);
