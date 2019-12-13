@@ -2,6 +2,7 @@
 
 require 'repositories/ArticleRepository.php';
 require 'repositories/UserRepository.php';
+require 'database/connectors/MysqlConnector.php';
 
 $url = $_SERVER['REQUEST_URI'];
 $urlParts = explode('/', $url);
