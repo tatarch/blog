@@ -2,7 +2,7 @@
 
 class MysqlConnector
 {
-    function getConnection()
+    static function getConnection()
     {
         $username = "root";
         $password = "";

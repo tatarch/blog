@@ -4,8 +4,7 @@ class ArticleRepository
 {
     function addArticle(string $title, string $text)
     {
-        $connector = new MysqlConnector();
-        $pdo=$connector->getConnection();
+        $pdo = MysqlConnector::getConnection();
 
         $query = "INSERT INTO articles (title, text)  VALUES (:title, :text )";
         $stmt = $pdo->prepare($query);
@@ -14,8 +13,7 @@ class ArticleRepository
 
     function getArticles()
     {
-        $connector = new MysqlConnector();
-        $pdo=$connector->getConnection();
+        $pdo = MysqlConnector::getConnection();
 
         $pdoStatement = $pdo->query('SELECT * FROM articles');
         $results = array();
@@ -27,8 +25,7 @@ class ArticleRepository
 
     function getById(int $id)
     {
-        $connector = new MysqlConnector();
-        $pdo=$connector->getConnection();
+        $pdo = MysqlConnector::getConnection();
 
         $pdoStatement = $pdo->query('SELECT * FROM articles WHERE id=' . $id);
         return $pdoStatement->fetch(PDO::FETCH_ASSOC);

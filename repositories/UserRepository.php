@@ -4,8 +4,7 @@ class UserRepository
 {
     function addUser(string $email, string $name, string $password)
     {
-        $connector = new MysqlConnector();
-        $pdo=$connector->getConnection();
+        $pdo = MysqlConnector::getConnection();
 
         $query = "INSERT INTO users (email, name, password)  VALUES (:email, :name, :password)";
         $stmt = $pdo->prepare($query);
