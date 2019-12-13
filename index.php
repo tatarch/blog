@@ -1,16 +1,13 @@
 <?php
 
-require 'repositories/ArticleRepository.php';
-require 'repositories/UserRepository.php';
-require 'database/connectors/MysqlConnector.php';
+require 'vendor/autoload.php';
 
 $url = $_SERVER['REQUEST_URI'];
 $urlParts = explode('/', $url);
 
 if (!empty($urlParts[1])) {
     if (file_exists('controllers/' . $urlParts[1] . 'Controller.php')) {
-        require 'controllers/' . $urlParts[1] . 'Controller.php';
-        $className = $urlParts[1] . 'Controller';
+        $className = "App\Controllers\/" . $urlParts[1] . 'Controller';
         $controller = new $className;
     } else {
         echo 'Not Found';
@@ -18,8 +15,7 @@ if (!empty($urlParts[1])) {
     }
 
 } else {
-    require 'controllers/HomeController.php';
-    $controller = new HomeController();
+    $controller = new \App\Controllers\HomeController();
 }
 
 if (isset($urlParts[2])) {

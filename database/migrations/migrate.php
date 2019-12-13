@@ -1,7 +1,5 @@
 <?php
 
-require 'database/connectors/MysqlConnector.php';
-
 $queries = ['create table articles (
 id int primary key auto_increment,
 title varchar (255),

@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Controllers;
+
+use App\Repositories\ArticleRepository;
+
 class HomeController
 {
     function default()

@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Controllers;
+
+use App\Repositories\ArticleRepository;
+
 class ArticlesController
 {
     function form()
@@ -21,7 +25,7 @@ class ArticlesController
     {
         $id =(int) $_GET['id'];
         if ($id<0) {
-            throw new Exception();
+            throw new \Exception();
         }
         $articleRepository = new ArticleRepository();
         $article = $articleRepository->getById($id);

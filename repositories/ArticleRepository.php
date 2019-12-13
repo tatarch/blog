@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Repositories;
+
+use App\Database\Connectors\MysqlConnector;
+use PDO;
+
 class ArticleRepository
 {
     function addArticle(string $title, string $text)

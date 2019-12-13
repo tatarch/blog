@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Database\Connectors;
+
+use PDO;
+use PDOException;
+
 class MysqlConnector
 {
     static function getConnection()

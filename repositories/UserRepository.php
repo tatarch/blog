@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Repositories;
+
+use App\Database\Connectors\MysqlConnector;
+
 class UserRepository
 {
     function addUser(string $email, string $name, string $password)
