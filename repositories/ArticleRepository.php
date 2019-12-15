@@ -28,6 +28,15 @@ class ArticleRepository
         return $results;
     }
 
+    function delateArticle(int $id)
+    {
+        $pdo = MysqlConnector::getConnection();
+
+        $query = "DELETE FROM articles WHERE id=".$id;
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+    }
+
     function getById(int $id)
     {
         $pdo = MysqlConnector::getConnection();

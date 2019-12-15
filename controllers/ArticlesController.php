@@ -22,6 +22,16 @@ class ArticlesController
         die;
     }
 
+    function delate()
+    {
+        $id = (int)$_GET['id'];
+
+        $articleRepository = new ArticleRepository();
+        $articleRepository->delateArticle($id);
+        header('Location: http://blog.local/home/default');
+        die;
+    }
+
     function view()
     {
         $id = (int)$_GET['id'];
@@ -30,6 +40,8 @@ class ArticlesController
         }
         $articleRepository = new ArticleRepository();
         $article = $articleRepository->getById($id);
-        include 'pages/article.php';
+
+        View::render('article', $article);
     }
+
 }

@@ -1,22 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Form page</title>
-    <link href="/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
-<body>
+
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1><?= $article['title']; ?></h1>
-            <p><?= $article['text']; ?></p>
-
+            <h1><?= $data['title']; ?></h1>
+            <p><?= $data['text']; ?></p>
+            <form action="/articles/delate/?id=<?= $data['id']; ?>" method="post" class="articles-form">
+                <button type="submit" class="btn btn-primary">Deleta article</button>
+            </form>
         </div>
     </div>
 </div>
-
-</body>
-</html>
