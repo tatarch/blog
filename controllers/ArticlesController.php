@@ -9,7 +9,15 @@ class ArticlesController
 {
     function form()
     {
-        View::render('form', []);
+        if (isset($_GET['id'])){
+            $id = (int)$_GET['id'];
+            $articleRepository = new ArticleRepository();
+            $article = $articleRepository->getById($id);
+
+            View::render('form', $article);
+    } else {
+            View::render('form', []);
+        }
     }
 
     function save()
@@ -17,9 +25,17 @@ class ArticlesController
         $title = $_POST['usertitle'];
         $text = $_POST['usertext'];
         $articleRepository = new ArticleRepository();
-        $articleRepository->addArticle($title, $text);
-        header('Location: http://blog.local/home/default');
-        die;
+
+        if (isset($_POST['id'])){
+            $id = (int)$_POST['id'];
+            $articleRepository->updateArticle($id, $title, $text);
+            header('Location: http://blog.local/home/default');
+            die;
+        } else {
+            $articleRepository->addArticle($title, $text);
+            header('Location: http://blog.local/home/default');
+            die;
+        }
     }
 
     function delate()

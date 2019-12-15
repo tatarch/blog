@@ -15,6 +15,7 @@
                             <small id="emailHelp" class="form-text text-muted"><?= $article['id']; ?></small>
                             <p class="card-text"><?= $article['text']; ?> </p>
                             <a href="/articles/view/?id=<?= $article['id']; ?>" class="btn btn-primary my-3" id="home-btn">See all</a>
+                            <a href="/articles/form/?id=<?= $article['id']; ?>" class="btn btn-primary my-3" id="home-btn">update article</a>
                         </div>
                         <div class="card-footer">
                             <small class="text-muted">Last updated 3 mins ago</small>

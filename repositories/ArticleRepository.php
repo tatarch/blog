@@ -44,4 +44,13 @@ class ArticleRepository
         $pdoStatement = $pdo->query('SELECT * FROM articles WHERE id=' . $id);
         return $pdoStatement->fetch(PDO::FETCH_ASSOC);
     }
+
+    function updateArticle(int $id, string $title, string $text)
+    {
+        $pdo = MysqlConnector::getConnection();
+
+        $query = "UPDATE `articles` SET  title=:title, text=:text WHERE id=".$id;
+        $stmt = $pdo->prepare($query);
+        $stmt->execute(['title' => $title, 'text' => $text]);
+    }
 }
