@@ -30,7 +30,7 @@
                     </div>
 
                     <form action="/articles/save/?id=<?= $data['id']; ?>" method="post" class="articles-form">
-                        <button type="submit" class="btn btn-primary">Update article</button>
+                        <button type="submit" class="btn btn-secondary">Update article</button>
                     </form>
                 </div>
 

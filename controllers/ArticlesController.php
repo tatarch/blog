@@ -26,7 +26,7 @@ class ArticlesController
         $text = $_POST['usertext'];
         $articleRepository = new ArticleRepository();
 
-        if (isset($_POST['id'])){
+        if (!empty($_POST['id'])){
             $id = (int)$_POST['id'];
             $articleRepository->updateArticle($id, $title, $text);
             header('Location: http://blog.local/home/default');
