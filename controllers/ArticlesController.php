@@ -9,7 +9,7 @@ class ArticlesController
 {
     function form()
     {
-        if (isset($_GET['id'])){
+        if (!empty($_GET['id'])){
             $id = (int)$_GET['id'];
             $articleRepository = new ArticleRepository();
             $article = $articleRepository->getById($id);
