@@ -26,7 +26,7 @@
 
                 <div class="form-group row">
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="article-data" id="inputdata"
+                        <input type="text" class="form-control" name="dateid" id="inputdata"
                                value="<?= isset($data['data']) ? $data['data']: "" ?>"
                                placeholder="Enter data">
                     </div>
@@ -38,7 +38,7 @@
                     </div>
 
                     <form action="/articles/save/?id=<?= $data['id']; ?>" method="post" class="articles-form">
-                        <button type="submit" class="btn btn-secondary">Update article</button>
+                        <button type="submit"  class="btn btn-secondary">Update article</button>
                     </form>
                 </div>
 

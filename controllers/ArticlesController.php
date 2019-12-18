@@ -32,9 +32,18 @@ class ArticlesController
             header('Location: http://blog.local/home/default');
             die;
         } else {
-            $articleRepository->addArticle($title, $text);
-            header('Location: http://blog.local/home/default');
-            die;
+            if(!empty($_POST['dateid'])){
+                $date=$_POST['dateid'];
+                $articleRepository->addArticle($title, $text, $date);
+                header('Location: http://blog.local/home/default');
+                die;
+            } else{
+                $date=date('Y-m-d');
+                $articleRepository->addArticle($title, $text,$date);
+                header('Location: http://blog.local/home/default');
+                die;
+            }
+
         }
     }
 

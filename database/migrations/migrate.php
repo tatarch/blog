@@ -1,14 +1,13 @@
 <?php
-
+require '../../vendor/autoload.php';
 
 
 $queries = ['create table articles (
 id int primary key auto_increment,
 title varchar (255),
 text text,
-image varchar,
-date DATETIME
-),',
+date DATETIME,
+image varchar (255))',
     'create table users (
 id int primary key auto_increment,
 email varchar (255),

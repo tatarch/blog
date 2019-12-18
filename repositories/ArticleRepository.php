@@ -7,13 +7,13 @@ use PDO;
 
 class ArticleRepository
 {
-    function addArticle(string $title, string $text)
+    function addArticle(string $title, string $text, string $date)
     {
         $pdo = MysqlConnector::getConnection();
 
-        $query = "INSERT INTO articles (title, text)  VALUES (:title, :text )";
+        $query = "INSERT INTO articles (title, text, date)  VALUES (:title, :text, :date )";
         $stmt = $pdo->prepare($query);
-        $stmt->execute(['title' => $title, 'text' => $text]);
+        $stmt->execute(['title' => $title, 'text' => $text, 'date'=>$date]);
     }
 
     function getArticles()
