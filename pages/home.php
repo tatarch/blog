@@ -1,5 +1,6 @@
 <?php
 /** @var array $data */
+
 ?>
 
 <div class="container">
@@ -8,7 +9,9 @@
             <a href="/users/form" class="btn btn-primary my-3" id="home-btn-registration">Registration</a>
             <a href="/articles/form" class="btn btn-primary my-3" id="home-btn">Add article</a>
 
-                <?php foreach ($data as $article): ?>
+                <?php foreach ($data as $article):
+                    $date=strtotime($article['date']);
+                    $date = date('d.m.Y', $date);?>
                     <div class="card my-3">
                         <div class="card-body">
                             <h5 class="card-title"><?= $article['title']; ?></h5>
@@ -18,7 +21,7 @@
                             <a href="/articles/form/?id=<?= $article['id']; ?>" class="btn btn-warning my-3" id="home-btn-update">update article</a>
                         </div>
                         <div class="card-footer">
-                            <small class="text-muted">Last updated 3 mins ago</small>
+                            <small class="text-muted"><?= $date; ?></small>
                         </div>
                     </div>
                 <?php endforeach; ?>

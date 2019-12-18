@@ -9,42 +9,39 @@ class ArticlesController
 {
     function form()
     {
-        if (!empty($_GET['id'])){
+        if (!empty($_GET['id'])) {
             $id = (int)$_GET['id'];
             $articleRepository = new ArticleRepository();
             $article = $articleRepository->getById($id);
 
             View::render('form', $article);
-    } else {
+        } else {
             View::render('form', []);
         }
     }
 
     function save()
     {
-        $title = $_POST['usertitle'];
-        $text = $_POST['usertext'];
+        $title = $_POST['title'];
+        $text = $_POST['text'];
         $articleRepository = new ArticleRepository();
 
-        if (!empty($_POST['id'])){
+        if (!empty($_POST['id'])) {
             $id = (int)$_POST['id'];
             $articleRepository->updateArticle($id, $title, $text);
-            header('Location: http://blog.local/home/default');
-            die;
-        } else {
-            if(!empty($_POST['dateid'])){
-                $date=$_POST['dateid'];
-                $articleRepository->addArticle($title, $text, $date);
-                header('Location: http://blog.local/home/default');
-                die;
-            } else{
-                $date=date('Y-m-d');
-                $articleRepository->addArticle($title, $text,$date);
-                header('Location: http://blog.local/home/default');
-                die;
-            }
 
+        } else {
+            if (!empty($_POST['date'])) {
+                $timestamp = strtotime($_POST['date-']);
+                $date = date('Y-m-d H:i:s', $timestamp);
+
+            } else {
+                $date = date('Y-m-d H:i:s');
+            }
+            $articleRepository->addArticle($title, $text, $date);
         }
+        header('Location: http://blog.local/home/default');
+        die;
     }
 
     function delate()
