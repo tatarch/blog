@@ -32,7 +32,7 @@ class ArticlesController
 
         } else {
             if (!empty($_POST['date'])) {
-                $timestamp = strtotime($_POST['date-']);
+                $timestamp = strtotime($_POST['date']);
                 $date = date('Y-m-d H:i:s', $timestamp);
 
             } else {
@@ -40,8 +40,14 @@ class ArticlesController
             }
             $articleRepository->addArticle($title, $text, $date);
         }
-        header('Location: http://blog.local/home/default');
-        die;
+        if(isset($_FILES) && $_FILES['inputfile']['error'] == 0){ // Проверяем, загрузил ли пользователь файл
+            $destiation_dir =  __DIR__ ."/../images"; // Директория для размещения файла
+            move_uploaded_file($_FILES['inputfile']['tmp_name'], $destiation_dir.'/1.png' );
+            echo 'File Uploaded'; // Оповещаем пользователя об успешной загрузке файла
+        }
+        else{
+            echo 'No File Uploaded'; // Оповещаем пользователя о том, что файл не был загружен
+        }
     }
 
     function delate()
@@ -64,6 +70,12 @@ class ArticlesController
         $article = $articleRepository->getById($id);
 
         View::render('article', $article);
+    }
+
+    function savefile ()
+    {
+
+
     }
 
 }

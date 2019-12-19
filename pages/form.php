@@ -22,6 +22,10 @@
                                   placeholder="Enter text"><?= isset($data['text']) ? $data['text'] : "" ?></textarea>
                     </div>
                 </div>
+                <form method="post" action="/articles/save" enctype="multipart/form-data">
+                    <input type="file"  name="inputfile"></br>
+                    <input type="submit" value="Click To Upload">
+                </form>
 
                 <div class="form-group row">
                     <div class="col-sm-10">
