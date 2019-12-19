@@ -38,16 +38,19 @@ class ArticlesController
             } else {
                 $date = date('Y-m-d H:i:s');
             }
-            $articleRepository->addArticle($title, $text, $date);
+            if(isset($_FILES) && $_FILES['inputfile']['error'] == 0){ // Проверяем, загрузил ли пользователь файл
+                $image=uniqid().'.png';
+                $destiationdir =getcwd()."/images".'/'.$image;
+                move_uploaded_file($_FILES['inputfile']['tmp_name'], $destiationdir );
+            } else{
+                $image=null;
+            }
+            $articleRepository->addArticle($title, $text, $date, $image);
         }
-        if(isset($_FILES) && $_FILES['inputfile']['error'] == 0){ // Проверяем, загрузил ли пользователь файл
-            $destiation_dir =  __DIR__ ."/../images"; // Директория для размещения файла
-            move_uploaded_file($_FILES['inputfile']['tmp_name'], $destiation_dir.'/1.png' );
-            echo 'File Uploaded'; // Оповещаем пользователя об успешной загрузке файла
-        }
-        else{
-            echo 'No File Uploaded'; // Оповещаем пользователя о том, что файл не был загружен
-        }
+
+
+        header('Location: http://blog.local/home/default');
+        die;
     }
 
     function delate()

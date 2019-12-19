@@ -4,7 +4,7 @@
             <div id="form-title">
                 <h1 id="form-title-h1">New note</h1>
             </div>
-            <form action="/articles/save" method="post" class="articles-form">
+            <form action="/articles/save" method="post" class="articles-form" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?= isset($data['id']) ? $data['id'] : "" ?>">
                 <div class="form-group row">
                     <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
@@ -22,10 +22,10 @@
                                   placeholder="Enter text"><?= isset($data['text']) ? $data['text'] : "" ?></textarea>
                     </div>
                 </div>
-                <form method="post" action="/articles/save" enctype="multipart/form-data">
+
                     <input type="file"  name="inputfile"></br>
-                    <input type="submit" value="Click To Upload">
-                </form>
+
+
 
                 <div class="form-group row">
                     <div class="col-sm-10">
