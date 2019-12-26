@@ -37,10 +37,6 @@
                     <div class="col-sm-10">
                         <button type="submit" class="btn btn-primary" id="form-btn">Submit</button>
                     </div>
-
-                    <form action="/articles/save/?id=<?= $data['id']; ?>" method="post" class="articles-form">
-                        <button type="submit" class="btn btn-secondary">Update article</button>
-                    </form>
                 </div>
 
             </form>

@@ -25,63 +25,70 @@ class ArticlesController
         $title = $_POST['title'];
         $text = $_POST['text'];
         $articleRepository = new ArticleRepository();
+        $date = $this->datecreate();
 
         if (!empty($_POST['id'])) {
             $id = (int)$_POST['id'];
             $article = $articleRepository->getById($id);
-            if(isset($_FILES) && $_FILES['inputfile']['error'] == 0){ // Проверяем, загрузил ли пользователь файл
-                if(isset($article['image'])){
-                $destiationdir =getcwd()."/images".'/'.$article['image'];
-                unlink($destiationdir);}
-                $date = date('Y-m-d H:i:s');
-                $image=uniqid().'.png';
-                $destiationdir =getcwd()."/images".'/'.$image;
-                move_uploaded_file($_FILES['inputfile']['tmp_name'], $destiationdir );
-                $articleRepository->updateArticle($id, $title, $text,$date,$image);
+            if (isset($_FILES) && $_FILES['inputfile']['error'] == 0) { // Проверяем, загрузил ли пользователь файл
+                if(isset($article['image'])) {
+                    $this->delateImage($articleRepository, $id);
+                }
+                $image = $this->moveImg();
             } else {
-                $date = date('Y-m-d H:i:s');
-                $image=$article['image'];
-                $articleRepository->updateArticle($id, $title, $text,$date, $image);
+                $image = $article['image'];
             }
-
+            $articleRepository->updateArticle($id, $title, $text, $date, $image);
         } else {
-            if (!empty($_POST['date'])) {
-                $timestamp = strtotime($_POST['date']);
-                $date = date('Y-m-d H:i:s', $timestamp);
-
+            if (isset($_FILES) && $_FILES['inputfile']['error'] == 0) { // Проверяем, загрузил ли пользователь файл
+                $image = $this->moveImg();
             } else {
-                $date = date('Y-m-d H:i:s');
-            }
-            if(isset($_FILES) && $_FILES['inputfile']['error'] == 0){ // Проверяем, загрузил ли пользователь файл
-                $image=uniqid().'.png';
-                $destiationdir =getcwd()."/images".'/'.$image;
-                move_uploaded_file($_FILES['inputfile']['tmp_name'], $destiationdir );
-            } else{
-                $image=null;
+                $image = null;
             }
             $articleRepository->addArticle($title, $text, $date, $image);
         }
-
-
         header('Location: http://blog.local/home/default');
         die;
+    }
+
+    function datecreate()
+    {
+        if (!empty($_POST['date'])) {
+            $timestamp = strtotime($_POST['date']);
+            $date = date('Y-m-d H:i:s', $timestamp);
+
+        } else {
+            $date = date('Y-m-d H:i:s');
+        }
+        return $date;
+    }
+
+    function moveImg()
+    {
+        $image = uniqid() . '.png';
+        $destiationdir = getcwd() . "/images" . '/' . $image;
+        move_uploaded_file($_FILES['inputfile']['tmp_name'], $destiationdir);
+        return $image;
     }
 
     function delate()
     {
         $id = (int)$_GET['id'];
-
         $articleRepository = new ArticleRepository();
-        $article = $articleRepository->getById($id);
-        if($article['image']!=null){
-            $destiationdir =getcwd()."/images".'/'.$article['image'];
-        unlink($destiationdir);
-        }
-
+        $this->delateImage($articleRepository, $id);
         $articleRepository->delateArticle($id);
 
         header('Location: http://blog.local/home/default');
         die;
+    }
+
+    function delateImage($articleRepository, $id)
+    {
+        $article = $articleRepository->getById($id);
+        if ($article['image'] != null) {
+            $destiationdir = getcwd() . "/images" . '/' . $article['image'];
+            unlink($destiationdir);
+        }
     }
 
     function view()
@@ -96,7 +103,7 @@ class ArticlesController
         View::render('article', $article);
     }
 
-    function savefile ()
+    function savefile()
     {
 
 
