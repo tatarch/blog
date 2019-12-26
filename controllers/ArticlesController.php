@@ -7,10 +7,11 @@ use App\Views\View;
 
 class ArticlesController
 {
-
-    function __construct() {
-        $this->articleRepository=new ArticleRepository();
+    function __construct()
+    {
+        $this->articleRepository = new ArticleRepository();
     }
+
     public function form()
     {
         if (!empty($_GET['id'])) {
@@ -34,7 +35,7 @@ class ArticlesController
             $id = (int)$_POST['id'];
             $article = $this->articleRepository->getById($id);
             if (isset($_FILES) && $_FILES['inputfile']['error'] == 0) { // Проверяем, загрузил ли пользователь файл
-                if(isset($article['image'])) {
+                if (isset($article['image'])) {
                     $this->deleteImage($this->articleRepository, $id);
                 }
                 $image = $this->getImg();
