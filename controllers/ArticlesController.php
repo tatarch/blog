@@ -7,7 +7,6 @@ use App\Views\View;
 
 class ArticlesController
 {
-    public $articleRepository;
 
     function __construct() {
         $this->articleRepository=new ArticleRepository();
