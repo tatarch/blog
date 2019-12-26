@@ -7,7 +7,7 @@ use PDO;
 
 class ArticleRepository
 {
-    function addArticle(string $title, string $text, string $date, $image)
+    public function addArticle(string $title, string $text, string $date, $image)
     {
         $pdo = MysqlConnector::getConnection();
 
@@ -16,7 +16,7 @@ class ArticleRepository
         $stmt->execute(['title' => $title, 'text' => $text, 'date'=>$date, 'image'=>$image]);
     }
 
-    function getArticles()
+    public function getArticles()
     {
         $pdo = MysqlConnector::getConnection();
 
@@ -28,7 +28,7 @@ class ArticleRepository
         return $results;
     }
 
-    function delateArticle(int $id)
+    public function deleteArticle(int $id)
     {
         $pdo = MysqlConnector::getConnection();
 
@@ -37,7 +37,7 @@ class ArticleRepository
         $stmt->execute();
     }
 
-    function getById(int $id)
+    public function getById(int $id)
     {
         $pdo = MysqlConnector::getConnection();
 
@@ -45,7 +45,7 @@ class ArticleRepository
         return $pdoStatement->fetch(PDO::FETCH_ASSOC);
     }
 
-    function updateArticle(int $id, string $title, string $text, string $date, $image)
+    public function updateArticle(int $id, string $title, string $text, string $date, $image)
     {
         $pdo = MysqlConnector::getConnection();
 

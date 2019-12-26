@@ -7,12 +7,16 @@ use App\Views\View;
 
 class ArticlesController
 {
-    function form()
+    public $articleRepository;
+
+    function __construct() {
+        $this->articleRepository=new ArticleRepository();
+    }
+    public function form()
     {
         if (!empty($_GET['id'])) {
             $id = (int)$_GET['id'];
-            $articleRepository = new ArticleRepository();
-            $article = $articleRepository->getById($id);
+            $article = $this->articleRepository->getById($id);
 
             View::render('form', $article);
         } else {
@@ -20,38 +24,38 @@ class ArticlesController
         }
     }
 
-    function save()
+    public function save()
     {
         $title = $_POST['title'];
         $text = $_POST['text'];
-        $articleRepository = new ArticleRepository();
-        $date = $this->datecreate();
+
+        $date = $this->getDate();
 
         if (!empty($_POST['id'])) {
             $id = (int)$_POST['id'];
-            $article = $articleRepository->getById($id);
+            $article = $this->articleRepository->getById($id);
             if (isset($_FILES) && $_FILES['inputfile']['error'] == 0) { // Проверяем, загрузил ли пользователь файл
                 if(isset($article['image'])) {
-                    $this->delateImage($articleRepository, $id);
+                    $this->deleteImage($this->articleRepository, $id);
                 }
-                $image = $this->moveImg();
+                $image = $this->getImg();
             } else {
                 $image = $article['image'];
             }
-            $articleRepository->updateArticle($id, $title, $text, $date, $image);
+            $this->articleRepository->updateArticle($id, $title, $text, $date, $image);
         } else {
             if (isset($_FILES) && $_FILES['inputfile']['error'] == 0) { // Проверяем, загрузил ли пользователь файл
-                $image = $this->moveImg();
+                $image = $this->getImg();
             } else {
                 $image = null;
             }
-            $articleRepository->addArticle($title, $text, $date, $image);
+            $this->articleRepository->addArticle($title, $text, $date, $image);
         }
         header('Location: http://blog.local/home/default');
         die;
     }
 
-    function datecreate()
+    private function getDate()
     {
         if (!empty($_POST['date'])) {
             $timestamp = strtotime($_POST['date']);
@@ -63,7 +67,7 @@ class ArticlesController
         return $date;
     }
 
-    function moveImg()
+    private function getImg()
     {
         $image = uniqid() . '.png';
         $destiationdir = getcwd() . "/images" . '/' . $image;
@@ -71,18 +75,18 @@ class ArticlesController
         return $image;
     }
 
-    function delate()
+    public function delete()
     {
         $id = (int)$_GET['id'];
-        $articleRepository = new ArticleRepository();
-        $this->delateImage($articleRepository, $id);
-        $articleRepository->delateArticle($id);
+        $articleRepository = $this->articleRepository;
+        $this->deleteImage($articleRepository, $id);
+        $articleRepository->deleteArticle($id);
 
         header('Location: http://blog.local/home/default');
         die;
     }
 
-    function delateImage($articleRepository, $id)
+    private function deleteImage($articleRepository, $id)
     {
         $article = $articleRepository->getById($id);
         if ($article['image'] != null) {
@@ -91,22 +95,15 @@ class ArticlesController
         }
     }
 
-    function view()
+    public function view()
     {
         $id = (int)$_GET['id'];
         if ($id < 0) {
             throw new \Exception();
         }
-        $articleRepository = new ArticleRepository();
-        $article = $articleRepository->getById($id);
+
+        $article = $this->articleRepository->getById($id);
 
         View::render('article', $article);
     }
-
-    function savefile()
-    {
-
-
-    }
-
 }

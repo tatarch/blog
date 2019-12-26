@@ -8,7 +8,7 @@ $urlParts = explode('/', $url);
 if (!empty($urlParts[1])) {
     if (file_exists('controllers/' . $urlParts[1] . 'Controller.php')) {
         $className = 'App\Controllers\\' . $urlParts[1] . 'Controller';
-        $controller = new $className;
+        $controller = new $className();
     } else {
         echo 'Not Found';
         die();

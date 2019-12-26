@@ -7,12 +7,12 @@ use App\Views\View;
 
 class UsersController
 {
-    function form()
+    public function form()
     {
         View::render('registration', []);
     }
 
-    function save()
+    public function save()
     {
         $email = $_POST['useremail'];
         $name = $_POST['username'];

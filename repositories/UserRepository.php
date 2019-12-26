@@ -6,7 +6,7 @@ use App\Database\Connectors\MysqlConnector;
 
 class UserRepository
 {
-    function addUser(string $email, string $name, string $password)
+    public function addUser(string $email, string $name, string $password)
     {
         $pdo = MysqlConnector::getConnection();
 
