@@ -45,12 +45,14 @@ class ArticleRepository
         return $pdoStatement->fetch(PDO::FETCH_ASSOC);
     }
 
-    function updateArticle(int $id, string $title, string $text)
+    function updateArticle(int $id, string $title, string $text, string $date, $image)
     {
         $pdo = MysqlConnector::getConnection();
 
-        $query = "UPDATE `articles` SET  title=:title, text=:text WHERE id=".$id;
+        $query = "UPDATE `articles` SET  title=:title, text=:text, date=:date, image=:image WHERE id=".$id;
         $stmt = $pdo->prepare($query);
-        $stmt->execute(['title' => $title, 'text' => $text]);
+        $stmt->execute(['title' => $title, 'text' => $text,  'date'=>$date, 'image'=>$image]);
     }
+
+
 }
