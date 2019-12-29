@@ -1,7 +1,7 @@
 <?php
 
 require 'vendor/autoload.php';
-
+session_start();
 $url = $_SERVER['REQUEST_URI'];
 $urlParts = explode('/', $url);
 

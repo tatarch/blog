@@ -1,12 +1,17 @@
 <?php
 /** @var array $data */
-
+if(isset($_SESSION['userId'])){
+    echo 'hello';
+}else{
+    echo 'please log in';
+}
 ?>
 
 <div class="container">
     <div class="row">
         <div class="col">
             <a href="/users/form" class="btn btn-primary my-3" id="home-btn-registration">Registration</a>
+            <a href="/users/loginForm" class="btn btn-primary my-3" id="home-btn-registration">log in</a>
             <a href="/articles/form" class="btn btn-primary my-3" id="home-btn">Add article</a>
 
                 <?php foreach ($data as $article):

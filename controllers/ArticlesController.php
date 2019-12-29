@@ -7,6 +7,8 @@ use App\Views\View;
 
 class ArticlesController
 {
+    private $articleRepository;
+
     function __construct()
     {
         $this->articleRepository = new ArticleRepository();
@@ -28,7 +30,6 @@ class ArticlesController
     {
         $title = $_POST['title'];
         $text = $_POST['text'];
-
         $date = $this->getDate();
 
         if (!empty($_POST['id'])) {
@@ -55,12 +56,33 @@ class ArticlesController
         die;
     }
 
+    public function delete()
+    {
+        $id = (int)$_GET['id'];
+        $this->deleteImage($this->articleRepository, $id);
+        $this->articleRepository->deleteArticle($id);
+
+        header('Location: http://blog.local/home/default');
+        die;
+    }
+
+    public function view()
+    {
+        $id = (int)$_GET['id'];
+        if ($id < 0) {
+            throw new \Exception();
+        }
+
+        $article = $this->articleRepository->getById($id);
+
+        View::render('article', $article);
+    }
+
     private function getDate()
     {
         if (!empty($_POST['date'])) {
             $timestamp = strtotime($_POST['date']);
             $date = date('Y-m-d H:i:s', $timestamp);
-
         } else {
             $date = date('Y-m-d H:i:s');
         }
@@ -75,17 +97,6 @@ class ArticlesController
         return $image;
     }
 
-    public function delete()
-    {
-        $id = (int)$_GET['id'];
-        $articleRepository = $this->articleRepository;
-        $this->deleteImage($articleRepository, $id);
-        $articleRepository->deleteArticle($id);
-
-        header('Location: http://blog.local/home/default');
-        die;
-    }
-
     private function deleteImage($articleRepository, $id)
     {
         $article = $articleRepository->getById($id);
@@ -93,17 +104,5 @@ class ArticlesController
             $destiationdir = getcwd() . "/images" . '/' . $article['image'];
             unlink($destiationdir);
         }
-    }
-
-    public function view()
-    {
-        $id = (int)$_GET['id'];
-        if ($id < 0) {
-            throw new \Exception();
-        }
-
-        $article = $this->articleRepository->getById($id);
-
-        View::render('article', $article);
     }
 }

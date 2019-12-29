@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Database\Connectors\MysqlConnector;
+use PDO;
 
 class UserRepository
 {
@@ -13,6 +14,20 @@ class UserRepository
         $query = "INSERT INTO users (email, name, password)  VALUES (:email, :name, :password)";
         $stmt = $pdo->prepare($query);
         $stmt->execute(['email' => $email, 'name' => $name, 'password' => $password]);
+    }
+
+    public function getByNamePassword($email, $password)
+    {
+        $pdo = MysqlConnector::getConnection();
+
+        $pdoStatement = $pdo->query("SELECT * FROM users WHERE email='" . $email . "' AND password='" . $password . "'");
+        return $pdoStatement->fetch(PDO::FETCH_ASSOC);
+
+    }
+
+    public static function getUser ()
+    {
+
     }
 }
 

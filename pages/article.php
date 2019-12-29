@@ -1,4 +1,6 @@
-
+<?php
+$user=\App\Repositories\UserRepository::getUser();
+?>
 <div class="container">
     <div class="row">
         <div class="col">
