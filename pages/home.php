@@ -1,12 +1,10 @@
 <?php
 /** @var array $data */
-if(isset($_SESSION['userId'])){
-    echo 'hello';
-}else{
-    echo 'please log in';
-}
-?>
 
+
+
+?>
+<?php if($user!=null): ?><p>Hello, <?= $user; ?></p></p><?php endif; ?>
 <div class="container">
     <div class="row">
         <div class="col">

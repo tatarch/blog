@@ -25,8 +25,12 @@ class UserRepository
 
     }
 
-    public static function getUser ()
+    public function getById($id)
     {
+        $pdo = MysqlConnector::getConnection();
+
+        $pdoStatement = $pdo->query('SELECT * FROM users WHERE id=' . $id);
+        return $pdoStatement->fetch(PDO::FETCH_ASSOC);
 
     }
 }

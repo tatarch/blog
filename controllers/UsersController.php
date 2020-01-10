@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Repositories\ArticleRepository;
 use App\Repositories\UserRepository;
 use App\Views\View;
+use App\Controllers\Auth;
 
 class UsersController
 {
@@ -17,12 +18,24 @@ class UsersController
 
     public function form()
     {
-        View::render('registration', []);
+        $user=Auth::getUser();
+        if($user==null){
+            View::render('registration', [], []);
+        }else{
+            header('Location: http://blog.local/home/default');
+            die;
+        }
     }
 
     public function loginForm()
     {
-        View::render('login', []);
+        $user=Auth::getUser();
+        if($user==null){
+        View::render('login', [], []);
+        }else{
+            header('Location: http://blog.local/home/default');
+            die;
+        }
     }
 
     public function save()
@@ -31,6 +44,10 @@ class UsersController
         $name = $_POST['username'];
         $password = $_POST['userpassword'];
         $this->userRepository->addUser($email, $name, $password);
+        $user= $this->userRepository->getByNamePassword($email,$password);
+        if(isset($user)){
+            $_SESSION['userId']=$user['id'];
+        }
         header('Location: http://blog.local/home/default');
         die;
     }

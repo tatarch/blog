@@ -20,9 +20,10 @@ class ArticlesController
             $id = (int)$_GET['id'];
             $article = $this->articleRepository->getById($id);
 
-            View::render('form', $article);
+            View::render('form', $article, []);
         } else {
-            View::render('form', []);
+            $user=Auth::getUser();
+            View::render('form', [], []);
         }
     }
 
@@ -75,7 +76,7 @@ class ArticlesController
 
         $article = $this->articleRepository->getById($id);
 
-        View::render('article', $article);
+        View::render('article', $article, []);
     }
 
     private function getDate()

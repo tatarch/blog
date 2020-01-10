@@ -4,7 +4,7 @@ namespace App\Views;
 
 class View
 {
-    static function render($path, $data)
+    static function render($path, $data, $user)
     {
         ob_start();
         include __DIR__ . '/../pages/' . $path . '.php';
