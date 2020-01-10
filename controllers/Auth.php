@@ -1,24 +1,20 @@
 <?php
 
-
 namespace App\Controllers;
 
 use App\Repositories\UserRepository;
-use App\Controllers\UsersController;
 
+//TODO: это не контроллер. этот класс нужно отсуда убрать
 class Auth
 {
-
-    public static function getUser ()
+    public static function getUser()
     {
+        if (isset($_SESSION['userId'])) {
+            $userId = new UserRepository();
 
-        if(isset($_SESSION['userId'])) {
-            $userId= new userRepository();
-            $user=$userId->getById($_SESSION['userId']);
-            return $user;
-        }else{
-            $user=null;
-            return $user;
+            return $userId->getById($_SESSION['userId']);
         }
+
+        return null;
     }
 }

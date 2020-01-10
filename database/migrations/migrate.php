@@ -1,6 +1,6 @@
 <?php
-require '../../vendor/autoload.php';
 
+require '../../vendor/autoload.php';
 
 $queries = ['create table articles (
 id int primary key auto_increment,
@@ -15,6 +15,8 @@ name varchar (255),
 password varchar (255)
 )'];
 
+// тут пишется полный путь к классу. убери полный путь, вверху файла напиши use \App\Database\Connectors\MysqlConnector
+// а тут пиши просто MysqlConnector
 $pdo = \App\Database\Connectors\MysqlConnector::getConnection();
 
 foreach ($queries as $query) {

@@ -2,10 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Repositories\ArticleRepository;
 use App\Repositories\UserRepository;
 use App\Views\View;
-use App\Controllers\Auth;
 
 class UsersController
 {
@@ -18,10 +16,10 @@ class UsersController
 
     public function form()
     {
-        $user=Auth::getUser();
-        if($user==null){
+        $user = Auth::getUser();
+        if ($user == null) {
             View::render('registration', [], []);
-        }else{
+        } else {
             header('Location: http://blog.local/home/default');
             die;
         }
@@ -29,10 +27,10 @@ class UsersController
 
     public function loginForm()
     {
-        $user=Auth::getUser();
-        if($user==null){
-        View::render('login', [], []);
-        }else{
+        $user = Auth::getUser();
+        if ($user == null) {
+            View::render('login', [], []);
+        } else {
             header('Location: http://blog.local/home/default');
             die;
         }
@@ -44,9 +42,9 @@ class UsersController
         $name = $_POST['username'];
         $password = $_POST['userpassword'];
         $this->userRepository->addUser($email, $name, $password);
-        $user= $this->userRepository->getByNamePassword($email,$password);
-        if(isset($user)){
-            $_SESSION['userId']=$user['id'];
+        $user = $this->userRepository->getByNamePassword($email, $password);
+        if (isset($user)) {
+            $_SESSION['userId'] = $user['id'];
         }
         header('Location: http://blog.local/home/default');
         die;
@@ -56,11 +54,12 @@ class UsersController
     {
         $email = $_POST['useremail'];
         $password = $_POST['userpassword'];
-        $user= $this->userRepository->getByNamePassword($email,$password);
-        if(isset($user)){
-            $_SESSION['userId']=$user['id'];
+        $user = $this->userRepository->getByNamePassword($email, $password);
+        if (isset($user)) {
+            $_SESSION['userId'] = $user['id'];
         }
         header('Location: http://blog.local/home/default');
-        die;
+        // везде подописывай ()
+        die();
     }
 }

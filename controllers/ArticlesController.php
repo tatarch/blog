@@ -22,7 +22,9 @@ class ArticlesController
 
             View::render('form', $article, []);
         } else {
-            $user=Auth::getUser();
+            // TODO: зачем это?
+            $user = Auth::getUser();
+            // сделай метод рендер таким чтобы не нужно было передавать туда пустой массив. гугли " пхп метод значение по умолчанию"
             View::render('form', [], []);
         }
     }

@@ -31,8 +31,5 @@ class UserRepository
 
         $pdoStatement = $pdo->query('SELECT * FROM users WHERE id=' . $id);
         return $pdoStatement->fetch(PDO::FETCH_ASSOC);
-
     }
 }
-
-
