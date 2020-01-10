@@ -42,6 +42,7 @@ class UsersController
         $name = $_POST['username'];
         $password = $_POST['userpassword'];
         $this->userRepository->addUser($email, $name, $password);
+        // тебе не надо его логинить при регистрации. просто редиректни его на страницу логина
         $user = $this->userRepository->getByNamePassword($email, $password);
         if (isset($user)) {
             $_SESSION['userId'] = $user['id'];
@@ -55,6 +56,8 @@ class UsersController
         $email = $_POST['useremail'];
         $password = $_POST['userpassword'];
         $user = $this->userRepository->getByNamePassword($email, $password);
+
+        // а что если такой пользователь не найден?
         if (isset($user)) {
             $_SESSION['userId'] = $user['id'];
         }
