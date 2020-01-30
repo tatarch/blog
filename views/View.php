@@ -4,6 +4,7 @@ namespace App\Views;
 
 class View
 {
+    //TODO: сделай $data пустым массивом по умолчанию. убери параметр $user
     static function render($path, $data, $user)
     {
         ob_start();

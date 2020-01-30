@@ -4,16 +4,16 @@ namespace App\Controllers;
 
 use App\Repositories\ArticleRepository;
 use App\Views\View;
-use App\Controllers\Auth;
 
 class HomeController
 {
     public function default()
     {
-        $user=Auth::getUser();
+        $user = Auth::getUser();
         $articleRepository = new ArticleRepository();
         $articles = $articleRepository->getArticles();
 
+        // не нужно передавать во вьюху текущего пользователя. ты это можешь сделать внутри вьюхи
         View::render('home', $articles, $user['name']);
     }
 }

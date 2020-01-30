@@ -11,9 +11,9 @@ class ArticleRepository
     {
         $pdo = MysqlConnector::getConnection();
 
-        $query = "INSERT INTO articles (title, text, date, image)  VALUES (:title, :text, :date, :image )";
+        $query = "INSERT INTO articles (title, text, date, image)  VALUES (:title, :text, :date, :image)";
         $stmt = $pdo->prepare($query);
-        $stmt->execute(['title' => $title, 'text' => $text, 'date'=>$date, 'image'=>$image]);
+        $stmt->execute(['title' => $title, 'text' => $text, 'date' => $date, 'image' => $image]);
     }
 
     public function getArticles()
@@ -32,7 +32,7 @@ class ArticleRepository
     {
         $pdo = MysqlConnector::getConnection();
 
-        $query = "DELETE FROM articles WHERE id=".$id;
+        $query = "DELETE FROM articles WHERE id=" . $id;
         $stmt = $pdo->prepare($query);
         $stmt->execute();
     }
@@ -49,10 +49,8 @@ class ArticleRepository
     {
         $pdo = MysqlConnector::getConnection();
 
-        $query = "UPDATE `articles` SET  title=:title, text=:text, date=:date, image=:image WHERE id=".$id;
+        $query = "UPDATE `articles` SET  title=:title, text=:text, date=:date, image=:image WHERE id=" . $id;
         $stmt = $pdo->prepare($query);
-        $stmt->execute(['title' => $title, 'text' => $text,  'date'=>$date, 'image'=>$image]);
+        $stmt->execute(['title' => $title, 'text' => $text, 'date' => $date, 'image' => $image]);
     }
-
-
 }

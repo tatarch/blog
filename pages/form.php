@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var array $data
+ */
+?>
 <div class="container">
     <div class="row">
         <div class="col">
@@ -17,13 +22,13 @@
 
                 <div class="form-group row">
                     <label for="inputText" class="col-sm-2 col-form-label">Text</label>
-                        <div class="col-sm-10">
+                    <div class="col-sm-10">
                         <textarea class="form-control" name="text" id="inputText" rows="6"
                                   placeholder="Enter text"><?= isset($data['text']) ? $data['text'] : "" ?></textarea>
                     </div>
                 </div>
 
-                    <input type="file"  name="inputfile"></br>
+                <input type="file" name="inputfile"></br>
 
                 <div class="form-group row">
                     <div class="col-sm-10">
