@@ -2,7 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Database\Connectors\MysqlConnector;
 use App\Repositories\ArticleRepository;
+use App\Repositories\ArticlesLikesRepository;
+use App\System\Auth;
 use App\Views\View;
 
 class ArticlesController
@@ -20,12 +23,9 @@ class ArticlesController
             $id = (int)$_GET['id'];
             $article = $this->articleRepository->getById($id);
 
-            View::render('form', $article, []);
+            View::render('form', $article);
         } else {
-            // TODO: зачем это?
-            $user = Auth::getUser();
-            // сделай метод рендер таким чтобы не нужно было передавать туда пустой массив. гугли " пхп метод значение по умолчанию"
-            View::render('form', [], []);
+            View::render('form');
         }
     }
 
@@ -56,7 +56,7 @@ class ArticlesController
             $this->articleRepository->addArticle($title, $text, $date, $image);
         }
         header('Location: http://blog.local/home/default');
-        die;
+        die ();
     }
 
     public function delete()
@@ -66,7 +66,7 @@ class ArticlesController
         $this->articleRepository->deleteArticle($id);
 
         header('Location: http://blog.local/home/default');
-        die;
+        die ();
     }
 
     public function view()
@@ -75,10 +75,9 @@ class ArticlesController
         if ($id < 0) {
             throw new \Exception();
         }
-
         $article = $this->articleRepository->getById($id);
 
-        View::render('article', $article, []);
+        View::render('article', $article);
     }
 
     private function getDate()
@@ -107,5 +106,26 @@ class ArticlesController
             $destiationdir = getcwd() . "/images" . '/' . $article['image'];
             unlink($destiationdir);
         }
+    }
+
+    public function like ()
+    {
+        $articleId=(int)$_GET['id'];
+        $user = Auth::getUser();
+        $userId=$user['id'];
+
+        $articlesLikesRepository = new ArticlesLikesRepository();
+        $isLiked = $articlesLikesRepository->isLiked($articleId, $userId);
+
+        if ($isLiked != true) {
+            $articlesLikesRepository1 = new ArticlesLikesRepository();
+            $articlesLikesRepository1->addLike($articleId, $userId);
+
+            $articlesLikesRepository2 = new ArticlesLikesRepository();
+            $likes=$articlesLikesRepository2->howManyLikes($articleId);
+
+            $this->articleRepository->likes($articleId, $likes);
+        }
+
     }
 }

@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Repositories\UserRepository;
 use App\Views\View;
+use App\System\Auth;
 
 class UsersController
 {
@@ -18,10 +19,10 @@ class UsersController
     {
         $user = Auth::getUser();
         if ($user == null) {
-            View::render('registration', [], []);
+            View::render('registration', []);
         } else {
             header('Location: http://blog.local/home/default');
-            die;
+            die();
         }
     }
 
@@ -29,10 +30,10 @@ class UsersController
     {
         $user = Auth::getUser();
         if ($user == null) {
-            View::render('login', [], []);
+            View::render('login', []);
         } else {
             header('Location: http://blog.local/home/default');
-            die;
+            die();
         }
     }
 
@@ -42,13 +43,9 @@ class UsersController
         $name = $_POST['username'];
         $password = $_POST['userpassword'];
         $this->userRepository->addUser($email, $name, $password);
-        // тебе не надо его логинить при регистрации. просто редиректни его на страницу логина
-        $user = $this->userRepository->getByNamePassword($email, $password);
-        if (isset($user)) {
-            $_SESSION['userId'] = $user['id'];
-        }
-        header('Location: http://blog.local/home/default');
-        die;
+
+        header('Location: http://blog.local/users/loginForm');
+        die();
     }
 
     public function login()
@@ -58,11 +55,22 @@ class UsersController
         $user = $this->userRepository->getByNamePassword($email, $password);
 
         // а что если такой пользователь не найден?
-        if (isset($user)) {
+        if ($user) {
             $_SESSION['userId'] = $user['id'];
+            header('Location: http://blog.local/home/default');
+            die();
+        }else{
+            echo 'Wrong email or password';
+            View::render('login', []);
         }
-        header('Location: http://blog.local/home/default');
-        // везде подописывай ()
-        die();
+
     }
+
+    public function logout()
+    {
+        session_destroy();
+        header('Location: http://blog.local/home/default');
+        exit;
+    }
+
 }

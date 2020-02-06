@@ -2,17 +2,27 @@
 /**
  * @var array $data
  */
+
+use App\System\Auth;
+
 ?>
 <!-- TODO: не передавай сюда $user. позови тут Auth::getUser() -->
-<?php if ($user != null): ?>
-    <p>Hello, <?= $user; ?></p>
+<?php if ($user= Auth::getUser()): ?>
+    <p>Hello, <?= $user['name']; ?></p>
 <?php endif; ?>
 <div class="container">
     <div class="row">
         <div class="col">
-            <a href="/users/form" class="btn btn-primary my-3" id="home-btn-registration">Registration</a>
+            <?php if (!isset($user)): ?>
+                <a href="/users/form" class="btn btn-primary my-3" id="home-btn-registration">Registration</a>
+            <?php endif; ?>
+            <?php if (!isset($user)): ?>
             <a href="/users/loginForm" class="btn btn-primary my-3" id="home-btn-registration">log in</a>
+            <?php endif; ?>
             <a href="/articles/form" class="btn btn-primary my-3" id="home-btn">Add article</a>
+            <?php if (isset($user)): ?>
+                <a href="/users/logout" class="btn btn-danger my-3" id="home-btn-registration">Exit</a>
+            <?php endif; ?>
 
             <?php foreach ($data as $article):
                 $date = strtotime($article['date']);

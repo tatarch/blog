@@ -4,8 +4,7 @@ namespace App\Views;
 
 class View
 {
-    //TODO: сделай $data пустым массивом по умолчанию. убери параметр $user
-    static function render($path, $data, $user)
+    static function render($path, $data=[])
     {
         ob_start();
         include __DIR__ . '/../pages/' . $path . '.php';

@@ -1,5 +1,5 @@
 <?php
-
+use \App\Database\Connectors\MysqlConnector;
 require '../../vendor/autoload.php';
 
 $queries = ['create table articles (
@@ -12,12 +12,14 @@ image varchar (255))',
 id int primary key auto_increment,
 email varchar (255),
 name varchar (255),
-password varchar (255)
-)'];
+password varchar (255))',
+    'create table  articles_likes (
+article_id int unsigned not null, 
+user_id int unsigned not null)'];
 
 // тут пишется полный путь к классу. убери полный путь, вверху файла напиши use \App\Database\Connectors\MysqlConnector
 // а тут пиши просто MysqlConnector
-$pdo = \App\Database\Connectors\MysqlConnector::getConnection();
+$pdo = MysqlConnector::getConnection();
 
 foreach ($queries as $query) {
     $stmt = $pdo->prepare($query);

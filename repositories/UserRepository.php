@@ -16,17 +16,15 @@ class UserRepository
         $stmt->execute(['email' => $email, 'name' => $name, 'password' => $password]);
     }
 
-    // добавь тайпхинты на принимаемый и возвращаемый тип к каждому методу каждого класса. не получится ко всем - не страшно, будем разбираться
-    public function getByNamePassword($email, $password)
+    public function getByNamePassword(string $email, string $password)
     {
         $pdo = MysqlConnector::getConnection();
 
         $pdoStatement = $pdo->query("SELECT * FROM users WHERE email='" . $email . "' AND password='" . $password . "'");
-
         return $pdoStatement->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getById($id)
+    public function getById(int $id)
     {
         $pdo = MysqlConnector::getConnection();
 
