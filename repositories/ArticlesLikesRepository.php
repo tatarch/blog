@@ -7,11 +7,11 @@ use PDO;
 
 class ArticlesLikesRepository
 {
-    public function isLiked (int $userId, int $articleId): bool
+    public function isLiked (int $articleId, int $userId): bool
     {
         $pdo = MysqlConnector::getConnection();
 
-        $liked = $pdo->query("SELECT * FROM articles_likes WHERE user_id='" . $userId . "' AND article_id='" . $articleId . "'");
+        $liked = $pdo->query("SELECT * FROM articles_likes WHERE  article_id='" . $articleId . "' AND user_id='" . $userId . "'");
         $isLiked=$liked->fetch(PDO::FETCH_ASSOC);
         return (bool) $isLiked;
     }

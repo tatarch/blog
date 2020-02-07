@@ -13,28 +13,13 @@
             <?php endif; ?>
 
 
-            <div class="like" data-id="<?= $data['id'] ?>">
-                <button class="btn active" name="like" " ><i class="fas fa-heart"></i></button>
-                <span class="counter"><?php print $data['likes'] ?></span>
+            <div class="divLike" >
+                <button class="btn" name="like" data-id="<?= $data['id'] ?>" " ><i class="fas fa-heart"></i></button>
+                <span class="counter"></span>
             </div>
 
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    $(".btn").on('click', function (e) {
-                        $.ajax({
-                            url: 'likes/add',
-                            type: 'POST',
-                            data: {
-                                articleId: $(this).data('articleId')
-                            },
-                            dataType: 'json',
-                            success: (response) => {
-                                console.log('ajax sent');
-                            }
-                        });
-                    });
-                    }
-            </script>
+            <script src="/js/ajax.js"></script>
+
 
             <form action="/articles/delete/?id=<?= $data['id']; ?>" method="post" class="articles-form">
                 <button type="submit" class="btn btn-danger">Deleta article</button>

@@ -54,13 +54,4 @@ class ArticleRepository
         $stmt->execute(['title' => $title, 'text' => $text, 'date' => $date, 'image' => $image]);
     }
 
-    public function likes(int $id, int $likes)
-    {
-        $pdo = MysqlConnector::getConnection();
-
-        $query = "UPDATE `articles` SET  likes=:likes WHERE id=" . $id;
-        $stmt = $pdo->prepare($query);
-        $stmt->execute(['likes' => $likes]);
-    }
-
 }

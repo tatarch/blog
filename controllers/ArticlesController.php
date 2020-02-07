@@ -11,10 +11,12 @@ use App\Views\View;
 class ArticlesController
 {
     private $articleRepository;
+    private $articlesLikesRepository;
 
     function __construct()
     {
         $this->articleRepository = new ArticleRepository();
+        $this->articlesLikesRepository = new ArticlesLikesRepository();
     }
 
     public function form()
@@ -108,24 +110,21 @@ class ArticlesController
         }
     }
 
-    public function like ()
+    public function like (int $articleId)
     {
-        $articleId=(int)$_GET['id'];
         $user = Auth::getUser();
         $userId=$user['id'];
 
-        $articlesLikesRepository = new ArticlesLikesRepository();
-        $isLiked = $articlesLikesRepository->isLiked($articleId, $userId);
+        $isLiked = $this->articlesLikesRepository->isLiked($articleId, $userId);
 
         if ($isLiked != true) {
-            $articlesLikesRepository1 = new ArticlesLikesRepository();
-            $articlesLikesRepository1->addLike($articleId, $userId);
+            $addLikes=$this->articlesLikesRepository;
+            $addLikes->addLike($articleId, $userId);
 
-            $articlesLikesRepository2 = new ArticlesLikesRepository();
-            $likes=$articlesLikesRepository2->howManyLikes($articleId);
+            $countLikes=$this->articlesLikesRepository;
+            $likes=$countLikes->howManyLikes($articleId);
 
-            $this->articleRepository->likes($articleId, $likes);
+            return $likes;
         }
-
     }
 }
