@@ -6,6 +6,7 @@ use App\Database\Connectors\MysqlConnector;
 use App\Repositories\ArticleRepository;
 use App\Repositories\ArticlesLikesRepository;
 use App\System\Auth;
+use App\System\Url;
 use App\Views\View;
 
 class ArticlesController
@@ -57,7 +58,7 @@ class ArticlesController
             }
             $this->articleRepository->addArticle($title, $text, $date, $image);
         }
-        header('Location: http://blog.local/home/default');
+        header('Location: ' . Url::getRoot() . '/home/default');
         die ();
     }
 
@@ -67,7 +68,7 @@ class ArticlesController
         $this->deleteImage($this->articleRepository, $id);
         $this->articleRepository->deleteArticle($id);
 
-        header('Location: http://blog.local/home/default');
+        header('Location: ' . Url::getRoot() . '/home/default');
         die ();
     }
 
@@ -110,10 +111,11 @@ class ArticlesController
         }
     }
 
-    public function like (int $articleId)
+    public function like ()
     {
         $user = Auth::getUser();
         $userId=$user['id'];
+        $articleId = $_POST['articleId'];
 
         $isLiked = $this->articlesLikesRepository->isLiked($articleId, $userId);
 
