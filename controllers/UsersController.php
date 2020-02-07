@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Repositories\UserRepository;
+use App\System\Url;
 use App\Views\View;
 use App\System\Auth;
 
@@ -21,7 +22,7 @@ class UsersController
         if ($user == null) {
             View::render('registration', []);
         } else {
-            header('Location: http://blog.local/home/default');
+            header('Location: ' . Url::getRoot() . '/home/default');
             die();
         }
     }
@@ -32,7 +33,7 @@ class UsersController
         if ($user == null) {
             View::render('login', []);
         } else {
-            header('Location: http://blog.local/home/default');
+            header('Location: ' . Url::getRoot() . '/home/default');
             die();
         }
     }
@@ -44,7 +45,7 @@ class UsersController
         $password = $_POST['userpassword'];
         $this->userRepository->addUser($email, $name, $password);
 
-        header('Location: http://blog.local/users/loginForm');
+        header('Location: ' . Url::getRoot() . '/users/loginForm');
         die();
     }
 
@@ -57,7 +58,7 @@ class UsersController
         // а что если такой пользователь не найден?
         if ($user) {
             $_SESSION['userId'] = $user['id'];
-            header('Location: http://blog.local/home/default');
+            header('Location: ' . Url::getRoot() . '/home/default');
             die();
         }else{
             echo 'Wrong email or password';
@@ -69,7 +70,7 @@ class UsersController
     public function logout()
     {
         session_destroy();
-        header('Location: http://blog.local/home/default');
+        header('Location: ' . Url::getRoot() . '/home/default');
         exit;
     }
 
