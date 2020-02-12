@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Views;
-
+// форматируй код
 class View
 {
     static function render($path, $data=[])

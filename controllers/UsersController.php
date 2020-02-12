@@ -11,6 +11,7 @@ class UsersController
 {
     private $userRepository;
 
+    // напиши public ко всем методам, в том числе к конструкторам
     function __construct()
     {
         $this->userRepository = new UserRepository();
@@ -60,6 +61,7 @@ class UsersController
             $_SESSION['userId'] = $user['id'];
             header('Location: ' . Url::getRoot() . '/home/default');
             die();
+            // форматируй код
         }else{
             echo 'Wrong email or password';
             View::render('login', []);
@@ -73,5 +75,6 @@ class UsersController
         header('Location: ' . Url::getRoot() . '/home/default');
         exit;
     }
+// эта строка лишняя
 
 }

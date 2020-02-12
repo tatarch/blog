@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+// сереньким подсвечивает то что ты не используешь. например вот этот класс тебе не нужен, удаляй эту строку
 use App\Database\Connectors\MysqlConnector;
 use App\Repositories\ArticleRepository;
 use App\Repositories\ArticlesLikesRepository;
@@ -110,6 +111,7 @@ class ArticlesController
     {
         $article = $articleRepository->getById($id);
         if ($article['image'] != null) {
+            // тут можно "/images" . '/' заменить на '/images/'
             $destiationdir = getcwd() . "/images" . '/' . $article['image'];
             unlink($destiationdir);
         }
@@ -132,6 +134,7 @@ class ArticlesController
 
             echo json_encode(['likes' => $likes]);
         }
+        // не забывай форматировать код
 
         else{
             $deleteLikes = $this->articlesLikesRepository;
