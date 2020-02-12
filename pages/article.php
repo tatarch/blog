@@ -2,8 +2,10 @@
 /**
  * @var array $data
  */
+
 use App\System\Auth;
 use App\Repositories\ArticlesLikesRepository;
+
 ?>
 <div class="container">
     <div class="row">
@@ -15,15 +17,16 @@ use App\Repositories\ArticlesLikesRepository;
             <?php endif; ?>
 
 
-            <div class="divLike" >
+            <div class="divLike">
                 <button class="js-buttonLike" name="like" data-id="<?= $data['id'] ?>">  <?php $user = Auth::getUser();
                     $userId = $user['id'];
                     $articleId = $data['id'];
                     $articlesLikesRepository = new ArticlesLikesRepository();
                     $isLiked = $articlesLikesRepository->isLiked($articleId, $userId);
+
                     if ($isLiked != true): ?>
-                    <i class=" heartLike far fa-heart" aria-hidden="true"></i>
-                    <?php else: ?> <i class=" heartLike fas fa-heart" aria-hidden="true"></i>
+                        <i class=" heartLike far fa-heart" aria-hidden="true"></i>
+                    <?php else: ?> <i class=" heartLike fas fa-heart" name="iLiked" aria-hidden="true"></i>
                     <?php endif; ?>
                 </button>
                 <span class="counter" data-id="<?= $data['id'] ?>"><?= $data['likesCount']; ?></span>

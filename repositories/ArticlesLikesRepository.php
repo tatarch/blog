@@ -7,13 +7,13 @@ use PDO;
 
 class ArticlesLikesRepository
 {
-    public function isLiked (int $articleId, int $userId): bool
+    public function isLiked(int $articleId, int $userId): bool
     {
         $pdo = MysqlConnector::getConnection();
 
         $liked = $pdo->query("SELECT * FROM articles_likes WHERE  article_id='" . $articleId . "' AND user_id='" . $userId . "'");
-        $isLiked=$liked->fetch(PDO::FETCH_ASSOC);
-        return (bool) $isLiked;
+        $isLiked = $liked->fetch(PDO::FETCH_ASSOC);
+        return (bool)$isLiked;
     }
 
     public function addLike(int $articleId, int $userId)
@@ -29,7 +29,7 @@ class ArticlesLikesRepository
     {
         $pdo = MysqlConnector::getConnection();
 
-        $query = "DELETE FROM articles_likes WHERE article_id='" . $articleId. "'AND user_id='" . $userId . "'";
+        $query = "DELETE FROM articles_likes WHERE article_id='" . $articleId . "'AND user_id='" . $userId . "'";
         $stmt = $pdo->prepare($query);
         $stmt->execute();
     }

@@ -82,7 +82,7 @@ class ArticlesController
 
         $countLikes = $this->articlesLikesRepository;
         $likes = $countLikes->howManyLikes($id);
-        $article += ['likesCount'=>$likes];
+        $article += ['likesCount' => $likes];
 
         View::render('article', $article);
     }
@@ -123,7 +123,7 @@ class ArticlesController
 
         $isLiked = $this->articlesLikesRepository->isLiked($articleId, $userId);
 
-        if ( $isLiked != true) {
+        if ($isLiked != true) {
             $addLikes = $this->articlesLikesRepository;
             $addLikes->addLike($articleId, $userId);
 
@@ -131,9 +131,7 @@ class ArticlesController
             $likes = $countLikes->howManyLikes($articleId);
 
             echo json_encode(['likes' => $likes]);
-        }
-
-        else{
+        } else {
             $deleteLikes = $this->articlesLikesRepository;
             $deleteLikes->deleteLike($articleId, $userId);
 

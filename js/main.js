@@ -1,4 +1,4 @@
-$(document).ready(function(response) {
+$(document).ready(function (response) {
     $(".js-buttonLike").on('click', function (e) {
         $(this).find(".heartLike").toggleClass('far fa-heart fas fa-heart');
         $.ajax({
@@ -18,7 +18,7 @@ $(document).ready(function(response) {
                 console.log(response.likes);
 
             },
-            error: function(){
+            error: function () {
                 console.log('Произошла ошибка!');
 
             }
