@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Database\Connectors\MysqlConnector;
 use PDO;
-
+// подописывай тайпхинты на возвращаемое значение каждого метода, здесть и везде где сможешь
 class ArticleRepository
 {
     public function addArticle(string $title, string $text, string $date, $image)
@@ -53,5 +53,6 @@ class ArticleRepository
         $stmt = $pdo->prepare($query);
         $stmt->execute(['title' => $title, 'text' => $text, 'date' => $date, 'image' => $image]);
     }
+// эта линия лишняя
 
 }

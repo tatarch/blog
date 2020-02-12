@@ -7,7 +7,7 @@ $url = $_SERVER['REQUEST_URI'];
 $urlParts = explode('/', $url);
 
 if (!empty($urlParts[1])) {
-    if (file_exists('controllers/' . ucfirst($urlParts[1]) . 'Controller.php')) {
+    if (file_exists('Controllers/' . ucfirst($urlParts[1]) . 'Controller.php')) {
         $className = 'App\Controllers\\' . ucfirst($urlParts[1]) . 'Controller';
         $controller = new $className();
     } else {
