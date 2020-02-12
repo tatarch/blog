@@ -13,7 +13,6 @@ class Auth
 
             return $userRepository->getById($_SESSION['userId']);
         }
-// тут не нужно писать else. напиши просто return null. и отформатируй код
-        else {return null;}
+        return null;
     }
 }

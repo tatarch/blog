@@ -7,7 +7,7 @@ use App\Views\View;
 
 class HomeController
 {
-    public function default()
+    public function default(): void
     {
         $articleRepository = new ArticleRepository();
         $articles = $articleRepository->getArticles();

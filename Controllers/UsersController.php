@@ -11,13 +11,12 @@ class UsersController
 {
     private $userRepository;
 
-    // напиши public ко всем методам, в том числе к конструкторам
-    function __construct()
+    public function __construct()
     {
         $this->userRepository = new UserRepository();
     }
 
-    public function form()
+    public function form(): void
     {
         $user = Auth::getUser();
         if ($user == null) {
@@ -28,7 +27,7 @@ class UsersController
         }
     }
 
-    public function loginForm()
+    public function loginForm(): void
     {
         $user = Auth::getUser();
         if ($user == null) {
@@ -39,7 +38,7 @@ class UsersController
         }
     }
 
-    public function save()
+    public function save(): void
     {
         $email = $_POST['useremail'];
         $name = $_POST['username'];
@@ -50,31 +49,26 @@ class UsersController
         die();
     }
 
-    public function login()
+    public function login(): void
     {
         $email = $_POST['useremail'];
         $password = $_POST['userpassword'];
         $user = $this->userRepository->getByNamePassword($email, $password);
 
-        // а что если такой пользователь не найден?
         if ($user) {
             $_SESSION['userId'] = $user['id'];
             header('Location: ' . Url::getRoot() . '/home/default');
             die();
-            // форматируй код
-        }else{
+        } else {
             echo 'Wrong email or password';
             View::render('login', []);
         }
-
     }
 
-    public function logout()
+    public function logout(): void
     {
         session_destroy();
         header('Location: ' . Url::getRoot() . '/home/default');
         exit;
     }
-// эта строка лишняя
-
 }

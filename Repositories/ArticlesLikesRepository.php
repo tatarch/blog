@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Database\Connectors\MysqlConnector;
 use PDO;
-// форматирование
+
 class ArticlesLikesRepository
 {
     public function isLiked(int $articleId, int $userId): bool
@@ -16,7 +16,7 @@ class ArticlesLikesRepository
         return (bool)$isLiked;
     }
 
-    public function addLike(int $articleId, int $userId)
+    public function addLike(int $articleId, int $userId): void
     {
         $pdo = MysqlConnector::getConnection();
 
@@ -25,7 +25,7 @@ class ArticlesLikesRepository
         $stmt->execute(['articleId' => $articleId, 'userId' => $userId]);
     }
 
-    public function deleteLike(int $articleId, int $userId)
+    public function deleteLike(int $articleId, int $userId): void
     {
         $pdo = MysqlConnector::getConnection();
 

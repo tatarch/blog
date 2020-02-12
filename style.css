@@ -30,3 +30,6 @@ body {
 .users-form{
     margin-top: 40px;
 }
+.heartLike.active{
+    color: red;
+}

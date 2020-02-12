@@ -7,7 +7,7 @@ use PDO;
 
 class UserRepository
 {
-    public function addUser(string $email, string $name, string $password)
+    public function addUser(string $email, string $name, string $password): void
     {
         $pdo = MysqlConnector::getConnection();
 
@@ -16,7 +16,7 @@ class UserRepository
         $stmt->execute(['email' => $email, 'name' => $name, 'password' => $password]);
     }
 
-    public function getByNamePassword(string $email, string $password)
+    public function getByNamePassword(string $email, string $password): array
     {
         $pdo = MysqlConnector::getConnection();
 
@@ -24,7 +24,7 @@ class UserRepository
         return $pdoStatement->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getById(int $id)
+    public function getById(int $id): array
     {
         $pdo = MysqlConnector::getConnection();
 

@@ -4,10 +4,10 @@ namespace App\Repositories;
 
 use App\Database\Connectors\MysqlConnector;
 use PDO;
-// подописывай тайпхинты на возвращаемое значение каждого метода, здесть и везде где сможешь
+
 class ArticleRepository
 {
-    public function addArticle(string $title, string $text, string $date, $image)
+    public function addArticle(string $title, string $text, string $date, $image): void
     {
         $pdo = MysqlConnector::getConnection();
 
@@ -16,7 +16,7 @@ class ArticleRepository
         $stmt->execute(['title' => $title, 'text' => $text, 'date' => $date, 'image' => $image]);
     }
 
-    public function getArticles()
+    public function getArticles(): array
     {
         $pdo = MysqlConnector::getConnection();
 
@@ -28,7 +28,7 @@ class ArticleRepository
         return $results;
     }
 
-    public function deleteArticle(int $id)
+    public function deleteArticle(int $id): void
     {
         $pdo = MysqlConnector::getConnection();
 
@@ -37,7 +37,7 @@ class ArticleRepository
         $stmt->execute();
     }
 
-    public function getById(int $id)
+    public function getById(int $id): array
     {
         $pdo = MysqlConnector::getConnection();
 
@@ -45,7 +45,7 @@ class ArticleRepository
         return $pdoStatement->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function updateArticle(int $id, string $title, string $text, string $date, $image)
+    public function updateArticle(int $id, string $title, string $text, string $date, $image): void
     {
         $pdo = MysqlConnector::getConnection();
 
@@ -53,6 +53,4 @@ class ArticleRepository
         $stmt = $pdo->prepare($query);
         $stmt->execute(['title' => $title, 'text' => $text, 'date' => $date, 'image' => $image]);
     }
-// эта линия лишняя
-
 }

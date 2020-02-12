@@ -47,9 +47,3 @@
     </div>
 </div>
 
-<script>
-    // перенеси это в main.js. никакого ждс в хтмл или пхп быть не должно
-    $('#datepicker').datepicker({
-        uiLibrary: 'bootstrap4'
-    });
-</script>

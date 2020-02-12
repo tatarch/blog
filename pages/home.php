@@ -6,7 +6,7 @@
 use App\System\Auth;
 
 ?>
-<?php if ($user= Auth::getUser()): ?>
+<?php if ($user = Auth::getUser()): ?>
     <p>Hello, <?= $user['name']; ?></p>
 <?php endif; ?>
 <div class="container">
@@ -16,7 +16,7 @@ use App\System\Auth;
                 <a href="/users/form" class="btn btn-primary my-3" id="home-btn-registration">Registration</a>
             <?php endif; ?>
             <?php if (!isset($user)): ?>
-            <a href="/users/loginForm" class="btn btn-primary my-3" id="home-btn-registration">log in</a>
+                <a href="/users/loginForm" class="btn btn-primary my-3" id="home-btn-registration">log in</a>
             <?php endif; ?>
             <a href="/articles/form" class="btn btn-primary my-3" id="home-btn">Add article</a>
             <?php if (isset($user)): ?>

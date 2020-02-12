@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Views;
-// форматируй код
 class View
 {
-    static function render($path, $data=[])
+    static function render($path, $data = [])
     {
         ob_start();
         include __DIR__ . '/../pages/' . $path . '.php';

@@ -4,7 +4,8 @@
             <form action="/users/save" method="post" class="users-form">
                 <div class="form-group ">
                     <label for="inputEmail1">Email address</label>
-                    <input type="email" class="form-control" name="useremail" id="inputEmail1"  placeholder="Enter email">
+                    <input type="email" class="form-control" name="useremail" id="inputEmail1"
+                           placeholder="Enter email">
                 </div>
 
                 <div class="form-group">
@@ -14,7 +15,8 @@
 
                 <div class="form-group">
                     <label for="inputPassword">Password</label>
-                    <input type="password" class="form-control" name="userpassword" id="inputPassword" placeholder="Enter password">
+                    <input type="password" class="form-control" name="userpassword" id="inputPassword"
+                           placeholder="Enter password">
                 </div>
 
                 <div class="form-group form-check">

@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-// сереньким подсвечивает то что ты не используешь. например вот этот класс тебе не нужен, удаляй эту строку
-use App\Database\Connectors\MysqlConnector;
 use App\Repositories\ArticleRepository;
 use App\Repositories\ArticlesLikesRepository;
 use App\System\Auth;
@@ -15,13 +13,13 @@ class ArticlesController
     private $articleRepository;
     private $articlesLikesRepository;
 
-    function __construct()
+    public function __construct()
     {
         $this->articleRepository = new ArticleRepository();
         $this->articlesLikesRepository = new ArticlesLikesRepository();
     }
 
-    public function form()
+    public function form(): void
     {
         if (!empty($_GET['id'])) {
             $id = (int)$_GET['id'];
@@ -33,7 +31,7 @@ class ArticlesController
         }
     }
 
-    public function save()
+    public function save(): void
     {
         $title = $_POST['title'];
         $text = $_POST['text'];
@@ -63,7 +61,7 @@ class ArticlesController
         die ();
     }
 
-    public function delete()
+    public function delete(): void
     {
         $id = (int)$_GET['id'];
         $article = $this->articleRepository->getById($id);
@@ -77,22 +75,24 @@ class ArticlesController
         die ();
     }
 
-    public function view()
+    public function view(): void
     {
         $id = (int)$_GET['id'];
         if ($id < 0) {
             throw new \Exception();
         }
         $article = $this->articleRepository->getById($id);
+        $likes = $this->articlesLikesRepository->howManyLikes($id);
+        $user = Auth::getUser();
+        $userId = $user['id'];
+        $isLiked = Auth::getUser() ? $this->articlesLikesRepository->isLiked($id, $userId) : false;
 
-        $countLikes = $this->articlesLikesRepository;
-        $likes = $countLikes->howManyLikes($id);
-        $article += ['likesCount' => $likes];
+        $article += ['likesCount' => $likes, 'isLiked' => $isLiked];
 
         View::render('article', $article);
     }
 
-    private function getDate()
+    private function getDate(): string
     {
         if (!empty($_POST['date'])) {
             $timestamp = strtotime($_POST['date']);
@@ -117,7 +117,7 @@ class ArticlesController
         unlink($destinationDir);
     }
 
-    public function like()
+    public function like(): void
     {
         $user = Auth::getUser();
         if (!$user) {
