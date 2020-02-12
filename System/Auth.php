@@ -4,7 +4,6 @@ namespace App\System;
 
 use App\Repositories\UserRepository;
 
-//TODO: это не контроллер. этот класс нужно отсуда убрать
 class Auth
 {
     public static function getUser()
@@ -15,6 +14,6 @@ class Auth
             return $userRepository->getById($_SESSION['userId']);
         }
 
-        return null;
+        else {return null;}
     }
 }

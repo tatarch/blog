@@ -20,12 +20,21 @@ class ArticlesLikesRepository
     {
         $pdo = MysqlConnector::getConnection();
 
-        $query = "INSERT INTO articles_likes (article_id, user_id)  VALUES (:articleId, :userId)";
+        $query = "INSERT INTO articles_likes (article_id, user_id) VALUES (:articleId, :userId)";
         $stmt = $pdo->prepare($query);
-        $stmt->execute(['article_id' => $articleId, 'user_id' => $userId]);
+        $stmt->execute(['articleId' => $articleId, 'userId' => $userId]);
     }
 
-    public function howManyLikes(int $articleId)
+    public function deleteLike(int $articleId, int $userId)
+    {
+        $pdo = MysqlConnector::getConnection();
+
+        $query = "DELETE FROM articles_likes WHERE article_id='" . $articleId. "'AND user_id='" . $userId . "'";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+    }
+
+    public function howManyLikes(int $articleId): int
     {
         $pdo = MysqlConnector::getConnection();
 

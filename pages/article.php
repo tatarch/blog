@@ -2,6 +2,8 @@
 /**
  * @var array $data
  */
+use App\System\Auth;
+use App\Repositories\ArticlesLikesRepository;
 ?>
 <div class="container">
     <div class="row">
@@ -14,12 +16,18 @@
 
 
             <div class="divLike" >
-                <button class="btn" name="like" data-id="<?= $data['id'] ?>" " ><i class="fas fa-heart"></i></button>
-                <span class="counter"></span>
+                <button class="js-buttonLike" name="like" data-id="<?= $data['id'] ?>">  <?php $user = Auth::getUser();
+                    $userId = $user['id'];
+                    $articleId = $data['id'];
+                    $articlesLikesRepository = new ArticlesLikesRepository();
+                    $isLiked = $articlesLikesRepository->isLiked($articleId, $userId);
+                    if ($isLiked != true): ?>
+                    <i class=" heartLike far fa-heart" aria-hidden="true"></i>
+                    <?php else: ?> <i class=" heartLike fas fa-heart" aria-hidden="true"></i>
+                    <?php endif; ?>
+                </button>
+                <span class="counter" data-id="<?= $data['id'] ?>"><?= $data['likesCount']; ?></span>
             </div>
-
-            <script src="/js/ajax.js"></script>
-
 
             <form action="/articles/delete/?id=<?= $data['id']; ?>" method="post" class="articles-form">
                 <button type="submit" class="btn btn-danger">Deleta article</button>

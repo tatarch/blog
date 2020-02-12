@@ -17,6 +17,7 @@
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <script src="https://kit.fontawesome.com/03f36d3c54.js" crossorigin="anonymous"></script>
     <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/main.js"></script>
 </head>
 <body>
 <?= $content ?>

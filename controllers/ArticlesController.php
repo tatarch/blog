@@ -80,6 +80,10 @@ class ArticlesController
         }
         $article = $this->articleRepository->getById($id);
 
+        $countLikes = $this->articlesLikesRepository;
+        $likes = $countLikes->howManyLikes($id);
+        $article += ['likesCount'=>$likes];
+
         View::render('article', $article);
     }
 
@@ -111,22 +115,32 @@ class ArticlesController
         }
     }
 
-    public function like ()
+    public function like()
     {
         $user = Auth::getUser();
-        $userId=$user['id'];
+        $userId = $user['id'];
         $articleId = $_POST['articleId'];
 
         $isLiked = $this->articlesLikesRepository->isLiked($articleId, $userId);
 
-        if ($isLiked != true) {
-            $addLikes=$this->articlesLikesRepository;
+        if ( $isLiked != true) {
+            $addLikes = $this->articlesLikesRepository;
             $addLikes->addLike($articleId, $userId);
 
-            $countLikes=$this->articlesLikesRepository;
-            $likes=$countLikes->howManyLikes($articleId);
+            $countLikes = $this->articlesLikesRepository;
+            $likes = $countLikes->howManyLikes($articleId);
 
-            return $likes;
+            echo json_encode(['likes' => $likes]);
+        }
+
+        else{
+            $deleteLikes = $this->articlesLikesRepository;
+            $deleteLikes->deleteLike($articleId, $userId);
+
+            $countLikes = $this->articlesLikesRepository;
+            $likes = $countLikes->howManyLikes($articleId);
+
+            echo json_encode(['likes' => $likes]);
         }
     }
 }

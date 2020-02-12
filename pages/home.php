@@ -6,7 +6,6 @@
 use App\System\Auth;
 
 ?>
-<!-- TODO: не передавай сюда $user. позови тут Auth::getUser() -->
 <?php if ($user= Auth::getUser()): ?>
     <p>Hello, <?= $user['name']; ?></p>
 <?php endif; ?>
