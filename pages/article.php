@@ -2,7 +2,7 @@
 /**
  * @var array $data
  */
-
+// форматируй код
 use App\System\Auth;
 use App\Repositories\ArticlesLikesRepository;
 
@@ -21,9 +21,12 @@ use App\Repositories\ArticlesLikesRepository;
                 <button class="js-buttonLike" name="like" data-id="<?= $data['id'] ?>">  <?php $user = Auth::getUser();
                     $userId = $user['id'];
                     $articleId = $data['id'];
+                    // подготовь массив $data, сделай ему ключ 'isLiked' и заполни его выше, не во вьюхе
+                    // вьюшка не должна работать с репозиторием. ее задача - от образить то что в нее передали
+                    // тебе навернео кажется что это не важно и можно на это забить как для первого проекта
+                    // сори но я так не считаю
                     $articlesLikesRepository = new ArticlesLikesRepository();
-                    $isLiked = $articlesLikesRepository->isLiked($articleId, $userId);
-
+                    $isLiked = Auth::getUser() ? $articlesLikesRepository->isLiked($articleId, $userId) : false;
                     if ($isLiked != true): ?>
                         <i class=" heartLike far fa-heart" aria-hidden="true"></i>
                     <?php else: ?> <i class=" heartLike fas fa-heart" name="iLiked" aria-hidden="true"></i>
@@ -33,6 +36,7 @@ use App\Repositories\ArticlesLikesRepository;
             </div>
 
             <form action="/articles/delete/?id=<?= $data['id']; ?>" method="post" class="articles-form">
+                <!-- типографическая ошибка. тебе пхпшторм подчеркивает, посмотри почему -->
                 <button type="submit" class="btn btn-danger">Deleta article</button>
             </form>
 

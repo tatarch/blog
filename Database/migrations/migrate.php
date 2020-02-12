@@ -1,4 +1,5 @@
 <?php
+// форматируй код
 use \App\Database\Connectors\MysqlConnector;
 require '../../vendor/autoload.php';
 
@@ -16,6 +17,8 @@ password varchar (255))',
     'create table  articles_likes (
 article_id int unsigned not null, 
 user_id int unsigned not null)'];
+
+//ты поправила код, молодец. но теперь этот комментарий не актуален. удали его
 
 // тут пишется полный путь к классу. убери полный путь, вверху файла напиши use \App\Database\Connectors\MysqlConnector
 // а тут пиши просто MysqlConnector

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+// сереньким подсвечивает то что ты не используешь. например вот этот класс тебе не нужен, удаляй эту строку
 use App\Database\Connectors\MysqlConnector;
 use App\Repositories\ArticleRepository;
 use App\Repositories\ArticlesLikesRepository;
@@ -43,7 +44,7 @@ class ArticlesController
             $article = $this->articleRepository->getById($id);
             if (isset($_FILES) && $_FILES['inputfile']['error'] == 0) { // Проверяем, загрузил ли пользователь файл
                 if (isset($article['image'])) {
-                    $this->deleteImage($this->articleRepository, $id);
+                    $this->deleteImage($article['image']);
                 }
                 $image = $this->getImg();
             } else {
@@ -65,7 +66,11 @@ class ArticlesController
     public function delete()
     {
         $id = (int)$_GET['id'];
-        $this->deleteImage($this->articleRepository, $id);
+        $article = $this->articleRepository->getById($id);
+        $imagePath = $article['image'];
+        if ($imagePath) {
+            $this->deleteImage($imagePath);
+        }
         $this->articleRepository->deleteArticle($id);
 
         header('Location: ' . Url::getRoot() . '/home/default');
@@ -98,26 +103,26 @@ class ArticlesController
         return $date;
     }
 
-    private function getImg()
+    private function getImg(): string
     {
         $image = uniqid() . '.png';
-        $destiationdir = getcwd() . "/images" . '/' . $image;
-        move_uploaded_file($_FILES['inputfile']['tmp_name'], $destiationdir);
+        $destinationDir = getcwd() . "/images" . '/' . $image;
+        move_uploaded_file($_FILES['inputfile']['tmp_name'], $destinationDir);
         return $image;
     }
 
-    private function deleteImage($articleRepository, $id)
+    private function deleteImage(string $imagePath): void
     {
-        $article = $articleRepository->getById($id);
-        if ($article['image'] != null) {
-            $destiationdir = getcwd() . "/images" . '/' . $article['image'];
-            unlink($destiationdir);
-        }
+        $destinationDir = getcwd() . "/images/" . $imagePath;
+        unlink($destinationDir);
     }
 
     public function like()
     {
         $user = Auth::getUser();
+        if (!$user) {
+            die();
+        }
         $userId = $user['id'];
         $articleId = $_POST['articleId'];
 

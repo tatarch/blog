@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Database\Connectors\MysqlConnector;
 use PDO;
-
+// форматирование
 class ArticlesLikesRepository
 {
     public function isLiked(int $articleId, int $userId): bool
