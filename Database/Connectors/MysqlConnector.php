@@ -7,7 +7,7 @@ use PDOException;
 
 class MysqlConnector
 {
-    static function getConnection()
+    public static function getConnection()
     {
         $username = "root";
         $password = "";

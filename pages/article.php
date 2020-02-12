@@ -25,7 +25,7 @@ use App\Repositories\ArticlesLikesRepository;
                     // тебе навернео кажется что это не важно и можно на это забить как для первого проекта
                     // сори но я так не считаю
                     $articlesLikesRepository = new ArticlesLikesRepository();
-                    $isLiked = $articlesLikesRepository->isLiked($articleId, $userId);
+                    $isLiked = Auth::getUser() ? $articlesLikesRepository->isLiked($articleId, $userId) : false;
                     if ($isLiked != true): ?>
                     <i class=" heartLike far fa-heart" aria-hidden="true"></i>
                     <?php else: ?> <i class=" heartLike fas fa-heart" aria-hidden="true"></i>

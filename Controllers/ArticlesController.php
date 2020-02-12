@@ -120,6 +120,9 @@ class ArticlesController
     public function like()
     {
         $user = Auth::getUser();
+        if (!$user) {
+            die();
+        }
         $userId = $user['id'];
         $articleId = $_POST['articleId'];
 

@@ -7,7 +7,7 @@ use PDO;
 // форматирование
 class ArticlesLikesRepository
 {
-    public function isLiked (int $articleId, int $userId): bool
+    public function isLiked(int $articleId, int $userId): bool
     {
         $pdo = MysqlConnector::getConnection();
 
