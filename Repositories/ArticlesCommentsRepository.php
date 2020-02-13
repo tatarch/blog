@@ -17,7 +17,7 @@ class ArticlesCommentsRepository
         $stmt->execute(['articleId' => $articleId, 'userId' => $userId, 'userName' => $userName, 'comment' => $comment, 'date' => $date]);
     }
 
-    public function getById(int $id): array
+    public function getAllComments(int $id): array
     {
         $pdo = MysqlConnector::getConnection();
 

@@ -18,6 +18,22 @@ $(document).ready(function (response) {
     });
 });
 
-$('#datepicker').datepicker({
-    uiLibrary: 'bootstrap4'
+$(document).ready(function (response) {
+    $(".btn-comment").on('click', function (e) {
+        let comment = $('#commentTextarea').val();
+
+        $.ajax({
+            url: '/articles/comment',
+            type: 'POST',
+            data: {
+                articleId: $(this).data('id'),
+                comment: comment,
+            },
+            dataType: 'html',
+            success: (response) => {
+            }
+        });
+    });
 });
+
+

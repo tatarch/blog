@@ -90,9 +90,9 @@ class ArticlesController
         $userId = $user['id'];
         $isLiked = Auth::getUser() ? $this->articlesLikesRepository->isLiked($id, $userId) : false;
         $article += ['likesCount' => $likes, 'isLiked' => $isLiked];
-        $commentsGetById=$this->articlesCommentsRepository;
-        $comments=$commentsGetById->getById($id);
-        $data = ['article' => $article,'comments' =>  $comments];
+        $commentsGetById = $this->articlesCommentsRepository;
+        $comments = $commentsGetById->getAllComments($id);
+        $data = ['article' => $article, 'comments' => $comments];
 
         View::render('article', $data);
     }
@@ -151,6 +151,7 @@ class ArticlesController
             echo json_encode(['likes' => $likes]);
         }
     }
+
     public function comment()
     {
         $user = Auth::getUser();
@@ -158,16 +159,18 @@ class ArticlesController
             die();
         }
         $userId = $user['id'];
-        $userName=$user['name'];
-        $id = (int)$_GET['id'];
+        $userName = $user['name'];
+        $id = $_POST['articleId'];
         $comment = $_POST['comment'];
         $date = date('Y-m-d H:i:s');
 
-        $addComment=$this->articlesCommentsRepository;
-        $addComment->addComment($id,$userId, $userName, $comment, $date);
+        $addComment = $this->articlesCommentsRepository;
+        $addComment->addComment($id, $userId, $userName, $comment, $date);
 
+        $commentsGetAllComments = $this->articlesCommentsRepository;
+        $comments = $commentsGetAllComments->getAllComments($id);
+        $data = ['comments' => $comments];
 
-        header('Location: ' . Url::getRoot() . '/articles/view/?id='.$id);
-        die ();
+        include __DIR__ . '/../pages/comments.php';
     }
 }
