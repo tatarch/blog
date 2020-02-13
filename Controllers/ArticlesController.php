@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Repositories\ArticleRepository;
 use App\Repositories\ArticlesLikesRepository;
+use App\Repositories\ArticlesCommentsRepository;
 use App\System\Auth;
 use App\System\Url;
 use App\Views\View;
@@ -12,11 +13,13 @@ class ArticlesController
 {
     private $articleRepository;
     private $articlesLikesRepository;
+    private $articlesCommentsRepository;
 
     public function __construct()
     {
         $this->articleRepository = new ArticleRepository();
         $this->articlesLikesRepository = new ArticlesLikesRepository();
+        $this->articlesCommentsRepository = new ArticlesCommentsRepository();
     }
 
     public function form(): void
@@ -86,10 +89,12 @@ class ArticlesController
         $user = Auth::getUser();
         $userId = $user['id'];
         $isLiked = Auth::getUser() ? $this->articlesLikesRepository->isLiked($id, $userId) : false;
-
         $article += ['likesCount' => $likes, 'isLiked' => $isLiked];
+        $commentsGetById=$this->articlesCommentsRepository;
+        $comments=$commentsGetById->getById($id);
+        $data = ['article' => $article,'comments' =>  $comments];
 
-        View::render('article', $article);
+        View::render('article', $data);
     }
 
     private function getDate(): string
@@ -145,5 +150,24 @@ class ArticlesController
 
             echo json_encode(['likes' => $likes]);
         }
+    }
+    public function comment()
+    {
+        $user = Auth::getUser();
+        if (!$user) {
+            die();
+        }
+        $userId = $user['id'];
+        $userName=$user['name'];
+        $id = (int)$_GET['id'];
+        $comment = $_POST['comment'];
+        $date = date('Y-m-d H:i:s');
+
+        $addComment=$this->articlesCommentsRepository;
+        $addComment->addComment($id,$userId, $userName, $comment, $date);
+
+
+        header('Location: ' . Url::getRoot() . '/articles/view/?id='.$id);
+        die ();
     }
 }

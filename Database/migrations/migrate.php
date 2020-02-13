@@ -1,6 +1,7 @@
 <?php
 // форматируй код
 use \App\Database\Connectors\MysqlConnector;
+
 require '../../vendor/autoload.php';
 
 $queries = ['create table articles (
@@ -16,12 +17,15 @@ name varchar (255),
 password varchar (255))',
     'create table  articles_likes (
 article_id int unsigned not null, 
-user_id int unsigned not null)'];
+user_id int unsigned not null)',
+    'create table articles_comments (
+id int primary key auto_increment,
+article_id int unsigned not null,
+user_id int unsigned not null,
+user_name varchar (255),
+body text,
+date DATETIME)'];
 
-//ты поправила код, молодец. но теперь этот комментарий не актуален. удали его
-
-// тут пишется полный путь к классу. убери полный путь, вверху файла напиши use \App\Database\Connectors\MysqlConnector
-// а тут пиши просто MysqlConnector
 $pdo = MysqlConnector::getConnection();
 
 foreach ($queries as $query) {
