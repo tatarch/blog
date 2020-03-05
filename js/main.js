@@ -18,10 +18,14 @@ $(document).ready(function (response) {
     });
 });
 
-$(document).ready(function (response) {
+$(document).ready(function () {
     $(".btn-comment").on('click', function (e) {
         let comment = $('#commentTextarea').val();
-
+        if (comment===''){
+            console.log('empty');
+        }
+        else {
+        $('#commentTextarea').val('');
         $.ajax({
             url: '/articles/comment',
             type: 'POST',
@@ -31,8 +35,10 @@ $(document).ready(function (response) {
             },
             dataType: 'html',
             success: (response) => {
+                $(".comment-wrapper").html(response);
             }
         });
+        }
     });
 });
 

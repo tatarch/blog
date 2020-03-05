@@ -8,7 +8,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Form page</title>
-    <link href="/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -18,6 +17,7 @@
     <script src="https://kit.fontawesome.com/03f36d3c54.js" crossorigin="anonymous"></script>
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/main.js"></script>
+    <link href="/assets/css/style.css" rel="stylesheet" />
 </head>
 <body>
 <?= $content ?>

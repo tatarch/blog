@@ -7,13 +7,13 @@ use PDO;
 
 class ArticleRepository
 {
-    public function addArticle(string $title, string $text, string $date, $image): void
+    public function addArticle(string $title, string $text, string $date, ?array $images): void
     {
         $pdo = MysqlConnector::getConnection();
 
         $query = "INSERT INTO articles (title, text, date, image)  VALUES (:title, :text, :date, :image)";
         $stmt = $pdo->prepare($query);
-        $stmt->execute(['title' => $title, 'text' => $text, 'date' => $date, 'image' => $image]);
+        $stmt->execute(['title' => $title, 'text' => $text, 'date' => $date, 'image' => json_encode($images)]);
     }
 
     public function getArticles(): array
@@ -23,6 +23,7 @@ class ArticleRepository
         $pdoStatement = $pdo->query('SELECT * FROM articles');
         $results = array();
         while ($row = $pdoStatement->fetch(PDO::FETCH_ASSOC)) {
+            $row['image'] = json_decode($row['image']);
             $results[] = $row;
         }
         return $results;
@@ -42,7 +43,9 @@ class ArticleRepository
         $pdo = MysqlConnector::getConnection();
 
         $pdoStatement = $pdo->query('SELECT * FROM articles WHERE id=' . $id);
-        return $pdoStatement->fetch(PDO::FETCH_ASSOC);
+        $article = $pdoStatement->fetch(PDO::FETCH_ASSOC);
+        $article['image'] = json_decode($article['image']);
+        return $article;
     }
 
     public function updateArticle(int $id, string $title, string $text, string $date, $image): void

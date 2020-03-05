@@ -6,6 +6,21 @@
 <div class="container">
     <div class="row">
         <div class="col">
+            <header>
+                <nav class="nav-nav">
+                    <a class="logo" href="/home/default">
+                        <span>L</span>
+                        <span>O</span>
+                        <span>G</span>
+                        <span>O</span>
+                    </a>
+                    <div class="nav-toggle"><span></span></div>
+                    <ul id="menu">
+                            <li><a href="/users/logout" class="btn  btn-sm" id="menu-exit">Exit</a></li>
+                    </ul>
+                </nav>
+            </header>
+
             <div id="form-title">
                 <h1 id="form-title-h1">New note</h1>
             </div>
@@ -28,7 +43,9 @@
                     </div>
                 </div>
 
-                <input type="file" name="inputfile"></br>
+                    <input type="file" name="inputfile[]" multiple>
+
+
 
                 <div class="form-group row">
                     <div class="col-sm-10">

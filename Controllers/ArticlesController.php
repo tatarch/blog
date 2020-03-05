@@ -47,18 +47,18 @@ class ArticlesController
                 if (isset($article['image'])) {
                     $this->deleteImage($article['image']);
                 }
-                $image = $this->getImg();
+                $image = $this->saveImages();
             } else {
                 $image = $article['image'];
             }
             $this->articleRepository->updateArticle($id, $title, $text, $date, $image);
         } else {
-            if (isset($_FILES) && $_FILES['inputfile']['error'] == 0) { // Проверяем, загрузил ли пользователь файл
-                $image = $this->getImg();
+            if (isset($_FILES)) { // Проверяем, загрузил ли пользователь файл
+                $images = $this->saveImages();
             } else {
-                $image = null;
+                $images = null;
             }
-            $this->articleRepository->addArticle($title, $text, $date, $image);
+            $this->articleRepository->addArticle($title, $text, $date, $images);
         }
         header('Location: ' . Url::getRoot() . '/home/default');
         die ();
@@ -68,9 +68,8 @@ class ArticlesController
     {
         $id = (int)$_GET['id'];
         $article = $this->articleRepository->getById($id);
-        $imagePath = $article['image'];
-        if ($imagePath) {
-            $this->deleteImage($imagePath);
+        if ($article['image']) {
+            $this->deleteImages($article['image']);
         }
         $this->articleRepository->deleteArticle($id);
 
@@ -108,18 +107,24 @@ class ArticlesController
         return $date;
     }
 
-    private function getImg(): string
+    private function saveImages(): array
     {
-        $image = uniqid() . '.png';
-        $destinationDir = getcwd() . "/images" . '/' . $image;
-        move_uploaded_file($_FILES['inputfile']['tmp_name'], $destinationDir);
-        return $image;
+        $images = [];
+        foreach ($_FILES['inputfile']['tmp_name'] as $image) {
+            $img = uniqid() . '.png';
+            $destinationDir = getcwd() . "/images/" . $img;
+            move_uploaded_file($image, $destinationDir);
+            $images[] = $img;
+        }
+        return $images;
     }
 
-    private function deleteImage(string $imagePath): void
+    private function deleteImages(array $images): void
     {
-        $destinationDir = getcwd() . "/images/" . $imagePath;
-        unlink($destinationDir);
+        foreach ($images as $image) {
+            $destinationDir = getcwd() . "/images/" . $image;
+            unlink($destinationDir);
+        }
     }
 
     public function like(): void
@@ -155,9 +160,6 @@ class ArticlesController
     public function comment()
     {
         $user = Auth::getUser();
-        if (!$user) {
-            die();
-        }
         $userId = $user['id'];
         $userName = $user['name'];
         $id = $_POST['articleId'];
