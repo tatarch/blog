@@ -42,6 +42,7 @@ $user = Auth::getUser(); ?>
                     <a href="/articles/delete/?id=<?= $data['article']['id']; ?>" class="btn btn-outline-danger"
                        role="button" aria-pressed="true">Delete</a>
                 </div>
+
                 <?php if ($data['article']['image'] != null): ?>
                 <?php foreach ($data['article']['image'] as $image): ?>
                     <img src="/images/<?= $image; ?>" class="img-fluid">

@@ -38,6 +38,7 @@ class ArticleRepository
         $stmt->execute();
     }
 
+
     public function getById(int $id): array
     {
         $pdo = MysqlConnector::getConnection();
@@ -48,12 +49,21 @@ class ArticleRepository
         return $article;
     }
 
-    public function updateArticle(int $id, string $title, string $text, string $date, $image): void
+    public function updateArticle(int $id, string $title, string $text, string $date, ?array $image): void
     {
         $pdo = MysqlConnector::getConnection();
 
         $query = "UPDATE `articles` SET  title=:title, text=:text, date=:date, image=:image WHERE id=" . $id;
         $stmt = $pdo->prepare($query);
-        $stmt->execute(['title' => $title, 'text' => $text, 'date' => $date, 'image' => $image]);
+        $stmt->execute(['title' => $title, 'text' => $text, 'date' => $date, 'image' => json_encode($image)]);
+    }
+
+    public function updateImg(int $id, ?array $images): void
+    {
+        $pdo = MysqlConnector::getConnection();
+
+        $query = "UPDATE `articles` SET  image=:image WHERE id=:id";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute(['image' => json_encode(array_values($images)), 'id' => $id]);
     }
 }

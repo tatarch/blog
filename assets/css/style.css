@@ -163,11 +163,13 @@ header {
 h1 {
     margin-bottom: 20px;
 }
-
+.article-content{
+    text-align: center;
+}
 .article-content img {
     display: inline-block;
     height: auto;
-    max-width: 100%;
+    width: 60%;
 }
 
 .article-content p {
@@ -247,4 +249,15 @@ h1 {
     color: white;
     padding: 10px 30px;
     font-size: 16px;
+}
+.articles-form img{
+width: 160px;
+}
+.form-images {
+    position: relative;
+}
+
+.form-images .fa-times {
+    position: absolute;
+    top:0;
 }

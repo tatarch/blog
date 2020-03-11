@@ -8,8 +8,7 @@ $queries = ['create table articles (
 id int primary key auto_increment,
 title varchar (255),
 text text,
-date DATETIME,
-image varchar (255))',
+date DATETIME)',
     'create table users (
 id int primary key auto_increment,
 email varchar (255),
@@ -24,7 +23,12 @@ article_id int unsigned not null,
 user_id int unsigned not null,
 user_name varchar (255),
 body text,
-date DATETIME)'];
+date DATETIME)',
+    'create table  articles_images (
+id int primary key auto_increment,
+article_id int unsigned not null, 
+name varchar (255) NULL,
+path varchar(255) not null )'  ];
 
 $pdo = MysqlConnector::getConnection();
 

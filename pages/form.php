@@ -16,7 +16,7 @@
                     </a>
                     <div class="nav-toggle"><span></span></div>
                     <ul id="menu">
-                            <li><a href="/users/logout" class="btn  btn-sm" id="menu-exit">Exit</a></li>
+                        <li><a href="/users/logout" class="btn  btn-sm" id="menu-exit">Exit</a></li>
                     </ul>
                 </nav>
             </header>
@@ -25,7 +25,9 @@
                 <h1 id="form-title-h1">New note</h1>
             </div>
             <form action="/articles/save" method="post" class="articles-form" enctype="multipart/form-data">
-                <input type="hidden" name="id" value="<?= isset($data['id']) ? $data['id'] : "" ?>">
+                <input type="hidden" id="articleId" name="articleId"
+                       data-id="<?= isset($data['id']) ? $data['id'] : "" ?>"
+                       value="<?= isset($data['id']) ? $data['id'] : "" ?>">
                 <div class="form-group row">
                     <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
                     <div class="col-sm-10">
@@ -43,9 +45,17 @@
                     </div>
                 </div>
 
-                    <input type="file" name="inputfile[]" multiple>
+                <?php if ($data['image'] != null): ?>
+                    <?php foreach ($data['image'] as $image): ?>
+                        <div class="form-images">
+                            <img src="/images/<?= $image; ?>" class="form-image">
+                            <span data-id='<?= $image; ?>'><i class="fas fa-times fa-2x"></i></span>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
 
 
+                <input type="file" name="inputfile[]" multiple>
 
                 <div class="form-group row">
                     <div class="col-sm-10">

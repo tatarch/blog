@@ -40,8 +40,8 @@ class ArticlesController
         $text = $_POST['text'];
         $date = $this->getDate();
 
-        if (!empty($_POST['id'])) {
-            $id = (int)$_POST['id'];
+        if (!empty($_POST['articleId'])) {
+            $id = (int)$_POST['articleId'];
             $article = $this->articleRepository->getById($id);
             if (isset($_FILES) && $_FILES['inputfile']['error'] == 0) { // Проверяем, загрузил ли пользователь файл
                 if (isset($article['image'])) {
@@ -125,6 +125,23 @@ class ArticlesController
             $destinationDir = getcwd() . "/images/" . $image;
             unlink($destinationDir);
         }
+    }
+
+    public function deleteImg(): void
+    {
+        $id = $_POST['articleId'];
+        $image = $_POST['image'];
+        $article = $this->articleRepository->getById($id);
+        $images = $article['image'];
+        foreach ($images as $key => $item) {
+            if ($item == $image) {
+                unset($images[$key]);
+            }
+        }
+        $destinationDir = getcwd() . "/images/" . $image;
+        unlink($destinationDir);
+
+        $this->articleRepository->updateImg($id, $images);
     }
 
     public function like(): void
