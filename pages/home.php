@@ -53,7 +53,7 @@ $user = Auth::getUser();
                             <?= $article['title']; ?></a></h5>
                         <small class="text-muted"><?= $date; ?></small>
                         <div class="image">
-                            <img src="/images/<?= $article['image'][0]; ?>">
+                            <img src="/images/<?= $article['images'][0]; ?>">
                         </div>
                     </div>
                 </div>

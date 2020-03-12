@@ -26,13 +26,13 @@
             </div>
             <form action="/articles/save" method="post" class="articles-form" enctype="multipart/form-data">
                 <input type="hidden" id="articleId" name="articleId"
-                       data-id="<?= isset($data['id']) ? $data['id'] : "" ?>"
-                       value="<?= isset($data['id']) ? $data['id'] : "" ?>">
+                       data-id="<?= isset($data['article']['id']) ? $data['article']['id'] : "" ?>"
+                       value="<?= isset($data['article']['id']) ? $data['article']['id'] : "" ?>">
                 <div class="form-group row">
                     <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="title" id="inputTitle"
-                               value="<?= isset($data['title']) ? $data['title'] : "" ?>"
+                               value="<?= isset($data['article']['title']) ? $data['article']['title'] : "" ?>"
                                placeholder="Enter title">
                     </div>
                 </div>
@@ -41,12 +41,12 @@
                     <label for="inputText" class="col-sm-2 col-form-label">Text</label>
                     <div class="col-sm-10">
                         <textarea class="form-control" name="text" id="inputText" rows="6"
-                                  placeholder="Enter text"><?= isset($data['text']) ? $data['text'] : "" ?></textarea>
+                                  placeholder="Enter text"><?= isset($data['article']['text']) ? $data['article']['text'] : "" ?></textarea>
                     </div>
                 </div>
 
-                <?php if ($data['image'] != null): ?>
-                    <?php foreach ($data['image'] as $image): ?>
+                <?php if ($data['images'] != null): ?>
+                    <?php foreach ($data['images'] as $image): ?>
                         <div class="form-images">
                             <img src="/images/<?= $image; ?>" class="form-image">
                             <span data-id='<?= $image; ?>'><i class="fas fa-times fa-2x"></i></span>

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Repositories\ArticleRepository;
+use App\Repositories\ArticlesImagesRepository;
 use App\Views\View;
 
 class HomeController
@@ -11,6 +12,10 @@ class HomeController
     {
         $articleRepository = new ArticleRepository();
         $articles = $articleRepository->getArticles();
+        $articlesImagesRepository = new ArticlesImagesRepository();
+        foreach ($articles as  $key => $article) {
+            $articles[$key]['images'] = $articlesImagesRepository->getById($article['id']);
+        }
 
         View::render('home', $articles);
     }

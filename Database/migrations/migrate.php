@@ -27,7 +27,6 @@ date DATETIME)',
     'create table  articles_images (
 id int primary key auto_increment,
 article_id int unsigned not null, 
-name varchar (255) NULL,
 path varchar(255) not null )'  ];
 
 $pdo = MysqlConnector::getConnection();

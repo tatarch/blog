@@ -7,26 +7,23 @@ use PDO;
 
 class ArticleRepository
 {
-    public function addArticle(string $title, string $text, string $date, ?array $images): void
+    public function addArticle(string $title, string $text, string $date)
     {
         $pdo = MysqlConnector::getConnection();
 
-        $query = "INSERT INTO articles (title, text, date, image)  VALUES (:title, :text, :date, :image)";
+        $query = "INSERT INTO articles (title, text, date)  VALUES (:title, :text, :date)";
         $stmt = $pdo->prepare($query);
-        $stmt->execute(['title' => $title, 'text' => $text, 'date' => $date, 'image' => json_encode($images)]);
+        $stmt->execute(['title' => $title, 'text' => $text, 'date' => $date]);
+        $id = $pdo->lastInsertId();
+        return $id;
     }
 
-    public function getArticles(): array
+    public function getArticles()
     {
         $pdo = MysqlConnector::getConnection();
 
-        $pdoStatement = $pdo->query('SELECT * FROM articles');
-        $results = array();
-        while ($row = $pdoStatement->fetch(PDO::FETCH_ASSOC)) {
-            $row['image'] = json_decode($row['image']);
-            $results[] = $row;
-        }
-        return $results;
+        return $pdoStatement = $pdo->query('SELECT * FROM articles');
+
     }
 
     public function deleteArticle(int $id): void
@@ -45,25 +42,16 @@ class ArticleRepository
 
         $pdoStatement = $pdo->query('SELECT * FROM articles WHERE id=' . $id);
         $article = $pdoStatement->fetch(PDO::FETCH_ASSOC);
-        $article['image'] = json_decode($article['image']);
         return $article;
     }
 
-    public function updateArticle(int $id, string $title, string $text, string $date, ?array $image): void
+    public function updateArticle(int $id, string $title, string $text, string $date): void
     {
         $pdo = MysqlConnector::getConnection();
 
-        $query = "UPDATE `articles` SET  title=:title, text=:text, date=:date, image=:image WHERE id=" . $id;
+        $query = "UPDATE `articles` SET  title=:title, text=:text, date=:date WHERE id=" . $id;
         $stmt = $pdo->prepare($query);
-        $stmt->execute(['title' => $title, 'text' => $text, 'date' => $date, 'image' => json_encode($image)]);
+        $stmt->execute(['title' => $title, 'text' => $text, 'date' => $date]);
     }
 
-    public function updateImg(int $id, ?array $images): void
-    {
-        $pdo = MysqlConnector::getConnection();
-
-        $query = "UPDATE `articles` SET  image=:image WHERE id=:id";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute(['image' => json_encode(array_values($images)), 'id' => $id]);
-    }
 }

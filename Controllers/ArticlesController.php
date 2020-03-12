@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Repositories\ArticleRepository;
 use App\Repositories\ArticlesLikesRepository;
 use App\Repositories\ArticlesCommentsRepository;
+use App\Repositories\ArticlesImagesRepository;
 use App\System\Auth;
 use App\System\Url;
 use App\Views\View;
@@ -14,19 +15,23 @@ class ArticlesController
     private $articleRepository;
     private $articlesLikesRepository;
     private $articlesCommentsRepository;
+    private $articlesImagesRepository;
 
     public function __construct()
     {
         $this->articleRepository = new ArticleRepository();
         $this->articlesLikesRepository = new ArticlesLikesRepository();
         $this->articlesCommentsRepository = new ArticlesCommentsRepository();
+        $this->articlesImagesRepository = new ArticlesImagesRepository();
     }
 
     public function form(): void
     {
         if (!empty($_GET['id'])) {
             $id = (int)$_GET['id'];
-            $article = $this->articleRepository->getById($id);
+            $data = $this->articleRepository->getById($id);
+            $images= $this->articlesImagesRepository->getById($id);
+            $article=['article' => $data, 'images' => $images];
 
             View::render('form', $article);
         } else {
@@ -42,23 +47,22 @@ class ArticlesController
 
         if (!empty($_POST['articleId'])) {
             $id = (int)$_POST['articleId'];
-            $article = $this->articleRepository->getById($id);
-            if (isset($_FILES) && $_FILES['inputfile']['error'] == 0) { // Проверяем, загрузил ли пользователь файл
-                if (isset($article['image'])) {
-                    $this->deleteImage($article['image']);
-                }
-                $image = $this->saveImages();
+            $img=$this->articlesImagesRepository->getById($id);
+            if ((isset($_FILES) && $_FILES['inputfile']['error'] == 0)) { // Проверяем, загрузил ли пользователь файл
+                $path=$this->saveImages();
             } else {
-                $image = $article['image'];
+                $path = $img['path'];
             }
-            $this->articleRepository->updateArticle($id, $title, $text, $date, $image);
+            $this->articleRepository->updateArticle($id, $title, $text, $date);
+            $this->articlesImagesRepository->addImages($id, $path);
         } else {
             if (isset($_FILES)) { // Проверяем, загрузил ли пользователь файл
-                $images = $this->saveImages();
+                $path = $this->saveImages();
             } else {
-                $images = null;
+                $path = null;
             }
-            $this->articleRepository->addArticle($title, $text, $date, $images);
+            $id=$this->articleRepository->addArticle($title, $text, $date);
+            $this->articlesImagesRepository->addImages($id, $path);
         }
         header('Location: ' . Url::getRoot() . '/home/default');
         die ();
@@ -67,11 +71,12 @@ class ArticlesController
     public function delete(): void
     {
         $id = (int)$_GET['id'];
-        $article = $this->articleRepository->getById($id);
-        if ($article['image']) {
-            $this->deleteImages($article['image']);
+        $images=$this->articlesImagesRepository->getById($id);
+        if ($images['path']) {
+            $this->deleteImages($images['path']);
         }
         $this->articleRepository->deleteArticle($id);
+        $this->articlesImagesRepository->deleteImages($id);
 
         header('Location: ' . Url::getRoot() . '/home/default');
         die ();
@@ -84,6 +89,7 @@ class ArticlesController
             throw new \Exception();
         }
         $article = $this->articleRepository->getById($id);
+        $images=$this->articlesImagesRepository->getById($id);
         $likes = $this->articlesLikesRepository->howManyLikes($id);
         $user = Auth::getUser();
         $userId = $user['id'];
@@ -91,7 +97,7 @@ class ArticlesController
         $article += ['likesCount' => $likes, 'isLiked' => $isLiked];
         $commentsGetById = $this->articlesCommentsRepository;
         $comments = $commentsGetById->getAllComments($id);
-        $data = ['article' => $article, 'comments' => $comments];
+        $data = ['article' => $article, 'comments' => $comments, 'images' => $images];
 
         View::render('article', $data);
     }
@@ -131,8 +137,8 @@ class ArticlesController
     {
         $id = $_POST['articleId'];
         $image = $_POST['image'];
-        $article = $this->articleRepository->getById($id);
-        $images = $article['image'];
+        $img =$this->articlesImagesRepository->getById($id);
+        $images = $img['path'];
         foreach ($images as $key => $item) {
             if ($item == $image) {
                 unset($images[$key]);
