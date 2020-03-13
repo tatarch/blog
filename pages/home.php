@@ -52,9 +52,11 @@ $user = Auth::getUser();
                         <h5 class="card-title"><a href="/articles/view/?id=<?= $article['id']; ?>" id="home-btn">
                             <?= $article['title']; ?></a></h5>
                         <small class="text-muted"><?= $date; ?></small>
+                        <?php if ($article['images'] != null): ?>
                         <div class="image">
                             <img src="/images/<?= $article['images'][0]; ?>">
                         </div>
+                        <?php endif; ?>
                     </div>
                 </div>
              <?php endforeach; ?>

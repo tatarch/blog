@@ -47,16 +47,15 @@ class ArticlesController
 
         if (!empty($_POST['articleId'])) {
             $id = (int)$_POST['articleId'];
-            $img=$this->articlesImagesRepository->getById($id);
-            if ((isset($_FILES) && $_FILES['inputfile']['error'] == 0)) { // Проверяем, загрузил ли пользователь файл
+            if (!empty($_FILES['file'])) { // Проверяем, загрузил ли пользователь файл
                 $path=$this->saveImages();
+                $this->articlesImagesRepository->addImages($id, $path);
+                $this->articleRepository->updateArticle($id, $title, $text, $date);
             } else {
-                $path = $img['path'];
+                $this->articleRepository->updateArticle($id, $title, $text, $date);
             }
-            $this->articleRepository->updateArticle($id, $title, $text, $date);
-            $this->articlesImagesRepository->addImages($id, $path);
         } else {
-            if (isset($_FILES)) { // Проверяем, загрузил ли пользователь файл
+            if (isset($_FILES)){ // Проверяем, загрузил ли пользователь файл
                 $path = $this->saveImages();
             } else {
                 $path = null;
@@ -72,8 +71,8 @@ class ArticlesController
     {
         $id = (int)$_GET['id'];
         $images=$this->articlesImagesRepository->getById($id);
-        if ($images['path']) {
-            $this->deleteImages($images['path']);
+        if ($images) {
+            $this->deleteImages($images);
         }
         $this->articleRepository->deleteArticle($id);
         $this->articlesImagesRepository->deleteImages($id);
@@ -116,7 +115,7 @@ class ArticlesController
     private function saveImages(): array
     {
         $images = [];
-        foreach ($_FILES['inputfile']['tmp_name'] as $image) {
+        foreach ($_FILES['file']['tmp_name'] as $image) {
             $img = uniqid() . '.png';
             $destinationDir = getcwd() . "/images/" . $img;
             move_uploaded_file($image, $destinationDir);
@@ -137,8 +136,7 @@ class ArticlesController
     {
         $id = $_POST['articleId'];
         $image = $_POST['image'];
-        $img =$this->articlesImagesRepository->getById($id);
-        $images = $img['path'];
+        $images =$this->articlesImagesRepository->getById($id);
         foreach ($images as $key => $item) {
             if ($item == $image) {
                 unset($images[$key]);
@@ -146,8 +144,10 @@ class ArticlesController
         }
         $destinationDir = getcwd() . "/images/" . $image;
         unlink($destinationDir);
+        $images=array_values($images);
 
-        $this->articleRepository->updateImg($id, $images);
+        $this->articlesImagesRepository->deleteImages($id);
+        $this->articlesImagesRepository->addImages($id, $images);
     }
 
     public function like(): void

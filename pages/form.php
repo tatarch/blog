@@ -55,7 +55,7 @@
                 <?php endif; ?>
 
 
-                <input type="file" name="inputfile[]" multiple>
+                <input type="file" name="file[]" multiple>
 
                 <div class="form-group row">
                     <div class="col-sm-10">

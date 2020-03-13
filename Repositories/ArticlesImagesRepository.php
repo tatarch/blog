@@ -29,7 +29,7 @@ class ArticlesImagesRepository
         }
         return $results;
     }
-    public function getById(int $id): array
+    public function getById(int $id): ?array
     {
         $pdo = MysqlConnector::getConnection();
 
@@ -50,8 +50,8 @@ class ArticlesImagesRepository
     {
         $pdo = MysqlConnector::getConnection();
 
-        $query = "UPDATE `articles_likes` SET  path=:path WHERE article_id=:id";
+        $query = "UPDATE `articles_images` SET  path=:path WHERE article_id=:id";
         $stmt = $pdo->prepare($query);
-        $stmt->execute(['path' => json_encode(array_values($path)), 'article_id' => $id]);
+        $stmt->execute(['article_id' => $id, 'path' => json_encode(array_values($path))]);
     }
 }

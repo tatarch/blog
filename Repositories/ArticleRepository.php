@@ -18,12 +18,16 @@ class ArticleRepository
         return $id;
     }
 
-    public function getArticles()
+    public function getArticles(): array
     {
         $pdo = MysqlConnector::getConnection();
 
-        return $pdoStatement = $pdo->query('SELECT * FROM articles');
-
+        $pdoStatement = $pdo->query('SELECT * FROM articles');
+        $results = array();
+        while ($row = $pdoStatement->fetch(PDO::FETCH_ASSOC)) {
+            $results[] = $row;
+        }
+        return $results;
     }
 
     public function deleteArticle(int $id): void
