@@ -43,9 +43,9 @@ $user = Auth::getUser(); ?>
                        role="button" aria-pressed="true">Delete</a>
                 </div>
 
-                <?php if ($data['images'] != null): ?>
-                <?php foreach ($data['images'] as $image): ?>
-                    <img src="/images/<?= $image; ?>" class="img-fluid">
+                <?php if ($data['article']['images'] != null): ?>
+                <?php foreach ($data['article']['images'] as $image): ?>
+                    <img src="/images/<?= $image['path']; ?>" class="img-fluid">
                 <?php endforeach; ?>
                 <?php endif; ?>
                 <p><?= $data['article']['text']; ?></p>

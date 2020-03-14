@@ -29,11 +29,11 @@ class ArticlesController
     {
         if (!empty($_GET['id'])) {
             $id = (int)$_GET['id'];
-            $data = $this->articleRepository->getById($id);
-            $images= $this->articlesImagesRepository->getById($id);
-            $article=['article' => $data, 'images' => $images];
+            $article = $this->articleRepository->getById($id);
+            $article['images'] = $this->articlesImagesRepository->getById($id);
+            $data = ['article' => $article];
 
-            View::render('form', $article);
+            View::render('form', $data);
         } else {
             View::render('form');
         }
@@ -48,19 +48,19 @@ class ArticlesController
         if (!empty($_POST['articleId'])) {
             $id = (int)$_POST['articleId'];
             if (!empty($_FILES['file'])) { // Проверяем, загрузил ли пользователь файл
-                $path=$this->saveImages();
-                $this->articlesImagesRepository->addImages($id, $path);
+                $images = $this->saveImages();
+                $this->articlesImagesRepository->addImages($id, $images);
                 $this->articleRepository->updateArticle($id, $title, $text, $date);
             } else {
                 $this->articleRepository->updateArticle($id, $title, $text, $date);
             }
         } else {
-            if (isset($_FILES)){ // Проверяем, загрузил ли пользователь файл
+            if (!empty(is_uploaded_file($_FILES['file']['tmp_name'][0]))) { // Проверяем, загрузил ли пользователь файл
                 $path = $this->saveImages();
             } else {
                 $path = null;
             }
-            $id=$this->articleRepository->addArticle($title, $text, $date);
+            $id = $this->articleRepository->addArticle($title, $text, $date);
             $this->articlesImagesRepository->addImages($id, $path);
         }
         header('Location: ' . Url::getRoot() . '/home/default');
@@ -70,7 +70,7 @@ class ArticlesController
     public function delete(): void
     {
         $id = (int)$_GET['id'];
-        $images=$this->articlesImagesRepository->getById($id);
+        $images = $this->articlesImagesRepository->getById($id);
         if ($images) {
             $this->deleteImages($images);
         }
@@ -88,17 +88,17 @@ class ArticlesController
             throw new \Exception();
         }
         $article = $this->articleRepository->getById($id);
-        $images=$this->articlesImagesRepository->getById($id);
+        $article['images'] = $this->articlesImagesRepository->getById($id);
+
         $likes = $this->articlesLikesRepository->howManyLikes($id);
         $user = Auth::getUser();
         $userId = $user['id'];
         $isLiked = Auth::getUser() ? $this->articlesLikesRepository->isLiked($id, $userId) : false;
         $article += ['likesCount' => $likes, 'isLiked' => $isLiked];
-        $commentsGetById = $this->articlesCommentsRepository;
-        $comments = $commentsGetById->getAllComments($id);
-        $data = ['article' => $article, 'comments' => $comments, 'images' => $images];
+        $article['comments'] = $this->articlesCommentsRepository->getAllComments($id);
 
-        View::render('article', $data);
+        $data=['article' => $article];
+        View::render('article', ['article' => $article]);
     }
 
     private function getDate(): string
@@ -134,20 +134,14 @@ class ArticlesController
 
     public function deleteImg(): void
     {
-        $id = $_POST['articleId'];
+        $articleId = $_POST['articleId'];
+        $id = $_POST['imageId'];
         $image = $_POST['image'];
-        $images =$this->articlesImagesRepository->getById($id);
-        foreach ($images as $key => $item) {
-            if ($item == $image) {
-                unset($images[$key]);
-            }
-        }
+
         $destinationDir = getcwd() . "/images/" . $image;
         unlink($destinationDir);
-        $images=array_values($images);
 
-        $this->articlesImagesRepository->deleteImages($id);
-        $this->articlesImagesRepository->addImages($id, $images);
+        $this->articlesImagesRepository->deleteImageOnForm($id);
     }
 
     public function like(): void

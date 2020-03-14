@@ -45,11 +45,13 @@
                     </div>
                 </div>
 
-                <?php if ($data['images'] != null): ?>
-                    <?php foreach ($data['images'] as $image): ?>
+                <?php if ($data['article']['images'] != null): ?>
+                    <?php foreach ($data['article']['images'] as $image): ?>
                         <div class="form-images">
-                            <img src="/images/<?= $image; ?>" class="form-image">
-                            <span data-id='<?= $image; ?>'><i class="fas fa-times fa-2x"></i></span>
+                            <input type="hidden" id="imageId"
+                                   data-id="<?= $image['id']; ?>" value="<?= $image['id']; ?>">
+                            <img src="/images/<?= $image['path']; ?>" class="form-image">
+                            <span data-id='<?= $image['path']; ?>'><i class="fas fa-times fa-2x"></i></span>
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>

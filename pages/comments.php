@@ -3,7 +3,7 @@
  * @var array $data
  */
 ?>
-<?php foreach ($data['comments'] as $comm):
+<?php foreach ($data['article']['comments'] as $comm):
     $date = strtotime($comm['date']);
     $date = date('d.m.Y', $date); ?>
     <div class="comment">

@@ -8,13 +8,14 @@ use PDO;
 
 class ArticlesImagesRepository
 {
-    public function addImages(int $articleId, ?array $path): void
+    public function addImages(int $articleId, array $images): void
     {
         $pdo = MysqlConnector::getConnection();
-
-        $query = "INSERT INTO articles_images (article_id, path) VALUES (:articleId, :path)";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute(['articleId' => $articleId, 'path' => json_encode($path)]);
+        foreach ($images as $image) {
+            $query = "INSERT INTO articles_images (article_id, path) VALUES (:articleId, :path)";
+            $stmt = $pdo->prepare($query);
+            $stmt->execute(['articleId' => $articleId, 'path' => $image]);
+        }
     }
 
     public function getImages(): array
@@ -29,15 +30,25 @@ class ArticlesImagesRepository
         }
         return $results;
     }
-    public function getById(int $id): ?array
+
+    public function getById(int $id): array
     {
         $pdo = MysqlConnector::getConnection();
 
         $pdoStatement = $pdo->query('SELECT * FROM articles_images WHERE article_id=' . $id);
-        $image = $pdoStatement->fetch(PDO::FETCH_ASSOC);
-        $image['path'] = json_decode($image['path']);
-        return $image['path'];
+        $rows = $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $rows;
     }
+    public function deleteImageOnForm(int $id): void
+    {
+        $pdo = MysqlConnector::getConnection();
+
+        $query = "DELETE FROM articles_images WHERE id=" . $id;
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+    }
+
     public function deleteImages(int $id): void
     {
         $pdo = MysqlConnector::getConnection();
@@ -46,12 +57,5 @@ class ArticlesImagesRepository
         $stmt = $pdo->prepare($query);
         $stmt->execute();
     }
-    public function updateImg(int $id, ?array $path): void
-    {
-        $pdo = MysqlConnector::getConnection();
 
-        $query = "UPDATE `articles_images` SET  path=:path WHERE article_id=:id";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute(['article_id' => $id, 'path' => json_encode(array_values($path))]);
-    }
 }

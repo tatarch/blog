@@ -54,7 +54,7 @@ $user = Auth::getUser();
                         <small class="text-muted"><?= $date; ?></small>
                         <?php if ($article['images'] != null): ?>
                         <div class="image">
-                            <img src="/images/<?= $article['images'][0]; ?>">
+                            <img src="/images/<?= $article['images'][0]['path']; ?>">
                         </div>
                         <?php endif; ?>
                     </div>
