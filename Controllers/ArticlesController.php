@@ -47,7 +47,7 @@ class ArticlesController
 
         if (!empty($_POST['articleId'])) {
             $id = (int)$_POST['articleId'];
-            if (!empty($_FILES['file'])) { // Проверяем, загрузил ли пользователь файл
+            if (!empty(is_uploaded_file($_FILES['file']['tmp_name'][0]))) { // Проверяем, загрузил ли пользователь файл
                 $images = $this->saveImages();
                 $this->articlesImagesRepository->addImages($id, $images);
                 $this->articleRepository->updateArticle($id, $title, $text, $date);
@@ -124,17 +124,16 @@ class ArticlesController
         return $images;
     }
 
-    private function deleteImages(array $images): void
+    private function deleteImages(?array $images): void
     {
         foreach ($images as $image) {
-            $destinationDir = getcwd() . "/images/" . $image;
+            $destinationDir = getcwd() . "/images/" . $image['path'];
             unlink($destinationDir);
         }
     }
 
     public function deleteImg(): void
     {
-        $articleId = $_POST['articleId'];
         $id = $_POST['imageId'];
         $image = $_POST['image'];
 
