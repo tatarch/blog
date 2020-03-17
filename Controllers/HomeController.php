@@ -13,7 +13,7 @@ class HomeController
         $articleRepository = new ArticleRepository();
         $articles = $articleRepository->getArticles();
         $articlesImagesRepository = new ArticlesImagesRepository();
-        foreach ($articles as  $key => $article) {
+        foreach ($articles as $key => $article) {
             $articles[$key]['images'] = $articlesImagesRepository->getById($article['id']);
         }
 

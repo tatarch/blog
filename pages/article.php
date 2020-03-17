@@ -44,9 +44,9 @@ $user = Auth::getUser(); ?>
                 </div>
 
                 <?php if ($data['article']['images'] != null): ?>
-                <?php foreach ($data['article']['images'] as $image): ?>
-                    <img src="/images/<?= $image['path']; ?>" class="img-fluid">
-                <?php endforeach; ?>
+                    <?php foreach ($data['article']['images'] as $image): ?>
+                        <img src="/images/<?= $image['path']; ?>" class="img-fluid">
+                    <?php endforeach; ?>
                 <?php endif; ?>
                 <p><?= $data['article']['text']; ?></p>
             </div>

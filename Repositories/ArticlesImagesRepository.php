@@ -40,6 +40,7 @@ class ArticlesImagesRepository
 
         return $rows;
     }
+
     public function deleteImageOnForm(int $id): void
     {
         $pdo = MysqlConnector::getConnection();

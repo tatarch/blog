@@ -163,9 +163,11 @@ header {
 h1 {
     margin-bottom: 20px;
 }
-.article-content{
+
+.article-content {
     text-align: center;
 }
+
 .article-content img {
     display: inline-block;
     height: auto;
@@ -201,7 +203,7 @@ h1 {
     line-height: 120%;
 }
 
-#commentTextarea{
+#commentTextarea {
     margin-left: 12%;
     line-height: 120%;
     width: 40%;
@@ -243,21 +245,24 @@ h1 {
 .login {
     margin: 5% 20%;
 }
-#form-btn{
+
+#form-btn {
     border: none;
     background-color: #2E2EF1;
     color: white;
     padding: 10px 30px;
     font-size: 16px;
 }
-.articles-form img{
-width: 160px;
+
+.articles-form img {
+    width: 160px;
 }
+
 .form-images {
     position: relative;
 }
 
 .form-images .fa-times {
     position: absolute;
-    top:0;
+    top: 0;
 }

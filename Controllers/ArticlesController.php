@@ -97,7 +97,7 @@ class ArticlesController
         $article += ['likesCount' => $likes, 'isLiked' => $isLiked];
         $article['comments'] = $this->articlesCommentsRepository->getAllComments($id);
 
-        $data=['article' => $article];
+        $data = ['article' => $article];
         View::render('article', ['article' => $article]);
     }
 

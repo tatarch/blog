@@ -22,14 +22,14 @@ $user = Auth::getUser();
                     </a>
                     <div class="nav-toggle"><span></span></div>
                     <ul id="menu">
-                       <?php if (!isset($user)): ?>
-                           <li><a href="/users/form" id="menu-unregistered">Registration</a></li>
-                           <li>or</li>
-                           <li><a href="/users/loginForm" id="menu-unregistered">log in</a></li>
-                       <?php endif; ?>
+                        <?php if (!isset($user)): ?>
+                            <li><a href="/users/form" id="menu-unregistered">Registration</a></li>
+                            <li>or</li>
+                            <li><a href="/users/loginForm" id="menu-unregistered">log in</a></li>
+                        <?php endif; ?>
                         <?php if (isset($user)): ?>
-                            <li> <a href="/articles/form" class="btn  btn-sm" id="menu-adding">Add article</a></li>
-                            <li> <a href="/users/logout" class="btn  btn-sm" id="menu-exit">Exit</a></li>
+                            <li><a href="/articles/form" class="btn  btn-sm" id="menu-adding">Add article</a></li>
+                            <li><a href="/users/logout" class="btn  btn-sm" id="menu-exit">Exit</a></li>
                         <?php endif; ?>
                     </ul>
                 </nav>
@@ -43,24 +43,24 @@ $user = Auth::getUser();
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
             </div>
-        <div class="card-deck">
-             <?php foreach ($data as $article):
-                 $date = strtotime($article['date']);
-                 $date = date('d.m.Y', $date); ?>
-                 <div class="card my-3">
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="/articles/view/?id=<?= $article['id']; ?>" id="home-btn">
-                            <?= $article['title']; ?></a></h5>
-                        <small class="text-muted"><?= $date; ?></small>
-                        <?php if ($article['images'] != null): ?>
-                        <div class="image">
-                            <img src="/images/<?= $article['images'][0]['path']; ?>">
+            <div class="card-deck">
+                <?php foreach ($data as $article):
+                    $date = strtotime($article['date']);
+                    $date = date('d.m.Y', $date); ?>
+                    <div class="card my-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="/articles/view/?id=<?= $article['id']; ?>" id="home-btn">
+                                    <?= $article['title']; ?></a></h5>
+                            <small class="text-muted"><?= $date; ?></small>
+                            <?php if ($article['images'] != null): ?>
+                                <div class="image">
+                                    <img src="/images/<?= $article['images'][0]['path']; ?>">
+                                </div>
+                            <?php endif; ?>
                         </div>
-                        <?php endif; ?>
                     </div>
-                </div>
-             <?php endforeach; ?>
+                <?php endforeach; ?>
+            </div>
         </div>
     </div>
-</div>
 </div>
