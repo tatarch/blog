@@ -12,28 +12,6 @@ $user = Auth::getUser();
     <div class="row">
         <div class="col">
             <!-- у тебя дублируется этот кусок кода с меню. вынеси это в default.php или придумай другое решение если это не подходит -->
-            <header>
-                <nav class="nav-nav">
-                    <a class="logo" href="">
-                        <span>L</span>
-                        <span>O</span>
-                        <span>G</span>
-                        <span>O</span>
-                    </a>
-                    <div class="nav-toggle"><span></span></div>
-                    <ul id="menu">
-                        <?php if (!isset($user)): ?>
-                            <li><a href="/users/form" id="menu-unregistered">Registration</a></li>
-                            <li>or</li>
-                            <li><a href="/users/loginForm" id="menu-unregistered">log in</a></li>
-                        <?php endif; ?>
-                        <?php if (isset($user)): ?>
-                            <li><a href="/articles/form" class="btn  btn-sm" id="menu-adding">Add article</a></li>
-                            <li><a href="/users/logout" class="btn  btn-sm" id="menu-exit">Exit</a></li>
-                        <?php endif; ?>
-                    </ul>
-                </nav>
-            </header>
 
             <div class="news-search">
                 <h1 style="float: left; font-weight: 900; font-size: 60px; line-height: 60px; letter-spacing: 0.416667px;

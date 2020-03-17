@@ -31,28 +31,11 @@
                         <span>G</span>
                         <span>O</span>
                     </a>
-                    <div class="nav-toggle"><span></span></div>
-                    <ul id="menu">
-                        <?php
-                        // $user всегда будет оперделен, ты его определила на 8 строке. ты должна проверить не null ни $user
-                        if (!isset($user)): ?>
-                            <li><a href="/users/form" id="menu-unregistered">Registration</a></li>
-                            <li>or</li>
-                            <li><a href="/users/loginForm" id="menu-unregistered">log in</a></li>
-                        <?php endif; ?>
-                        <?php
-                        // я бы тут написал else
-                        if (isset($user)): ?>
-                            <li><a href="/articles/form" class="btn  btn-sm" id="menu-adding">Add article</a></li>
-                            <li><a href="/users/logout" class="btn  btn-sm" id="menu-exit">Exit</a></li>
-                        <?php endif; ?>
-                    </ul>
                 </nav>
             </header>
         </div>
     </div>
 </div>
-
 <?= $content ?>
 </body>
 </html>

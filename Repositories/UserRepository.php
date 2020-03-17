@@ -16,12 +16,16 @@ class UserRepository
         $stmt->execute(['email' => $email, 'name' => $name, 'password' => $password]);
     }
 
-    public function getByNamePassword(string $email, string $password): array
+    public function getByNamePassword(string $email, string $password): ?array
     {
         $pdo = MysqlConnector::getConnection();
 
-        $pdoStatement = $pdo->query("SELECT * FROM users WHERE email='" . $email . "' AND password='" . $password . "'");
-        return $pdoStatement->fetch(PDO::FETCH_ASSOC);
+        $pdoStatement = $pdo->query("SELECT * FROM users WHERE email='$email' AND password='$password'");
+        $user = $pdoStatement->fetch(PDO::FETCH_ASSOC);
+        if ($user === false) {
+            $user = null;
+        }
+        return $user;
     }
 
     public function getById(int $id): array

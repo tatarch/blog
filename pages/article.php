@@ -11,33 +11,6 @@ $user = Auth::getUser(); ?>
         <div class="col">
             <!-- у тебя дублируется этот кусок кода с меню. вынеси это в default.php или придумай другое решение если это не подходит -->
 
-            <header>
-                <nav class="nav-nav">
-                    <a class="logo" href="/home/default">
-                        <!-- а можно это написать 1 словом и повесить стили на слово а не на буквы? -->
-                        <span>L</span>
-                        <span>O</span>
-                        <span>G</span>
-                        <span>O</span>
-                    </a>
-                    <div class="nav-toggle"><span></span></div>
-                    <ul id="menu">
-                        <?php
-                        // $user всегда будет оперделен, ты его определила на 8 строке. ты должна проверить не null ни $user
-                        if (!isset($user)): ?>
-                            <li><a href="/users/form" id="menu-unregistered">Registration</a></li>
-                            <li>or</li>
-                            <li><a href="/users/loginForm" id="menu-unregistered">log in</a></li>
-                        <?php endif; ?>
-                        <?php
-                        // я бы тут написал else
-                        if (isset($user)): ?>
-                            <li><a href="/articles/form" class="btn  btn-sm" id="menu-adding">Add article</a></li>
-                            <li><a href="/users/logout" class="btn  btn-sm" id="menu-exit">Exit</a></li>
-                        <?php endif; ?>
-                    </ul>
-                </nav>
-            </header>
             <div class="article-content">
                 <h1><?= $data['article']['title']; ?></h1>
                 <? $date = strtotime($data['article']['date']);

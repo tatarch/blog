@@ -21,7 +21,7 @@ class UsersController
         $user = Auth::getUser();
         // if (!Auth::getUser())
         if ($user == null) {
-            View::render('registration', []);
+            View::render('registration', [], 'login');
         } else {
             header('Location: ' . Url::getRoot() . '/home/default');
             die();
@@ -33,7 +33,7 @@ class UsersController
         $user = Auth::getUser();
         // if (!Auth::getUser())
         if ($user == null) {
-            View::render('login', []);
+            View::render('login', [], 'login');
         } else {
             header('Location: ' . Url::getRoot() . '/home/default');
             die();
@@ -64,7 +64,7 @@ class UsersController
             die();
         } else {
             echo 'Wrong email or password';
-            View::render('login', []);
+            View::render('login', [], 'login');
         }
     }
 
