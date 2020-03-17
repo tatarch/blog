@@ -14,6 +14,7 @@ class ArticleRepository
         $query = "INSERT INTO articles (title, text, date)  VALUES (:title, :text, :date)";
         $stmt = $pdo->prepare($query);
         $stmt->execute(['title' => $title, 'text' => $text, 'date' => $date]);
+        // можно вернуть $pdo->lastInsertId() сразу, нет надобности запоминать его в переменной
         $id = $pdo->lastInsertId();
         return $id;
     }
@@ -23,7 +24,9 @@ class ArticleRepository
         $pdo = MysqlConnector::getConnection();
 
         $pdoStatement = $pdo->query('SELECT * FROM articles');
+        // массив мы не так обьявляем
         $results = array();
+        // давай тянуть результат с помощью fetchAll(), так гораздо читаемее
         while ($row = $pdoStatement->fetch(PDO::FETCH_ASSOC)) {
             $results[] = $row;
         }
@@ -45,6 +48,7 @@ class ArticleRepository
         $pdo = MysqlConnector::getConnection();
 
         $pdoStatement = $pdo->query('SELECT * FROM articles WHERE id=' . $id);
+        // можно сразу вернуть результат без промежуточной переменной
         $article = $pdoStatement->fetch(PDO::FETCH_ASSOC);
         return $article;
     }
@@ -57,5 +61,6 @@ class ArticleRepository
         $stmt = $pdo->prepare($query);
         $stmt->execute(['title' => $title, 'text' => $text, 'date' => $date]);
     }
+    // тут строка не нужна
 
 }

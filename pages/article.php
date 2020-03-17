@@ -4,14 +4,17 @@
  */
 
 use App\System\Auth;
-
+//форматиру код
 $user = Auth::getUser(); ?>
 <div class="container">
     <div class="row">
         <div class="col">
+            <!-- у тебя дублируется этот кусок кода с меню. вынеси это в default.php или придумай другое решение если это не подходит -->
+
             <header>
                 <nav class="nav-nav">
                     <a class="logo" href="/home/default">
+                        <!-- а можно это написать 1 словом и повесить стили на слово а не на буквы? -->
                         <span>L</span>
                         <span>O</span>
                         <span>G</span>
@@ -19,12 +22,16 @@ $user = Auth::getUser(); ?>
                     </a>
                     <div class="nav-toggle"><span></span></div>
                     <ul id="menu">
-                        <?php if (!isset($user)): ?>
+                        <?php
+                        // $user всегда будет оперделен, ты его определила на 8 строке. ты должна проверить не null ни $user
+                        if (!isset($user)): ?>
                             <li><a href="/users/form" id="menu-unregistered">Registration</a></li>
                             <li>or</li>
                             <li><a href="/users/loginForm" id="menu-unregistered">log in</a></li>
                         <?php endif; ?>
-                        <?php if (isset($user)): ?>
+                        <?php
+                        // я бы тут написал else
+                        if (isset($user)): ?>
                             <li><a href="/articles/form" class="btn  btn-sm" id="menu-adding">Add article</a></li>
                             <li><a href="/users/logout" class="btn  btn-sm" id="menu-exit">Exit</a></li>
                         <?php endif; ?>
@@ -43,7 +50,9 @@ $user = Auth::getUser(); ?>
                        role="button" aria-pressed="true">Delete</a>
                 </div>
 
-                <?php if ($data['article']['images'] != null): ?>
+                <?php
+                // if ($data['article']['images'])
+                if ($data['article']['images'] != null): ?>
                 <?php foreach ($data['article']['images'] as $image): ?>
                     <img src="/images/<?= $image['path']; ?>" class="img-fluid">
                 <?php endforeach; ?>
@@ -57,8 +66,11 @@ $user = Auth::getUser(); ?>
                       data-id="<?= $data['article']['id'] ?>"><?= $data['article']['likesCount']; ?></span>
             </div>
 
-            <?php if ($user = Auth::getUser()): ?>
+            <?php
+            // if (Auth::getUser())
+            if ($user = Auth::getUser()): ?>
                 <div class="form-group">
+                    <!-- Leave a comment, не reply-->
                     <label for="commentTextarea" id="textarea-label" class="col-sm-2 col-form-label">Leave a
                         reply</label>
                     <textarea id="commentTextarea" name="comment" rows="5" class="form-control"></textarea>

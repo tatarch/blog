@@ -3,7 +3,9 @@
  * @var array $data
  */
 ?>
-<?php foreach ($data['article']['comments'] as $comm):
+<?php
+// ну можно было уж дописать 3 буквы в названии переменной)
+foreach ($data['article']['comments'] as $comm):
     $date = strtotime($comm['date']);
     $date = date('d.m.Y', $date); ?>
     <div class="comment">

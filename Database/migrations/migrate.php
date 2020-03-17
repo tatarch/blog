@@ -1,4 +1,5 @@
 <?php
+// удаляй неактуальные комментарии)
 // форматируй код
 use \App\Database\Connectors\MysqlConnector;
 
