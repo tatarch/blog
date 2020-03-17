@@ -48,16 +48,20 @@ class ArticlesController
         if (!empty($_POST['articleId'])) {
             $id = (int)$_POST['articleId'];
             if (!empty(is_uploaded_file($_FILES['file']['tmp_name'][0]))) { // Проверяем, загрузил ли пользователь файл
+                // передай файлы здесь, не надо работать с суперглобальными массивами в приватных методах
                 $images = $this->saveImages();
                 $this->articlesImagesRepository->addImages($id, $images);
+                // метод updateArticle() вызывается и в ифе и в элсе. вынеси его вызов из иф/элс
                 $this->articleRepository->updateArticle($id, $title, $text, $date);
             } else {
                 $this->articleRepository->updateArticle($id, $title, $text, $date);
             }
         } else {
             if (!empty(is_uploaded_file($_FILES['file']['tmp_name'][0]))) { // Проверяем, загрузил ли пользователь файл
+                //  переменная названа не правильно
                 $path = $this->saveImages();
             } else {
+                // не надо делать ее null. сделай пустым массивом
                 $path = null;
             }
             $id = $this->articleRepository->addArticle($title, $text, $date);
@@ -84,6 +88,7 @@ class ArticlesController
     public function view(): void
     {
         $id = (int)$_GET['id'];
+        // что это за проверка такая странная. а что айди может быть меньше нуля?
         if ($id < 0) {
             throw new \Exception();
         }
@@ -92,6 +97,7 @@ class ArticlesController
 
         $likes = $this->articlesLikesRepository->howManyLikes($id);
         $user = Auth::getUser();
+        // если на страницу зайдет гость то Auth::getUser() вернет null. а мы не можем у null достать ['id']
         $userId = $user['id'];
         $isLiked = Auth::getUser() ? $this->articlesLikesRepository->isLiked($id, $userId) : false;
         $article += ['likesCount' => $likes, 'isLiked' => $isLiked];
@@ -115,6 +121,7 @@ class ArticlesController
     private function saveImages(): array
     {
         $images = [];
+        // пусть сюда прилетает массив с картинками, не надо тут работать с $_FILES
         foreach ($_FILES['file']['tmp_name'] as $image) {
             $img = uniqid() . '.png';
             $destinationDir = getcwd() . "/images/" . $img;
@@ -124,6 +131,7 @@ class ArticlesController
         return $images;
     }
 
+    // тут не может быть null
     private function deleteImages(?array $images): void
     {
         foreach ($images as $image) {
@@ -132,8 +140,12 @@ class ArticlesController
         }
     }
 
+    // сначала в классе пишутся все public, потом protected, потом private методы. то же самое касается и свойств и констант
     public function deleteImg(): void
     {
+        // ты эту переменную нигде не используешь
+        $articleId = $_POST['articleId'];
+        // не надо тут работать с $_POST. передай нужные значения извне
         $id = $_POST['imageId'];
         $image = $_POST['image'];
 
@@ -154,10 +166,12 @@ class ArticlesController
 
         $isLiked = $this->articlesLikesRepository->isLiked($articleId, $userId);
 
+        // if (!$isLiked)
         if ($isLiked != true) {
             $addLikes = $this->articlesLikesRepository;
             $addLikes->addLike($articleId, $userId);
 
+            // переменная названа не правильно. но она тебе вообще не нужна
             $countLikes = $this->articlesLikesRepository;
             $likes = $countLikes->howManyLikes($articleId);
 
@@ -176,6 +190,7 @@ class ArticlesController
     public function comment()
     {
         $user = Auth::getUser();
+        // ты не проверила залогинен ли пользователь. нельзя получить null['id']
         $userId = $user['id'];
         $userName = $user['name'];
         $id = $_POST['articleId'];

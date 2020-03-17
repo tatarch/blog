@@ -11,7 +11,7 @@ $user = Auth::getUser();
 <div class="container">
     <div class="row">
         <div class="col">
-
+            <!-- у тебя дублируется этот кусок кода с меню. вынеси это в default.php или придумай другое решение если это не подходит -->
             <header>
                 <nav class="nav-nav">
                     <a class="logo" href="">
@@ -43,24 +43,26 @@ $user = Auth::getUser();
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
             </div>
-            <div class="card-deck">
-                <?php foreach ($data as $article):
-                    $date = strtotime($article['date']);
-                    $date = date('d.m.Y', $date); ?>
-                    <div class="card my-3">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="/articles/view/?id=<?= $article['id']; ?>" id="home-btn">
-                                    <?= $article['title']; ?></a></h5>
-                            <small class="text-muted"><?= $date; ?></small>
-                            <?php if ($article['images'] != null): ?>
-                                <div class="image">
-                                    <img src="/images/<?= $article['images'][0]['path']; ?>">
-                                </div>
-                            <?php endif; ?>
+        <div class="card-deck">
+             <?php foreach ($data as $article):
+                 $date = strtotime($article['date']);
+                 $date = date('d.m.Y', $date); ?>
+             <!-- прикольный класс my-3 -->
+                 <div class="card my-3">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="/articles/view/?id=<?= $article['id']; ?>" id="home-btn">
+                            <?= $article['title']; ?></a></h5>
+                        <small class="text-muted"><?= $date; ?></small>
+                        <?php // if ($article['images']
+                        if ($article['images'] != null): ?>
+                        <div class="image">
+                            <img src="/images/<?= $article['images'][0]['path']; ?>">
                         </div>
+                        <?php endif; ?>
                     </div>
-                <?php endforeach; ?>
-            </div>
+                </div>
+             <?php endforeach; ?>
         </div>
     </div>
+</div>
 </div>

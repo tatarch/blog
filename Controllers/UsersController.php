@@ -19,6 +19,7 @@ class UsersController
     public function form(): void
     {
         $user = Auth::getUser();
+        // if (!Auth::getUser())
         if ($user == null) {
             View::render('registration', []);
         } else {
@@ -30,6 +31,7 @@ class UsersController
     public function loginForm(): void
     {
         $user = Auth::getUser();
+        // if (!Auth::getUser())
         if ($user == null) {
             View::render('login', []);
         } else {
@@ -51,6 +53,7 @@ class UsersController
 
     public function login(): void
     {
+        // а если не были переданные эти данные? будет ноутис
         $email = $_POST['useremail'];
         $password = $_POST['userpassword'];
         $user = $this->userRepository->getByNamePassword($email, $password);
@@ -69,6 +72,7 @@ class UsersController
     {
         session_destroy();
         header('Location: ' . Url::getRoot() . '/home/default');
+        // почему везде die() а тут exit? )
         exit;
     }
 }

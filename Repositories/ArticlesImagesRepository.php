@@ -23,6 +23,7 @@ class ArticlesImagesRepository
         $pdo = MysqlConnector::getConnection();
 
         $pdoStatement = $pdo->query('SELECT * FROM articles_images');
+        // уже писал
         $results = array();
         while ($row = $pdoStatement->fetch(PDO::FETCH_ASSOC)) {
             $row['path'] = json_decode($row['path']);
@@ -36,6 +37,7 @@ class ArticlesImagesRepository
         $pdo = MysqlConnector::getConnection();
 
         $pdoStatement = $pdo->query('SELECT * FROM articles_images WHERE article_id=' . $id);
+        // уже писал
         $rows = $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
 
         return $rows;

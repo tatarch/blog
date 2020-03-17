@@ -8,6 +8,7 @@
         <div class="col">
             <header>
                 <nav class="nav-nav">
+                    <!-- у тебя дублируется этот кусок кода с меню. вынеси это в default.php или придумай другое решение если это не подходит -->
                     <a class="logo" href="/home/default">
                         <span>L</span>
                         <span>O</span>
@@ -61,6 +62,7 @@
 
                 <div class="form-group row">
                     <div class="col-sm-10">
+                        <!-- ширину задай стилями -->
                         <input id="datepicker" name="date" width="276"/>
                     </div>
                 </div>
