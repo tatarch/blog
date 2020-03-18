@@ -16,7 +16,7 @@ class HomeController
         foreach ($articles as $key => $article) {
             $articles[$key]['images'] = $articlesImagesRepository->getById($article['id']);
         }
-        // пробрасывай сюда ['articles' => $articles]
-        View::render('home', $articles);
+
+        View::render('home', ['articles' => $articles]);
     }
 }

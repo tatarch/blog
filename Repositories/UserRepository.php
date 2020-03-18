@@ -16,11 +16,11 @@ class UserRepository
         $stmt->execute(['email' => $email, 'name' => $name, 'password' => $password]);
     }
 
-    public function getByNamePassword(string $email, string $password): ?array
+    public function getByEmail(string $email): ?array
     {
         $pdo = MysqlConnector::getConnection();
 
-        $pdoStatement = $pdo->query("SELECT * FROM users WHERE email='$email' AND password='$password'");
+        $pdoStatement = $pdo->query("SELECT * FROM users WHERE email='" . $email."'");
         $user = $pdoStatement->fetch(PDO::FETCH_ASSOC);
         if ($user === false) {
             $user = null;

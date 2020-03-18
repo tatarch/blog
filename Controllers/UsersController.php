@@ -18,9 +18,7 @@ class UsersController
 
     public function form(): void
     {
-        $user = Auth::getUser();
-        // if (!Auth::getUser())
-        if ($user == null) {
+        if (!Auth::getUser()) {
             View::render('registration', [], 'login');
         } else {
             header('Location: ' . Url::getRoot() . '/home/default');
@@ -30,9 +28,7 @@ class UsersController
 
     public function loginForm(): void
     {
-        $user = Auth::getUser();
-        // if (!Auth::getUser())
-        if ($user == null) {
+        if (!Auth::getUser()) {
             View::render('login', [], 'login');
         } else {
             header('Location: ' . Url::getRoot() . '/home/default');
@@ -45,7 +41,19 @@ class UsersController
         $email = $_POST['useremail'];
         $name = $_POST['username'];
         $password = $_POST['userpassword'];
-        $this->userRepository->addUser($email, $name, $password);
+        if (!$email || !$name || !$password){
+            echo 'Fill in all form fields';
+            View::render('registration', [], 'login');
+            die();
+        }
+        $user = $this->userRepository->getByEmail($email);
+        if ($user){
+            echo 'This email is already registered';
+            View::render('registration', [], 'login');
+            die();
+        }
+        $hash=password_hash($password, PASSWORD_DEFAULT);
+        $this->userRepository->addUser($email, $name, $hash);
 
         header('Location: ' . Url::getRoot() . '/users/loginForm');
         die();
@@ -53,18 +61,23 @@ class UsersController
 
     public function login(): void
     {
-        // а если не были переданные эти данные? будет ноутис
         $email = $_POST['useremail'];
         $password = $_POST['userpassword'];
-        $user = $this->userRepository->getByNamePassword($email, $password);
+        if (!$email || !$password){
+            echo 'Fill in all form fields';
+            View::render('login', [], 'login');
+            die();
+        }
+        $user = $this->userRepository->getByEmail($email);
 
-        if ($user) {
+        if (password_verify($password, $user['password'])) {
             $_SESSION['userId'] = $user['id'];
             header('Location: ' . Url::getRoot() . '/home/default');
             die();
         } else {
             echo 'Wrong email or password';
             View::render('login', [], 'login');
+            die();
         }
     }
 
@@ -72,7 +85,6 @@ class UsersController
     {
         session_destroy();
         header('Location: ' . Url::getRoot() . '/home/default');
-        // почему везде die() а тут exit? )
-        exit;
+        die();
     }
 }

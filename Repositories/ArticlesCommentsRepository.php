@@ -22,10 +22,16 @@ class ArticlesCommentsRepository
         $pdo = MysqlConnector::getConnection();
 
         $pdoStatement = $pdo->query('SELECT * FROM articles_comments WHERE article_id=' . $id);
-        $results = array();
-        while ($row = $pdoStatement->fetch(PDO::FETCH_ASSOC)) {
-            $results[] = $row;
-        }
-        return $results;
+
+        return $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function deleteComments(int $id): void
+    {
+        $pdo = MysqlConnector::getConnection();
+
+        $query = "DELETE FROM articles_comments WHERE article_id=" . $id;
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
     }
 }

@@ -2,7 +2,8 @@
 /**
  * @var string $content
  */
-?>
+use App\System\Auth;
+$user = Auth::getUser(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,25 +26,19 @@
             <header>
                 <nav class="nav-nav">
                     <a class="logo" href="/home/default">
-                        <!-- а можно это написать 1 словом и повесить стили на слово а не на буквы? -->
-                        <span>L</span>
-                        <span>O</span>
-                        <span>G</span>
-                        <span>O</span>
+                        <span>LOGO</span>
                     </a>
                     <div class="nav-toggle"><span></span></div>
                     <ul id="menu">
                         <?php
-                        // $user всегда будет оперделен, ты его определила на 8 строке. ты должна проверить не null ни $user
-                        if (!isset($user)): ?>
+                        if ($user==null): ?>
                             <li><a href="/users/form" id="menu-unregistered">Registration</a></li>
                             <li>or</li>
                             <li><a href="/users/loginForm" id="menu-unregistered">log in</a></li>
-                        <?php endif; ?>
-                        <?php
-                        // я бы тут написал else
-                        if (isset($user)): ?>
+                        <?php elseif($user['admin']): ?>
                             <li><a href="/articles/form" class="btn  btn-sm" id="menu-adding">Add article</a></li>
+                            <li><a href="/users/logout" class="btn  btn-sm" id="menu-exit">Exit</a></li>
+                        <?php else: ?>
                             <li><a href="/users/logout" class="btn  btn-sm" id="menu-exit">Exit</a></li>
                         <?php endif; ?>
                     </ul>

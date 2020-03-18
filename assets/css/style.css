@@ -6,7 +6,6 @@ body {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
-    transition: .5s ease-in-out; /* добавим плавность переходов для всех элементов страницы*/
 }
 
 ul {
@@ -37,14 +36,11 @@ body {
     background: white;
 }
 
-/* добавим очистку потока для всех контейнеров, внутри которых задано обтекание дочерних элементов */
 header:after, .container:after, footer:after, .widget-posts-list li:after, #subscribe:after {
     content: "";
     display: table;
     clear: both;
 }
-
-/* стилевой класс, который управляет шириной контейнера сетки*/
 
 header {
     width: 100%;
@@ -65,10 +61,8 @@ header {
     color: #373737;
     font-size: 36px;
     display: inline-block;
-    width: 30px;
     height: 30px;
-    border-radius: 50%;
-    margin: 5px 0;
+    letter-spacing: 20px;
     text-align: center;
     text-shadow: 2px 2px 1px rgba(0, 0, 0, .4);
 }
@@ -265,4 +259,7 @@ h1 {
 .form-images .fa-times {
     position: absolute;
     top: 0;
+}
+#datepicker{
+    width: 20%;
 }

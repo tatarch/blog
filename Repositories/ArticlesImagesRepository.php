@@ -8,7 +8,7 @@ use PDO;
 
 class ArticlesImagesRepository
 {
-    public function addImages(int $articleId, array $images): void
+    public function addImages(int $articleId, ?array $images): void
     {
         $pdo = MysqlConnector::getConnection();
         foreach ($images as $image) {
@@ -18,29 +18,13 @@ class ArticlesImagesRepository
         }
     }
 
-    public function getImages(): array
-    {
-        $pdo = MysqlConnector::getConnection();
-
-        $pdoStatement = $pdo->query('SELECT * FROM articles_images');
-        // уже писал
-        $results = array();
-        while ($row = $pdoStatement->fetch(PDO::FETCH_ASSOC)) {
-            $row['path'] = json_decode($row['path']);
-            $results[] = $row;
-        }
-        return $results;
-    }
-
     public function getById(int $id): array
     {
         $pdo = MysqlConnector::getConnection();
 
         $pdoStatement = $pdo->query('SELECT * FROM articles_images WHERE article_id=' . $id);
-        // уже писал
-        $rows = $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
 
-        return $rows;
+        return $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function deleteImageOnForm(int $id): void

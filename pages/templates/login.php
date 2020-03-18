@@ -25,11 +25,7 @@
             <header>
                 <nav class="nav-nav">
                     <a class="logo" href="/home/default">
-                        <!-- а можно это написать 1 словом и повесить стили на слово а не на буквы? -->
-                        <span>L</span>
-                        <span>O</span>
-                        <span>G</span>
-                        <span>O</span>
+                        <span>LOGO</span>
                     </a>
                 </nav>
             </header>

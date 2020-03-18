@@ -9,7 +9,6 @@ $user = Auth::getUser();
 ?>
 
 <div class="container">
-
     <div class="row">
         <div class="col">
             <div class="news-search">
@@ -23,7 +22,7 @@ $user = Auth::getUser();
         </div>
     </div>
     <div class="row">
-        <?php foreach ($data as $article):
+        <?php foreach ($data['articles'] as $article):
             $date = strtotime($article['date']);
             $date = date('d.m.Y', $date); ?>
             <div class="col-lg-4 col-sm-6 col-xs-12">
@@ -33,8 +32,8 @@ $user = Auth::getUser();
                             <h5 class="card-title"><a href="/articles/view/?id=<?= $article['id']; ?>" id="home-btn">
                                     <?= $article['title']; ?></a></h5>
                             <small class="text-muted"><?= $date; ?></small>
-                            <?php // if ($article['images']
-                            if ($article['images'] != null): ?>
+                            <?php
+                            if ($article['images']): ?>
                                 <div class="image">
                                     <img src="/images/<?= $article['images'][0]['path']; ?>">
                                 </div>

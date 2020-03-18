@@ -7,7 +7,7 @@ use App\Repositories\UserRepository;
 class Auth
 {
     // тайпхинт
-    public static function getUser()
+    public static function getUser(): ?array
     {
         if (isset($_SESSION['userId'])) {
             // сделай так чтобы при повторном вызове этого метода не шел запрос в базу

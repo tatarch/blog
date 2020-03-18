@@ -1,6 +1,5 @@
 <?php
-// удаляй неактуальные комментарии)
-// форматируй код
+
 use \App\Database\Connectors\MysqlConnector;
 
 require '../../vendor/autoload.php';
@@ -12,6 +11,7 @@ text text,
 date DATETIME)',
     'create table users (
 id int primary key auto_increment,
+admin tinyint null,
 email varchar (255),
 name varchar (255),
 password varchar (255))',

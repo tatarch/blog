@@ -6,8 +6,6 @@
 <div class="container">
     <div class="row">
         <div class="col">
-
-
             <div id="form-title">
                 <h1 id="form-title-h1">New note</h1>
             </div>
@@ -43,13 +41,11 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
 
-
                 <input type="file" name="file[]" multiple>
 
                 <div class="form-group row">
                     <div class="col-sm-10">
-                        <!-- ширину задай стилями -->
-                        <input id="datepicker" name="date" width="276"/>
+                        <input id="datepicker" name="date"/>
                     </div>
                 </div>
 
