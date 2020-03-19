@@ -55,4 +55,18 @@ $(document).ready(function (response) {
             }
         });
     });
+    $('#datepicker').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
+
+    $('#input-tags').selectize({
+        delimiter: ',',
+        persist: false,
+        create: function(input) {
+            return {
+                value: input,
+                text: input
+            }
+        }
+    });
 });

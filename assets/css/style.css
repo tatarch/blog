@@ -263,3 +263,31 @@ h1 {
 #datepicker{
     width: 20%;
 }
+.tag-primary{
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #CD5C5C;
+    color: white;
+}
+#input-tags{
+    display: none;
+}
+#input-tags-selectized{
+    width: 200px;
+    opacity: 1;
+    position: relative;
+    left: 0px;
+}
+.selectize-dropdown{
+    display: none;
+    width: 520px;
+    top: 36px;
+    left: 0px;
+    visibility: visible;
+}
+.selectize-input::after {
+    display: block;
+    clear: left;
+    content: ' ';
+}

@@ -30,7 +30,7 @@
                     </div>
                 </div>
 
-                <?php if ($data['article']['images'] != null): ?>
+                <?php if (!empty($data['article']['images'])): ?>
                     <?php foreach ($data['article']['images'] as $image): ?>
                         <div class="form-images">
                             <input type="hidden" id="imageId"
@@ -42,6 +42,8 @@
                 <?php endif; ?>
 
                 <input type="file" name="file[]" multiple>
+
+                <input type="text" class="form-control" name="tags" placeholder="Enter tags">
 
                 <div class="form-group row">
                     <div class="col-sm-10">

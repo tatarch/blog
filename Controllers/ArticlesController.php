@@ -6,6 +6,7 @@ use App\Repositories\ArticleRepository;
 use App\Repositories\ArticlesLikesRepository;
 use App\Repositories\ArticlesCommentsRepository;
 use App\Repositories\ArticlesImagesRepository;
+use App\Repositories\ArticlesTagsRepository;
 use App\System\Auth;
 use App\System\Url;
 use App\Views\View;
@@ -16,6 +17,7 @@ class ArticlesController
     private $articlesLikesRepository;
     private $articlesCommentsRepository;
     private $articlesImagesRepository;
+    private $articlesTagsRepository;
 
     public function __construct()
     {
@@ -23,6 +25,7 @@ class ArticlesController
         $this->articlesLikesRepository = new ArticlesLikesRepository();
         $this->articlesCommentsRepository = new ArticlesCommentsRepository();
         $this->articlesImagesRepository = new ArticlesImagesRepository();
+        $this->articlesTagsRepository = new ArticlesTagsRepository();
     }
 
     public function form(): void
@@ -60,9 +63,27 @@ class ArticlesController
             }
             $id = $this->articleRepository->addArticle($title, $text, $date);
             $this->articlesImagesRepository->addImages($id, $images);
+            if (!empty($_POST['tags'])) {
+                $tags = explode(",", $_POST['tags']);
+                foreach ($tags as $key => $tag) {
+                    $tags[$key] = trim($tag);
+                }
+                $tagsInTable = $this->articlesTagsRepository->getAllTags();
+
+                $newTags = array_diff($tags, $tagsInTable);
+                $tagIds = $this->articlesTagsRepository->addTags($newTags);
+                foreach ($tagIds as $tagId){
+                    $this->articlesTagsRepository->addArticleTag($id, $tagId);
+                }
+                $sameTags = array_intersect($tags, $tagsInTable);
+                foreach ($sameTags as $sameTag){
+                    $tagId=(int)$this->articlesTagsRepository->getByName($sameTag);
+                    $this->articlesTagsRepository->addArticleTag($id, $tagId);
+                }
+            }
         }
         header('Location: ' . Url::getRoot() . '/home/default');
-        die ();
+        die();
     }
 
     public function delete(): void
@@ -86,6 +107,8 @@ class ArticlesController
         $id = (int)$_GET['id'];
         $article = $this->articleRepository->getById($id);
         $article['images'] = $this->articlesImagesRepository->getById($id);
+        $article['tags']=$this->articlesTagsRepository->getById($id);
+
         $likes = $this->articlesLikesRepository->getLikesCount($id);
         $user = Auth::getUser();
         $isLiked = $user ? $this->articlesLikesRepository->isLiked($id, $user['id']) : false;

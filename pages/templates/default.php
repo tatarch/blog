@@ -18,6 +18,8 @@ $user = Auth::getUser(); ?>
     <script src="/assets/js/jquery-3.4.1.min.js"></script>
     <script src="/assets/js/main.js"></script>
     <link href="/assets/css/style.css" rel="stylesheet"/>
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div class="container">

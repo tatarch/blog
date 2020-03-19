@@ -40,6 +40,10 @@ $user = Auth::getUser(); ?>
                       data-id="<?= $data['article']['id'] ?>"><?= $data['article']['likesCount']; ?></span>
             </div>
 
+                <?php foreach ($data['article']['tags'] as $tag): ?>
+                    <span class="tag tag-pill tag-primary"><?= $tag['name']; ?></span>
+                <?php endforeach; ?>
+
             <?php
             if ($user): ?>
                 <div class="form-group">

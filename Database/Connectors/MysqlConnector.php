@@ -8,7 +8,7 @@ use PDOException;
 class MysqlConnector
 {
     // нет тайпхинта
-    public static function getConnection()
+    public static function getConnection() :PDO
     {
         $username = "root";
         $password = "";
