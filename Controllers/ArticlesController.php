@@ -155,8 +155,8 @@ class ArticlesController
         $this->articlesCommentsRepository->addComment($id, $userId, $userName, $comment, $date);
         $article['comments'] = $this->articlesCommentsRepository->getAllComments($id);
         $data = ['article' => $article];
+        View::renderBlock('comments', ['article' => $article]);
 
-        include __DIR__ . '/../pages/comments.php';
     }
 
     private function getDate(): string

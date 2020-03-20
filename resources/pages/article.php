@@ -4,6 +4,7 @@
  */
 
 use App\System\Auth;
+use App\Views\View;
 
 $user = Auth::getUser(); ?>
 <div class="container">
@@ -56,7 +57,7 @@ $user = Auth::getUser(); ?>
             <?php endif; ?>
 
             <div class="comment-wrapper">
-                <?= include __DIR__ . '/../pages/comments.php'; ?>
+                <?= View::renderBlock('comments', ['article' => $data['article']]); ?>
             </div>
 
         </div>
