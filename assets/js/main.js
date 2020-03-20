@@ -59,9 +59,9 @@ $(document).ready(function (response) {
         uiLibrary: 'bootstrap4'
     });
 
-    $('#input-tags').selectize({
-        delimiter: ',',
-        persist: false,
+    $('#select-beast').selectize({
+        plugins: ['remove_button'],
+        sortField: 'text',
         create: function(input) {
             return {
                 value: input,
@@ -69,4 +69,17 @@ $(document).ready(function (response) {
             }
         }
     });
+
+    $('#select-beast').selectize({
+        plugins: ['remove_button'],
+        sortField: 'text',
+        create: function(input) {
+            return {
+                value: input,
+                text: input
+            }
+        }
+    });
+
 });
+

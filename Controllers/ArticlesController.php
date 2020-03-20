@@ -34,11 +34,15 @@ class ArticlesController
             $id = (int)$_GET['id'];
             $article = $this->articleRepository->getById($id);
             $article['images'] = $this->articlesImagesRepository->getById($id);
-            $data = ['article' => $article];
+            $tags = $this->articlesTagsRepository->getAllTags();
+            $article['tags'] = $this->articlesTagsRepository->getByArticleId($id);
+            $data = ['article' => $article, 'tags' => $tags];
 
             View::render('form', $data);
         } else {
-            View::render('form');
+            $tags = $this->articlesTagsRepository->getAllTags();
+            $data = ['tags' => $tags];
+            View::render('form', $data);
         }
     }
 
@@ -46,8 +50,8 @@ class ArticlesController
     {
         $title = $_POST['title'];
         $text = $_POST['text'];
+        $tags = $_POST['tags'];
         $date = $this->getDate();
-
         if (!empty($_POST['articleId'])) {
             $id = (int)$_POST['articleId'];
             if (!empty(is_uploaded_file($_FILES['file']['tmp_name'][0]))) {
@@ -56,31 +60,17 @@ class ArticlesController
             }
             $this->articleRepository->updateArticle($id, $title, $text, $date);
         } else {
+            $id = $this->articleRepository->addArticle($title, $text, $date);
+            if (!empty($tags)) {
+                $this->handleTags($id, $tags);
+            }
             if (!empty(is_uploaded_file($_FILES['file']['tmp_name'][0]))) {
                 $images = $this->saveImages($_FILES['file']['tmp_name']);
             } else {
                 $images = [];
             }
-            $id = $this->articleRepository->addArticle($title, $text, $date);
             $this->articlesImagesRepository->addImages($id, $images);
-            if (!empty($_POST['tags'])) {
-                $tags = explode(",", $_POST['tags']);
-                foreach ($tags as $key => $tag) {
-                    $tags[$key] = trim($tag);
-                }
-                $tagsInTable = $this->articlesTagsRepository->getAllTags();
 
-                $newTags = array_diff($tags, $tagsInTable);
-                $tagIds = $this->articlesTagsRepository->addTags($newTags);
-                foreach ($tagIds as $tagId){
-                    $this->articlesTagsRepository->addArticleTag($id, $tagId);
-                }
-                $sameTags = array_intersect($tags, $tagsInTable);
-                foreach ($sameTags as $sameTag){
-                    $tagId=(int)$this->articlesTagsRepository->getByName($sameTag);
-                    $this->articlesTagsRepository->addArticleTag($id, $tagId);
-                }
-            }
         }
         header('Location: ' . Url::getRoot() . '/home/default');
         die();
@@ -107,14 +97,13 @@ class ArticlesController
         $id = (int)$_GET['id'];
         $article = $this->articleRepository->getById($id);
         $article['images'] = $this->articlesImagesRepository->getById($id);
-        $article['tags']=$this->articlesTagsRepository->getById($id);
+        $article['tags'] = $this->articlesTagsRepository->getByArticleId($id);
 
         $likes = $this->articlesLikesRepository->getLikesCount($id);
         $user = Auth::getUser();
         $isLiked = $user ? $this->articlesLikesRepository->isLiked($id, $user['id']) : false;
         $article += ['likesCount' => $likes, 'isLiked' => $isLiked];
         $article['comments'] = $this->articlesCommentsRepository->getAllComments($id);
-        $data = ['article' => $article];
         View::render('article', ['article' => $article]);
     }
 
@@ -198,6 +187,25 @@ class ArticlesController
         foreach ($images as $image) {
             $destinationDir = getcwd() . "/images/" . $image['path'];
             unlink($destinationDir);
+        }
+    }
+
+    public function handleTags(int $id, array $tags): void
+    {
+        foreach ($tags as $key => $tag) {
+            $tags[$key] = trim($tag);
+        }
+        $tagsInTable = $this->articlesTagsRepository->getAllTags();
+
+        $newTags = array_diff($tags, $tagsInTable);
+        $tagIds = $this->articlesTagsRepository->addTags($newTags);
+        foreach ($tagIds as $tagId) {
+            $this->articlesTagsRepository->addArticleTag($id, $tagId);
+        }
+        $sameTags = array_intersect($tags, $tagsInTable);
+        foreach ($sameTags as $sameTag) {
+            $tagId = (int)$this->articlesTagsRepository->getByName($sameTag);
+            $this->articlesTagsRepository->addArticleTag($id, $tagId);
         }
     }
 

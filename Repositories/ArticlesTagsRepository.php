@@ -54,7 +54,7 @@ class ArticlesTagsRepository
             $stmt->execute(['articleId' => $articleId, 'tagId' => $tagId]);
     }
 
-    public function getById(int $id): ?array
+    public function getByArticleId(int $id): array
     {
         $pdo = MysqlConnector::getConnection();
 
@@ -64,5 +64,12 @@ class ArticlesTagsRepository
         return $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function deleteArticleTags(int $id): void
+    {
+        $pdo = MysqlConnector::getConnection();
 
+        $query = "DELETE FROM articles_tags WHERE article_id=" . $id;
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+    }
 }

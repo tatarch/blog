@@ -2,6 +2,7 @@
 /**
  * @var array $data
  */
+$articlesTags = array_column($data['article']['tags'], 'name');
 ?>
 <div class="container">
     <div class="row">
@@ -43,7 +44,19 @@
 
                 <input type="file" name="file[]" multiple>
 
-                <input type="text" class="form-control" name="tags" placeholder="Enter tags">
+                <div class="demo">
+                    <div class="control-group">
+                        <label for="select-beast">Tags:</label>
+                        <select id="select-beast" class="demo-default" name="tags[]" multiple>
+                            <option value="">Select tags...</option>
+                            <?php if (!empty($data['tags'])): ?>
+                                <?php foreach ($data['tags'] as $tag): ?>
+                                    <option value="<?= $tag; ?>" <?= in_array($tag, $articlesTags)? "selected" : "" ?>><?= $tag; ?></option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+                    </div>
+                </div>
 
                 <div class="form-group row">
                     <div class="col-sm-10">
