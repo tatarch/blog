@@ -34,4 +34,13 @@ class ArticlesCommentsRepository
         $stmt = $pdo->prepare($query);
         $stmt->execute();
     }
+
+    public function deleteComment(int $commentId): void
+    {
+        $pdo = MysqlConnector::getConnection();
+
+        $query = "DELETE FROM articles_comments WHERE id=" . $commentId;
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+    }
 }

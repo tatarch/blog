@@ -2,7 +2,10 @@
 /**
  * @var array $data
  */
-$articlesTags = array_column($data['article']['tags'], 'name');
+if (isset($data['article']['tags'])) {
+    $articlesTags = array_column($data['article']['tags'], 'name');
+}
+
 ?>
 <div class="container">
     <div class="row">
@@ -51,7 +54,13 @@ $articlesTags = array_column($data['article']['tags'], 'name');
                             <option value="">Select tags...</option>
                             <?php if (!empty($data['tags'])): ?>
                                 <?php foreach ($data['tags'] as $tag): ?>
-                                    <option value="<?= $tag; ?>" <?= in_array($tag, $articlesTags)? "selected" : "" ?>><?= $tag; ?></option>
+                                    <option value="<?= $tag; ?>"
+                                        <?php if (isset($articlesTags)) {
+                                            if (in_array($tag, $articlesTags)) {
+                                                echo "selected";
+                                            }
+                                        } ?>
+                                    ><?= $tag; ?></option>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </select>

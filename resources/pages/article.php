@@ -18,12 +18,12 @@ $user = Auth::getUser(); ?>
 
                 <?php
                 if ($user['admin']): ?>
-                <div class="btn-group" role="group">
-                    <a href="/articles/form/?id=<?= $data['article']['id']; ?>" class="btn btn-outline-warning"
-                       role="button" aria-pressed="true">Update</a>
-                    <a href="/articles/delete/?id=<?= $data['article']['id']; ?>" class="btn btn-outline-danger"
-                       role="button" aria-pressed="true">Delete</a>
-                </div>
+                    <div class="btn-group" role="group">
+                        <a href="/articles/form/?id=<?= $data['article']['id']; ?>" class="btn btn-outline-warning"
+                           role="button" aria-pressed="true">Update</a>
+                        <a href="/articles/delete/?id=<?= $data['article']['id']; ?>" class="btn btn-outline-danger"
+                           role="button" aria-pressed="true">Delete</a>
+                    </div>
                 <?php endif; ?>
 
                 <?php
@@ -41,12 +41,11 @@ $user = Auth::getUser(); ?>
                       data-id="<?= $data['article']['id'] ?>"><?= $data['article']['likesCount']; ?></span>
             </div>
 
-                <?php foreach ($data['article']['tags'] as $tag): ?>
-                    <span class="tag tag-pill tag-primary"><?= $tag['name']; ?></span>
-                <?php endforeach; ?>
+            <?php foreach ($data['article']['tags'] as $tag): ?>
+                <span class="tag tag-success"><?= $tag['name']; ?></span>
+            <?php endforeach; ?>
 
-            <?php
-            if ($user): ?>
+            <?php if ($user): ?>
                 <div class="form-group">
                     <label for="commentTextarea" id="textarea-label" class="col-sm-2 col-form-label">Leave a
                         comment</label>

@@ -260,9 +260,16 @@ h1 {
     position: absolute;
     top: 0;
 }
-#datepicker{
+
+#datepicker {
     width: 20%;
 }
 
+.tag-success {
+    background-color: #CD5C5C;
+    padding: 7px 15px;
+    border-radius: 5px;
+    color: white;
+}
 
 

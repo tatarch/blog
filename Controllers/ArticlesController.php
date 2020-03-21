@@ -34,8 +34,8 @@ class ArticlesController
             $id = (int)$_GET['id'];
             $article = $this->articleRepository->getById($id);
             $article['images'] = $this->articlesImagesRepository->getById($id);
-            $tags = $this->articlesTagsRepository->getAllTags();
             $article['tags'] = $this->articlesTagsRepository->getByArticleId($id);
+            $tags = $this->articlesTagsRepository->getAllTags();
             $data = ['article' => $article, 'tags' => $tags];
 
             View::render('form', $data);
@@ -50,7 +50,6 @@ class ArticlesController
     {
         $title = $_POST['title'];
         $text = $_POST['text'];
-        $tags = $_POST['tags'];
         $date = $this->getDate();
         if (!empty($_POST['articleId'])) {
             $id = (int)$_POST['articleId'];
@@ -59,18 +58,20 @@ class ArticlesController
                 $this->articlesImagesRepository->addImages($id, $images);
             }
             $this->articleRepository->updateArticle($id, $title, $text, $date);
+            $this->articlesTagsRepository->deleteArticleTags($id);
+            if (!empty($_POST['tags'])) {
+                $this->handleTags($id, $_POST['tags']);
+            }
+
         } else {
             $id = $this->articleRepository->addArticle($title, $text, $date);
-            if (!empty($tags)) {
-                $this->handleTags($id, $tags);
+            if (!empty($_POST['tags'])) {
+                $this->handleTags($id, $_POST['tags']);
             }
             if (!empty(is_uploaded_file($_FILES['file']['tmp_name'][0]))) {
                 $images = $this->saveImages($_FILES['file']['tmp_name']);
-            } else {
-                $images = [];
+                $this->articlesImagesRepository->addImages($id, $images);
             }
-            $this->articlesImagesRepository->addImages($id, $images);
-
         }
         header('Location: ' . Url::getRoot() . '/home/default');
         die();
@@ -87,6 +88,7 @@ class ArticlesController
         $this->articlesImagesRepository->deleteImages($id);
         $this->articleRepository->deleteArticle($id);
         $this->articlesLikesRepository->deleteLikes($id);
+        $this->articlesTagsRepository->deleteArticleTags($id);
 
         header('Location: ' . Url::getRoot() . '/home/default');
         die ();
@@ -116,6 +118,12 @@ class ArticlesController
         unlink($destinationDir);
 
         $this->articlesImagesRepository->deleteImageOnForm($id);
+    }
+
+    public function deleteComment(): void
+    {
+        $commentId = $_POST['commentId'];
+        $this->articlesCommentsRepository->deleteComment($commentId);
     }
 
     public function like(): void

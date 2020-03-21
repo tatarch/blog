@@ -38,6 +38,21 @@ $(document).ready(function (response) {
         }
     });
 
+    $('.card-body span').click(function (event) {
+
+        $.ajax({
+            url: '/articles/deleteComment',
+            type: 'post',
+            data: {
+                commentId: $(this).data('id')
+            },
+            success: function (data) {
+                $(event.target).parent().parent().parent().remove();
+
+            }
+        });
+    });
+
     $('.form-images span').click(function (event) {
 
         let imageId = $(this).siblings("#imageId").val();
@@ -55,6 +70,7 @@ $(document).ready(function (response) {
             }
         });
     });
+
     $('#datepicker').datepicker({
         uiLibrary: 'bootstrap4'
     });
@@ -62,7 +78,7 @@ $(document).ready(function (response) {
     $('#select-beast').selectize({
         plugins: ['remove_button'],
         sortField: 'text',
-        create: function(input) {
+        create: function (input) {
             return {
                 value: input,
                 text: input
@@ -73,7 +89,7 @@ $(document).ready(function (response) {
     $('#select-beast').selectize({
         plugins: ['remove_button'],
         sortField: 'text',
-        create: function(input) {
+        create: function (input) {
             return {
                 value: input,
                 text: input
