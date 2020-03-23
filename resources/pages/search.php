@@ -11,16 +11,10 @@ $user = Auth::getUser();
 <div class="container">
     <div class="row">
         <div class="col">
-            <div class="news-search">
-                <h1 style="float: left; font-weight: 900; font-size: 60px; line-height: 60px; letter-spacing: 0.416667px;
-                color: #262626;">News</h1>
-                <form action="/articles/search" method="post" id="searchform" >
-                    <input type="text" name="search" placeholder="Search the site..." >
-                    <button type="submit"><i class="fa fa-search"></i></button>
-                </form>
-            </div>
+                <h3>Result of your search</h3>
         </div>
     </div>
+
     <div class="row">
         <?php foreach ($data['articles'] as $article):
             $date = strtotime($article['date']);
@@ -32,7 +26,8 @@ $user = Auth::getUser();
                             <h5 class="card-title"><a href="/articles/view/?id=<?= $article['id']; ?>" id="home-btn">
                                     <?= $article['title']; ?></a></h5>
                             <small class="text-muted"><?= $date; ?></small>
-                            <?php if ($article['images']): ?>
+                            <?php
+                            if ($article['images']): ?>
                                 <div class="image">
                                     <img src="/images/<?= $article['images'][0]['path']; ?>">
                                 </div>

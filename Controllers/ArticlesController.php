@@ -167,6 +167,18 @@ class ArticlesController
 
     }
 
+    public function search()
+    {
+        $search = $_POST['search'];
+
+        $articles = $this->articleRepository->getArticlesBySearch($search);
+        foreach ($articles as $key => $article) {
+            $articles[$key]['images'] = $this->articlesImagesRepository->getById($article['id']);
+            $articles[$key]['tags'] = $this->articlesTagsRepository->getByArticleId($article['id']);
+        }
+        View::render('search', ['articles' => $articles]);
+    }
+
     private function getDate(): string
     {
         if (!empty($_POST['date'])) {
@@ -198,7 +210,7 @@ class ArticlesController
         }
     }
 
-    public function handleTags(int $id, array $tags): void
+    private function handleTags(int $id, array $tags): void
     {
         foreach ($tags as $key => $tag) {
             $tags[$key] = trim($tag);

@@ -53,4 +53,18 @@ class ArticleRepository
         $stmt = $pdo->prepare($query);
         $stmt->execute(['title' => $title, 'text' => $text, 'date' => $date]);
     }
+
+    public function getArticlesBySearch(string $search): array
+    {
+        $pdo = MysqlConnector::getConnection();
+
+        $pdoStatement = $pdo->query("SELECT articles.*
+FROM tags
+         LEFT JOIN articles_tags ON tags.id = articles_tags.tag_id
+         LEFT JOIN articles ON articles_tags.article_id = articles.id
+WHERE tags.name LIKE '%$search%' OR  articles.title LIKE '%$search%' 
+GROUP BY articles.id");
+
+        return $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

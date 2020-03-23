@@ -73,5 +73,4 @@ class ArticlesTagsRepository
         $stmt = $pdo->prepare($query);
         $stmt->execute();
     }
-
 }

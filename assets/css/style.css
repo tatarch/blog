@@ -115,14 +115,14 @@ header {
     display: inline-block;
 }
 
-#searchform {
+.searchform {
     float: right;
     display: inline-block;
     position: relative;
     margin-top: 7px;
 }
 
-#searchform input {
+.searchform input {
     width: 440px;
     float: left;
     padding-left: 10px;
@@ -131,11 +131,11 @@ header {
     border: 2px solid #E5E5E5;
 }
 
-#searchform input:focus {
+.searchform input:focus {
     border: 2px solid #EBEBE3;
 }
 
-#searchform button {
+.searchform button {
     background: transparent;
     height: 40px;
     border: none;
